@@ -1,1 +1,3 @@
 coin_data/
+*__pycache__
+future/
