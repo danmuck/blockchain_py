@@ -1,5 +1,5 @@
-from modules import finance_
-import os, json, datetime
+from modules.finance_ import *
+import os, json, datetime, sys
 
 
 class Menu_:
@@ -15,7 +15,7 @@ class Menu_:
             "[Games]",
             )
         finance_menu = (
-            "[Calculate Monthly Interest Gains]"
+            "[Calculate Monthly Interest Gains]",
         )
 
         self.main_menu_opts = self.format_menu_(main_menu)
@@ -79,6 +79,7 @@ class Menu_:
             case "4":
                 try:
                     print(menu_dict[4])
+                    self.finance_menu_()
                 except KeyError:
                     pass
                 finally:
@@ -128,7 +129,8 @@ class Menu_:
     def finance_menu_(self):
         menu_dict = self.finance_menu_opts
         print_dict(menu_dict)
-        select = int(input("Where to? \n: "))
+        select = input("Where to? \n: ")
+
         match select:
             case "0":
                 try:
@@ -144,10 +146,68 @@ class Menu_:
                     pass
                 finally:
                     self.finance_menu_()
+            case "2":
+                try:
+                    print(menu_dict[2])
+                except KeyError:
+                    pass
+                finally:
+                    self.finance_menu_()
+            case "3":
+                try:
+                    print(menu_dict[3])
+                except KeyError:
+                    pass
+                finally:
+                    self.finance_menu_()                        
+            case "4":
+                try:
+                    print(menu_dict[4])
+                except KeyError:
+                    pass
+                finally:
+                    self.finance_menu_()                        
+            case "5":
+                try:
+                    print(menu_dict[5])
+                except KeyError:
+                    pass
+                finally:
+                    self.finance_menu_()                        
+            case "6":
+                try:
+                    print(menu_dict[6])
+                except KeyError:
+                    pass
+                finally:
+                    self.finance_menu_()                        
+            case "7":
+                try:
+                    print(menu_dict[7])
+                except KeyError:
+                    pass
+                finally:
+                    self.finance_menu_()                        
+            case "8":
+                try:
+                    print(menu_dict[8])
+                except KeyError:
+                    pass
+                finally:
+                    self.finance_menu_()                        
+            case "9":
+                try:
+                    print(menu_dict[9])
+                except KeyError:
+                    pass
+                finally:
+                    self.finance_menu_()                        
             case "q":
-                print(menu_dict[0])
-                exit()
-        self.finance_menu_()
+                print(menu_dict["q"])
+                return
+            case _:
+                print("\n[oops...]\n")
+                self.finance_menu_()
 
 def print_dict(menu_opts:dict):
     for key, value in menu_opts.items():
