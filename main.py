@@ -4,37 +4,28 @@ import os, json, datetime, sys
 
 class Menu_:
     def __init__(self, main_menu, finance_menu):
-        main_menu = (
-            "[Tasks]",
-            "[Personal]",
-            "[Tools]",
-            "[Projects]",
-            "[Finance]",
-            "[Users]",
-            "[Learning Tools]",
-            "[Games]",
-            )
-        finance_menu = (
-            "[Calculate Monthly Interest Gains]",
-        )
 
         self.main_menu_opts = self.format_menu_(main_menu)
         self.finance_menu_opts = self.format_menu_(finance_menu)
 
-    def format_menu_(self, menu_:list) -> dict:
+    def format_menu_(self, _menu) -> dict:
         '''
-            Take a menu_ list containing >= 9 menu header strings so 
+            Take a _menu tuple containing >= 9 menu header strings so 
                 it can be mapped to a dictionary in the order it was received...
-                    and where 'q' is always considered 'quit'.
+                    ...where 'q' is always considered 'quit'.
 
         '''
         menu_opts_ = {}
-        i, j = 0, len(menu_)
-        while i < j:
-            menu_opts_.update({i: menu_[i]})
-            i+=1
-        menu_opts_.update({"q": "[QUIT]"})
-        return menu_opts_
+        i, j = 0, len(_menu)
+        if j <= 9:
+            while i < j:
+                menu_opts_.update({i: _menu[i]})
+                i+=1
+            menu_opts_.update({"q": "[QUIT]"})
+            return menu_opts_
+        else:
+            print("!! _menu tuple should contain at most 9 items")
+            raise IndexError
 
 
     def main_menu_(self):
@@ -127,6 +118,10 @@ class Menu_:
                 self.main_menu_()
 
     def finance_menu_(self):
+        '''
+            Finance Tools:
+                0: Calculate Monthly Gains
+        '''
         menu_dict = self.finance_menu_opts
         print_dict(menu_dict)
         select = input("Where to? \n: ")
@@ -138,8 +133,8 @@ class Menu_:
                     calculate_monthly_gains()
                 except KeyError:
                     pass
-                # finally:
-                #     self.finance_menu_()
+                finally:
+                    self.finance_menu_()
             case "1":
                 try:
                     print(menu_dict[1])
