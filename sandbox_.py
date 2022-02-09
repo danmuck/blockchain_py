@@ -13,18 +13,19 @@ OTHERS_LIST = [
         420,
         69,
         1111,
+        2222,
+        3333,
+        4444,
+        5555,
+        6666,
+        7777,
+        8888,
+        9999,
         1234,
         999,
         666,
         123,
-        111,
-        222,
-        333,
-        444,
-        555,
-        666,
-        777,
-        888,
+
     ]
 UDBBLS_LIST = [
         11,
@@ -38,10 +39,23 @@ UDBBLS_LIST = [
         99,
 
     ]
+UTRIPS_LIST = [
+        111,
+        222,
+        333,
+        444,
+        555,
+        666,
+        777,
+        888,
+        999,
+
+    ]
 class Minter:
     def __init__(self, name_:str, iters_:int, sleep_time:float) -> None:
         self.unr_16_ = [] # rares
         self.udbbls_ = [] # uncommon
+        self.utrips_ = []
         self.others_ = [] # some fun ones
         self.zeroes_ = [] # literal zeroes
         self.ovr999_ = [] # over 999
@@ -51,7 +65,7 @@ class Minter:
         self.iters_ = iters_
         self.sleep_time = sleep_time
 
-    def generator(self):
+    def generator(self, to_json:bool=False):
         self.run_timer()
         nanos_ = (time.time_ns() + randint(1, 4096) * math.pi)
         i, j = 1, self.iters_
@@ -64,7 +78,10 @@ class Minter:
                 self.unr_16_.append(ez_nums)
             elif ez_nums in UDBBLS_LIST:
                 print(f"!! --   {ez_nums}   \t -- !!")
-                self.udbbls_.append(ez_nums)            
+                self.udbbls_.append(ez_nums)
+            elif ez_nums in UTRIPS_LIST:
+                print(f"!! --   {ez_nums}   \t -- !!")
+                self.utrips_.append(ez_nums)  
             elif ez_nums in OTHERS_LIST:
                 print(f"!! --   {ez_nums}   \t -- !!")
                 self.others_.append(ez_nums)
@@ -80,10 +97,14 @@ class Minter:
         self.end_timer()
         self.summary_to_console()
         self.print_log_txt()
+        if to_json is True:
+            self.json_init()
+
 
     def get_percents_(self) -> list:
         unr_16_p = (len(self.unr_16_) / self.iters_) * 100
         udbbls_p = (len(self.udbbls_) / self.iters_) * 100
+        utrips_p = (len(self.utrips_) / self.iters_) * 100
         others_p = (len(self.others_) / self.iters_) * 100
         zeroes_p = (len(self.zeroes_) / self.iters_) * 100
         ovr999_p = (len(self.ovr999_) / self.iters_) * 100
@@ -91,6 +112,7 @@ class Minter:
         percents_ = [
             unr_16_p,
             udbbls_p,
+            utrips_p,
             others_p,
             zeroes_p,
             ovr999_p,
@@ -111,24 +133,20 @@ class Minter:
 
     Unr_16_: {sorted(self.unr_16_)}
 
-    Zeros__: {sorted(self.zeroes_)}
-
-    Ovr999_: {sorted(self.ovr999_)}
-
     Others_: {sorted(self.others_)}
 
-    Common_: [disabled for now]
         """)
         print(f"""
         {self.iters_} Iterations took {self.end_timer()}sec 
             accuracy check -- {round(sum(self.get_percents_()), 2)}%
 
             Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_())[0], 2)}%   
-            Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[1], 2)}%   
-            Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[2], 2)}% 
-            Zeros__: {len(self.zeroes_)}   \t\t{round((self.get_percents_())[3], 2)}% 
-            Ovr999_: {len(self.ovr999_)}   \t\t{round((self.get_percents_())[4], 2)}% 
-            Common_: {len(self.common_)}     \t{round((self.get_percents_())[5], 2)}%
+            Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[1], 2)}%
+            Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[2], 2)}%   
+            Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[3], 2)}% 
+            Zeros__: {len(self.zeroes_)}   \t\t{round((self.get_percents_())[4], 2)}% 
+            Ovr999_: {len(self.ovr999_)}   \t\t{round((self.get_percents_())[5], 2)}% 
+            Common_: {len(self.common_)}     \t{round((self.get_percents_())[6], 2)}%
 
         """)
 
@@ -141,37 +159,33 @@ class Minter:
         accuracy check -- {round(sum(self.get_percents_()), 2)}%
 
         Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_())[0], 2)}%   
-        Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[1], 2)}%   
-        Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[2], 2)}% 
-        Zeros__: {len(self.zeroes_)}   \t\t{round((self.get_percents_())[3], 2)}% 
-        Ovr999_: {len(self.ovr999_)}   \t\t{round((self.get_percents_())[4], 2)}% 
-        Common_: {len(self.common_)}     \t{round((self.get_percents_())[5], 2)}%
+        Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[1], 2)}%  
+        Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[2], 2)}%   
+        Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[3], 2)}% 
+        Zeros__: {len(self.zeroes_)}   \t\t{round((self.get_percents_())[4], 2)}% 
+        Ovr999_: {len(self.ovr999_)}   \t\t{round((self.get_percents_())[5], 2)}% 
+        Common_: {len(self.common_)}     \t{round((self.get_percents_())[6], 2)}%
 
         """)
 
-
-
-    def json_record(self, file_name:str):
+    def json_init(self):
         try:
-            with open(f'{os.getcwd()}/sandbox_/data.json', 'x') as file:
-                json_obj_ = self.jsonify_("init_run", self.unr_16_, self.udbbls_, self.others_, self.zeroes_, self.ovr999_)
-                new_file = json.dumps(json_obj_, indent=2)
+            with open(f'{os.getcwd()}/sandbox_/{self.name_}.json', 'x') as file:
+                json_obj_ = self.jsonify_()
+                new_file = json.dumps(json_obj_, indent=4)
                 file.write(new_file)
         except FileExistsError:
             print("Err!! Filename in use.")
-        except FileNotFoundError:
-            with open(f'{os.getcwd()}/sandbox_/data.json', 'x') as file:
-                json_fp = self.jsonify_("init_run", self.unr_16_, self.udbbls_, self.others_, self.zeroes_, self.ovr999_)
-                file.write(json_fp)
 
-    def jsonify_(self, title:str, unr_16:list, udbbls:list, others:list, zeroes:list, ovr999:list) -> dict:
+    def jsonify_(self) -> dict:
         new_dict = {
-            f"{title}": {
-                "UNR_16": unr_16,
-                "udbbls": udbbls,
-                "others": others,
-                "zeroes": zeroes,
-                "ovr999": ovr999,
+            f"{self.name_}": {
+                "UNR_16": sorted(self.unr_16_),
+                "udbbls": sorted(self.udbbls_),
+                "utrips": sorted(self.utrips_),
+                "others": sorted(self.others_),
+                "zeroes": sorted(self.zeroes_),
+                "ovr999": sorted(self.ovr999_),
             }
         }
         json_list = json.dumps(new_dict, indent=4)
@@ -182,6 +196,6 @@ class Minter:
 
 def main():
     # hmm_idea(250)
-    trial = Minter("Test_Minter", 2500, .0025)
+    trial = Minter("Test_Minter", 500000, .0001)
     trial.generator()
 main()
