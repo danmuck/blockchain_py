@@ -3,12 +3,13 @@ import os, json, datetime, sys
 
 
 class Menu_:
-    def __init__(self, main_menu, finance_menu):
+    def __init__(self, main_menu:tuple, finance_menu:tuple):
+
 
         self.main_menu_opts = self.format_menu_(main_menu)
         self.finance_menu_opts = self.format_menu_(finance_menu)
 
-    def format_menu_(self, _menu) -> dict:
+    def format_menu_(self, _menu:tuple) -> dict:
         '''
             Take a _menu tuple containing >= 9 menu header strings so 
                 it can be mapped to a dictionary in the order it was received...
@@ -17,15 +18,15 @@ class Menu_:
         '''
         menu_opts_ = {}
         i, j = 0, len(_menu)
-        if j <= 9:
-            while i < j:
-                menu_opts_.update({i: _menu[i]})
-                i+=1
-            menu_opts_.update({"q": "[QUIT]"})
-            return menu_opts_
-        else:
-            print("!! _menu tuple should contain at most 9 items")
-            raise IndexError
+        
+        while i < j and j <= 9:
+            menu_opts_.update({i: _menu[i]})
+            i+=1
+        menu_opts_.update({"q": "[QUIT]"})
+        return menu_opts_
+        # else:
+        #     print("!! _menu tuple should contain at most 9 items")
+        #     raise IndexError
 
 
     def main_menu_(self):
@@ -221,7 +222,7 @@ menu = Menu_(
             "[Games]",
             ),
         finance_menu = (
-            "[Calculate Monthly Interest Gains]"
+            "[Calculate Monthly Interest Gains]",
         )
 )
 
