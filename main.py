@@ -1,4 +1,4 @@
-from modules.finance_ import *
+from modules.finance_ import calculate_monthly_gains
 import os, json, datetime, sys
 
 
@@ -135,10 +135,11 @@ class Menu_:
             case "0":
                 try:
                     print(menu_dict[0])
+                    calculate_monthly_gains()
                 except KeyError:
                     pass
-                finally:
-                    self.finance_menu_()
+                # finally:
+                #     self.finance_menu_()
             case "1":
                 try:
                     print(menu_dict[1])
