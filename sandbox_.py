@@ -11,14 +11,14 @@ with open(f"{os.getcwd()}/sandbox_/Minter_lists.json", "r") as file:
     UBINRS_LIST = jsonify["UBINRS_LIST"]
 
 
-# with open(f"{os.getcwd()}/sandbox_/Minter_data.json", "r") as file:
+# with open(f"{os.getcwd()}/sandbox_/Minter_history.json", "r") as file:
 #     MINTER_DATA = dict(json.load(file))
 #     unr_16_ = list(MINTER_DATA["UNR_16"])
 #     # MINTER_DATA.update(UDBBLS_LIST)
 #     unr_16_.extend([9999999, 8888888888, 777777777])
 #     print(unr_16_)
 
-# with open(f"{os.getcwd()}/sandbox_/Minter_data.json", "r+") as file:
+# with open(f"{os.getcwd()}/sandbox_/Minter_history.json", "r+") as file:
 #     MINTER_DATA = dict(json.load(file))
 
 class Minter:
@@ -232,8 +232,8 @@ class Minter:
         }
         json_list = json.dumps(new_dict, indent=4)
         return new_dict
-    def update_json_data(self):
-        with open(f"{os.getcwd()}/sandbox_/Minter_data.json", "r") as file:
+    def update_history_json(self):
+        with open(f"{os.getcwd()}/sandbox_/Minter_history.json", "r") as file:
             MINTER_DATA = dict(json.load(file))
             self.history["UNR_16"].extend(list(MINTER_DATA["UNR_16"]))
             self.history["UBINRS"].extend(list(MINTER_DATA["UBINRS"]))
@@ -242,7 +242,16 @@ class Minter:
             self.history["OTHERS"].extend(list(MINTER_DATA["OTHERS"]))
             self.history["OVR999"].extend(list(MINTER_DATA["OVR999"]))
             self.history["COMMON"].extend(list(MINTER_DATA["COMMON"]))
+            self.history["UNR_16"].extend(self.unr_16_)
+            self.history["UBINRS"].extend(self.ubinrs_)
+            self.history["UDBBLS"].extend(self.udbbls_)
+            self.history["UTRIPS"].extend(self.utrips_)
+            self.history["OTHERS"].extend(self.others_)
+            self.history["OVR999"].extend(self.ovr999_)
+            self.history["COMMON"].extend(self.common_)
+
         self.write_json_data()
+        return self.history            
 
     def jsonify_data(self) -> dict:
         self.history["UNR_16"].extend(self.unr_16_)
@@ -255,7 +264,7 @@ class Minter:
 
         return self.history
     def write_json_data(self):
-        with open(f"{os.getcwd()}/sandbox_/Minter_data.json", "w") as file:
+        with open(f"{os.getcwd()}/sandbox_/Minter_history.json", "w") as file:
             file.write((json.dumps((self.jsonify_data()), indent=2)))        
 
 
@@ -263,11 +272,11 @@ class Minter:
 
 
 def main():
-    trial = Minter("Minter_log", 1000000, .00002)
+    trial = Minter("Minter_log", 10000, .00002)
 
     trial.generator()
     # trial.check_for_uniques()
 
-    trial.update_json_data()
+    trial.update_history_json()
 
 main()
