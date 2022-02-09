@@ -1,45 +1,24 @@
 import math, datetime, os, json, dotenv
 from random import randint
 import time
-# dotenv.load_dotenv()
-# UDBBLS_LIST = os.environ.get("UDBBLS_LIST")
-# UTRIPS_LIST = os.environ.get("UTRIPS_LIST")
-# OTHERS_LIST = os.environ.get("OTHERS_LIST")
 
-OTHERS_LIST = [
-        420,
-        69,
-        1111,
-        1234,
-        999,
-        666,
-        123,
+with open(f"{os.getcwd()}/sandbox_/Minter_lists.json", "r") as file:
+    jsonify = dict(json.load(file))
 
-    ]
-UDBBLS_LIST = [
-        11,
-        22,
-        33,
-        44,
-        55,
-        66,
-        77,
-        88,
-        99,
+    OTHERS_LIST = jsonify['OTHERS_LIST']
+    UDBBLS_LIST = jsonify["UDBBLS_LIST"]
+    UTRIPS_LIST = jsonify["UTRIPS_LIST"]
 
-    ]
-UTRIPS_LIST = [
-        111,
-        222,
-        333,
-        444,
-        555,
-        666,
-        777,
-        888,
-        999,
 
-    ]
+# with open(f"{os.getcwd()}/sandbox_/Minter_data.json", "r") as file:
+#     MINTER_DATA = dict(json.load(file))
+#     unr_16_ = list(MINTER_DATA["UNR_16"])
+#     # MINTER_DATA.update(UDBBLS_LIST)
+#     unr_16_.extend([9999999, 8888888888, 777777777])
+#     print(unr_16_)
+
+# with open(f"{os.getcwd()}/sandbox_/Minter_data.json", "r+") as file:
+#     MINTER_DATA = dict(json.load(file))
 
 class Minter:
     def __init__(self, name_:str, iters_:int, sleep_time:float) -> None:
@@ -52,6 +31,16 @@ class Minter:
         self.common_ = [] # the rest
         self.unique_ = [] # uniques in a given run
         self.master_ = []
+        self.history = {
+            "UNR_16": [],
+            "UBINRS": [],
+            "UDBBLS": [],
+            "UTRIPS": [],
+            "OTHERS": [],
+            "OVR999": [],
+            "COMMON": [],
+
+        }
         self.name_ = name_
         self.zero_counter = 0
         self.start_time = float
@@ -71,28 +60,37 @@ class Minter:
             self.master_.append(ez_nums)
             self.get_uniques(ez_nums)
 
-            if ez_nums <= 15 and ez_nums != 0:
-                print(f"!! --   {ez_nums}   \t -- !!")
-                self.unr_16_.append(ez_nums)
-            elif ez_nums in UDBBLS_LIST:
-                print(f"!! --   {ez_nums}   \t -- !!")
-                self.udbbls_.append(ez_nums)
-            elif ez_nums in UTRIPS_LIST:
-                print(f"!! --   {ez_nums}   \t -- !!")
-                self.utrips_.append(ez_nums)  
-            elif ez_nums in OTHERS_LIST:
-                print(f"!! --   {ez_nums}   \t -- !!")
-                self.others_.append(ez_nums)
-            elif ez_nums == 0:
-                print(f"!! --   {ez_nums}   \t -- !!")
-                self.ubinrs_.append(ez_nums)
-            elif ez_nums > 999:
-                print(f"!! --   {ez_nums}   \t -- !!")
-                self.ovr999_.append(ez_nums)
-            else:
-                # print(ez_nums)
-                self.common_.append(ez_nums)
+            ez_rand = (ez_nums + randint(0, 212))
+            rando_0 = (randint(0, 256) + randint(0, 1))
+            rando_1 = (randint(1, 512) + randint(0, 1))
+            rando_2 = (randint(0, 1024) + randint(0, 1))
+            rando_3 = (randint(1, 768) + randint(0, 1))
 
+            if rando_0 == rando_1 and rando_2 <= rando_3:
+                
+                if ez_nums <= 15 and ez_nums != 0:
+                    print(f"  !!Rare::{ez_nums}")
+                    self.unr_16_.append(ez_nums)
+                elif ez_nums in UDBBLS_LIST:
+                    print(f"  !!Rare::{ez_nums}")
+                    self.udbbls_.append(ez_nums)
+                elif ez_nums in UTRIPS_LIST:
+                    print(f"  !!Rare::{ez_nums}")
+                    self.utrips_.append(ez_nums)  
+                elif ez_nums in OTHERS_LIST:
+                    print(f"  !!Rare::{ez_nums}")
+                    self.others_.append(ez_nums)
+                elif ez_nums == 0:
+                    print(f"  !!Rare::{ez_nums}")
+                    self.ubinrs_.append(ez_nums)
+                elif ez_nums > 999:
+                    print(f"!!Rare::{ez_nums}")
+                    self.ovr999_.append(ez_nums)
+                else:
+                    # print(ez_nums)
+                    self.common_.append(ez_nums)
+            else:
+                pass
             
         self.end_timer()
         self.summary_to_console()
@@ -127,25 +125,25 @@ class Minter:
                     self.ubinrs_.append(ez_rand)
             elif ez_rand <= 15 and ez_rand != 0:
                 if rando_0 == rando_1 and rando_2 <= rando_3:
-                    print(f"!! --   {ez_rand}   \t -- !!")
+                    print(f"  !!Rare::{ez_rand}")
                     self.unr_16_.append(ez_rand)
                 else:
                     pass                    
             elif ez_rand in UDBBLS_LIST:
                 if rando_0 == rando_1 and rando_2 <= rando_3:
-                    print(f"!! --   {ez_rand}   \t -- !!")
+                    print(f"  !!Rare::{ez_rand}")
                     self.udbbls_.append(ez_rand)
                 else:
                     pass                    
             elif ez_rand in UTRIPS_LIST:
                 if rando_0 == rando_1 and rando_2 <= rando_3:
-                    print(f"!! --   {ez_rand}   \t -- !!")
+                    print(f"  !!Rare::{ez_rand}")
                     self.utrips_.append(ez_rand)  
                 else:
                     pass                    
             elif ez_rand in OTHERS_LIST:
                 if rando_0 == rando_1 and rando_2 <= rando_3:
-                    print(f"!! --   {ez_rand}   \t -- !!")
+                    print(f"  !!Rare::{ez_rand}")
                     self.others_.append(ez_rand)
                 else:
                     pass                   
@@ -157,7 +155,7 @@ class Minter:
                     pass                    
             elif ez_rand > 999:
                 if rando_0 == rando_1 and rando_2 <= rando_3:
-                    print(f"!! --   {ez_rand}   \t -- !!")
+                    print(f"  !!Rare::{ez_rand}")
                     self.ovr999_.append(ez_rand)
                 else:
                     pass
@@ -200,7 +198,7 @@ class Minter:
     def get_uniques(self, int_:int):
         if int_ not in self.unique_:
             self.unique_.append(int_)
-            print(f"!! -- UNQ:{int_}::{self.master_.count(int_)} -- !!")
+            print(f"!!Unique::{int_}")
             # print(f"{int_}::",len(self.unique_))
         else:
             pass
@@ -211,7 +209,7 @@ class Minter:
             j+=1
         return j
 
-    def check_unqs(self):
+    def check_for_uniques(self):
         some_dict = {}
         for i in sorted(self.unique_):
             j = self.master_.count(i)
@@ -237,22 +235,21 @@ class Minter:
     Utrips_: {sorted(self.utrips_)}   
     Others_: {sorted(self.others_)}  
     Ovr999_: {sorted(self.ovr999_)}  
-    Common_: {sorted(self.common_)}
+    Common_: [disabled]
         """)
         print(f"""
-      [iters::uniques]
-        {self.iters_}::{len(self.unique_)} Iterations took {self.end_timer()} sec -- 
+        {len(self.unique_)}_u::{self.iters_} Iterations took {self.end_timer()} sec -- 
                 sleep_time -- {self.sleep_time} sec
-                accuracy check -- {round(sum(self.get_percents_()), 2)}%
+                percent_landed -- {round(sum(self.get_percents_()), 2)}%
                 top_end: {max(self.unique_)}
 
-            Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_())[0], 2)}%   
-            Ubinrs_: {len(self.ubinrs_)}   \t\t{round((self.get_percents_())[4], 2)}% 
-            Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[1], 2)}%
-            Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[2], 2)}%   
-            Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[3], 2)}% 
-            Ovr999_: {len(self.ovr999_)}   \t\t{round((self.get_percents_())[5], 2)}% 
-            Common_: {len(self.common_)}   \t\t{round((self.get_percents_())[6], 2)}%
+            Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_())[0], 4)}%   
+            Ubinrs_: {len(self.ubinrs_)}   \t\t{round((self.get_percents_())[1], 4)}% 
+            Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[2], 4)}%
+            Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[3], 4)}%   
+            Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[4], 4)}% 
+            Ovr999_: {len(self.ovr999_)}   \t\t{round((self.get_percents_())[5], 4)}% 
+            Common_: {len(self.common_)}   \t\t{round((self.get_percents_())[6], 4)}%
 
         """)
 
@@ -264,17 +261,17 @@ class Minter:
     {self.iters_}::{len(self.unique_)}  
             iterations took {self.end_timer()} sec -- 
             sleep_time -- {self.sleep_time} sec --
-            accuracy check -- {round(sum(self.get_percents_()), 2)}% --
+            percent_landed -- {round(sum(self.get_percents_()), 2)}% --
             top_end: {max(self.unique_)}
 
 
-        Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_())[0], 2)}%   
-        Ubinrs_: {len(self.ubinrs_)}   \t\t{round((self.get_percents_())[4], 2)}% 
-        Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[1], 2)}%
-        Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[2], 2)}%   
-        Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[3], 2)}% 
-        Ovr999_: {len(self.ovr999_)}   \t\t{round((self.get_percents_())[5], 2)}% 
-        Common_: {len(self.common_)}     \t{round((self.get_percents_())[6], 2)}%
+        Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_())[0], 4)}%   
+        Ubinrs_: {len(self.ubinrs_)}   \t\t{round((self.get_percents_())[1], 4)}% 
+        Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[2], 4)}%
+        Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[3], 4)}%   
+        Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[4], 4)}% 
+        Ovr999_: {len(self.ovr999_)}   \t\t{round((self.get_percents_())[5], 4)}% 
+        Common_: {len(self.common_)}     \t{round((self.get_percents_())[6], 4)}%
 
         """)
 
@@ -300,27 +297,43 @@ class Minter:
         }
         json_list = json.dumps(new_dict, indent=4)
         return new_dict
+    def update_json_data(self):
+        with open(f"{os.getcwd()}/sandbox_/Minter_data.json", "r") as file:
+            MINTER_DATA = dict(json.load(file))
+            self.history["UNR_16"].extend(list(MINTER_DATA["UNR_16"]))
+            self.history["UBINRS"].extend(list(MINTER_DATA["UBINRS"]))
+            self.history["UDBBLS"].extend(list(MINTER_DATA["UDBBLS"]))
+            self.history["UTRIPS"].extend(list(MINTER_DATA["UTRIPS"]))
+            self.history["OTHERS"].extend(list(MINTER_DATA["OTHERS"]))
+            self.history["OVR999"].extend(list(MINTER_DATA["OVR999"]))
+            self.history["COMMON"].extend(list(MINTER_DATA["COMMON"]))
+        self.write_json_data()
+
+    def jsonify_data(self) -> dict:
+        self.history["UNR_16"].extend(self.unr_16_)
+        self.history["UBINRS"].extend(self.ubinrs_)
+        self.history["UDBBLS"].extend(self.udbbls_)
+        self.history["UTRIPS"].extend(self.utrips_)
+        self.history["OTHERS"].extend(self.others_)
+        self.history["OVR999"].extend(self.ovr999_)
+        self.history["COMMON"].extend(self.common_)
+
+        return self.history
+    def write_json_data(self):
+        with open(f"{os.getcwd()}/sandbox_/Minter_data.json", "w") as file:
+            file.write((json.dumps((self.jsonify_data()), indent=2)))        
+
 
 
 
 
 def main():
-    # hmm_idea(250)
-    trial = Minter("Test_Minter", 50000, .00005)
-    trial.generator_hm()
-    trial.generator_hm()
+    trial = Minter("Minter_log", 1000000, .00002)
     trial.generator_hm()
 
     # trial.generator()
-    # trial.check_unqs()
+    # trial.check_for_uniques()
 
-
-
-    print(trial.unr_16_)
-    print(trial.ubinrs_)
-    print(trial.udbbls_)
-    print(trial.utrips_)
-    print(trial.others_)
-    print(trial.ovr999_)
+    trial.update_json_data()
 
 main()
