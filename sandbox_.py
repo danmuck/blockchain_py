@@ -2,13 +2,36 @@ import math, datetime, os, json, dotenv
 from random import randint
 import time
 
-with open(f"{os.getcwd()}/sandbox_/Minter_lists.json", "r") as file:
-    jsonify = dict(json.load(file))
 
-    OTHERS_LIST = jsonify['OTHERS_LIST']
-    UDBBLS_LIST = jsonify["UDBBLS_LIST"]
-    UTRIPS_LIST = jsonify["UTRIPS_LIST"]
-    UBINRS_LIST = jsonify["UBINRS_LIST"]
+
+try:
+    with open(f"{os.getcwd()}/sandbox_/Minter_lists.json", "r") as file:
+        jsonify = dict(json.load(file))
+        OTHERS_LIST = jsonify['OTHERS_LIST']
+        UDBBLS_LIST = jsonify["UDBBLS_LIST"]
+        UTRIPS_LIST = jsonify["UTRIPS_LIST"]
+        UBINRS_LIST = jsonify["UBINRS_LIST"]
+except FileNotFoundError:
+    try:
+        os.mkdir(f"{os.getcwd()}/sandbox_")
+    except FileExistsError:
+        pass
+    finally:
+        with open(f'{os.getcwd()}/sandbox_/Minter_lists.json', 'x') as file:
+            file.write(json.dumps({
+            "OTHERS_LIST": [420, 69, 1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999, 1234, 999, 666, 123],
+            "UDBBLS_LIST": [11, 22, 33, 44, 55, 66, 77, 88, 99],
+            "UTRIPS_LIST": [111, 222, 333, 444, 555, 666, 777, 888, 999],
+            "UBINRS_LIST": [0, 1, 10, 11, 100, 101, 110, 111, 1000, 1001, 1010, 1011, 1100, 1101, 1110, 1111]                
+            }, indent=2))
+        with open(f"{os.getcwd()}/sandbox_/Minter_lists.json", "r") as file:
+            jsonify = dict(json.load(file))
+            OTHERS_LIST = jsonify['OTHERS_LIST']
+            UDBBLS_LIST = jsonify["UDBBLS_LIST"]
+            UTRIPS_LIST = jsonify["UTRIPS_LIST"]
+            UBINRS_LIST = jsonify["UBINRS_LIST"]
+        
+
 
 class Minter:
     def __init__(self, name_:str, iters_:int, sleep_time:float) -> None:
@@ -208,7 +231,6 @@ class Minter:
     #         print("Err!! Filename in use.")
 
     def init_new_Minter(self, name_:str):
-        
         try:
             with open(f'{os.getcwd()}/sandbox_/{name_}_log.txt', 'x') as file:
                 file.write(f"Minter_{name_}")
@@ -228,16 +250,7 @@ class Minter:
                 }, indent=2))
         except FileExistsError:
             pass
-        try:                
-            with open(f'{os.getcwd()}/sandbox_/Minter_lists.json', 'x') as file:
-                file.write(json.dumps({
-                "OTHERS_LIST": [420, 69, 1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999, 1234, 999, 666, 123],
-                "UDBBLS_LIST": [11, 22, 33, 44, 55, 66, 77, 88, 99],
-                "UTRIPS_LIST": [111, 222, 333, 444, 555, 666, 777, 888, 999],
-                "UBINRS_LIST": [0, 1, 10, 11, 100, 101, 110, 111, 1000, 1001, 1010, 1011, 1100, 1101, 1110, 1111]                
-                }, indent=2))
-        except FileExistsError:
-            pass                
+                
 
                       
 
