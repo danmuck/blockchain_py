@@ -10,17 +10,6 @@ with open(f"{os.getcwd()}/sandbox_/Minter_lists.json", "r") as file:
     UTRIPS_LIST = jsonify["UTRIPS_LIST"]
     UBINRS_LIST = jsonify["UBINRS_LIST"]
 
-
-# with open(f"{os.getcwd()}/sandbox_/Minter_history.json", "r") as file:
-#     MINTER_DATA = dict(json.load(file))
-#     unr_16_ = list(MINTER_DATA["UNR_16"])
-#     # MINTER_DATA.update(UDBBLS_LIST)
-#     unr_16_.extend([9999999, 8888888888, 777777777])
-#     print(unr_16_)
-
-# with open(f"{os.getcwd()}/sandbox_/Minter_history.json", "r+") as file:
-#     MINTER_DATA = dict(json.load(file))
-
 class Minter:
     def __init__(self, name_:str, iters_:int, sleep_time:float) -> None:
         self.unr_16_ = [] # rares
@@ -48,8 +37,9 @@ class Minter:
         self.start_time = float
         self.iters_ = iters_
         self.sleep_time = sleep_time
+        self.init_new_Minter(name_)
 
-    def generator(self, to_json:bool=False):
+    def generator(self):
         self.run_timer()
         i, j = 1, self.iters_
         bins_, eq_count = 0, self.landed
@@ -105,8 +95,7 @@ class Minter:
         self.end_timer()
         self.summary_to_console()
         self.print_log_txt()
-        if to_json is True:
-            self.json_init()
+
 
     def get_percents_(self) -> list:
         unr_16_p = (len(self.unr_16_) / self.iters_) * 100
@@ -189,7 +178,7 @@ class Minter:
 
     # FILES ---
     def print_log_txt(self):
-        with open(f'{os.getcwd()}/sandbox_/{self.name_}.txt', 'a') as file:
+        with open(f'{os.getcwd()}/sandbox_/{self.name_}_log.txt', 'a') as file:
             file.write(f"""
     {self.iters_}::{len(self.unique_)}  
             iterations took {self.end_timer()} sec 
@@ -209,16 +198,51 @@ class Minter:
         Common_: {len(self.common_)}     \t{round((self.get_percents_())[6], 5)}%
 
         """)
+    # def json_init(self):
+    #     try:
+    #         with open(f'{os.getcwd()}/sandbox_/{self.name_}.json', 'x') as file:
+    #             json_obj_ = self.jsonify_()
+    #             new_file = json.dumps(json_obj_, indent=4)
+    #             file.write(new_file)
+    #     except FileExistsError:
+    #         print("Err!! Filename in use.")
 
-    def json_init(self):
+    def init_new_Minter(self, name_:str):
+        
         try:
-            with open(f'{os.getcwd()}/sandbox_/{self.name_}.json', 'x') as file:
-                json_obj_ = self.jsonify_()
-                new_file = json.dumps(json_obj_, indent=4)
-                file.write(new_file)
+            with open(f'{os.getcwd()}/sandbox_/{name_}_log.txt', 'x') as file:
+                file.write(f"Minter_{name_}")
         except FileExistsError:
-            print("Err!! Filename in use.")
+            pass
+        try:
+            with open(f'{os.getcwd()}/sandbox_/{name_}_history.json', 'x') as file:
+                file.write(json.dumps({
+                    "UNR_16": [],
+                    "UBINRS": [],
+                    "UDBBLS": [],
+                    "UTRIPS": [],
+                    "OTHERS": [],
+                    "OVR999": [],
+                    "COMMON": []
 
+                }, indent=2))
+        except FileExistsError:
+            pass
+        try:                
+            with open(f'{os.getcwd()}/sandbox_/Minter_lists.json', 'x') as file:
+                file.write(json.dumps({
+                "OTHERS_LIST": [420, 69, 1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999, 1234, 999, 666, 123],
+                "UDBBLS_LIST": [11, 22, 33, 44, 55, 66, 77, 88, 99],
+                "UTRIPS_LIST": [111, 222, 333, 444, 555, 666, 777, 888, 999],
+                "UBINRS_LIST": [0, 1, 10, 11, 100, 101, 110, 111, 1000, 1001, 1010, 1011, 1100, 1101, 1110, 1111]                
+                }, indent=2))
+        except FileExistsError:
+            pass                
+
+                      
+
+
+          
     def jsonify_(self) -> dict:
         new_dict = {
             f"{self.name_}": {
@@ -233,7 +257,7 @@ class Minter:
         json_list = json.dumps(new_dict, indent=4)
         return new_dict
     def update_history_json(self):
-        with open(f"{os.getcwd()}/sandbox_/Minter_history.json", "r") as file:
+        with open(f"{os.getcwd()}/sandbox_/{self.name_}_history.json", "r") as file:
             MINTER_DATA = dict(json.load(file))
             self.history["UNR_16"].extend(list(MINTER_DATA["UNR_16"]))
             self.history["UBINRS"].extend(list(MINTER_DATA["UBINRS"]))
@@ -264,7 +288,7 @@ class Minter:
 
         return self.history
     def write_json_data(self):
-        with open(f"{os.getcwd()}/sandbox_/Minter_history.json", "w") as file:
+        with open(f"{os.getcwd()}/sandbox_/{self.name_}_history.json", "w") as file:
             file.write((json.dumps((self.jsonify_data()), indent=2)))        
 
 
@@ -272,7 +296,7 @@ class Minter:
 
 
 def main():
-    trial = Minter("Minter_log", 10000, .00002)
+    trial = Minter("Minter_2", 100000, .00002)
 
     trial.generator()
     # trial.check_for_uniques()
