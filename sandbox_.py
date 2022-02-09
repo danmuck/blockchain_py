@@ -309,7 +309,7 @@ class Minter:
 
 
 def main():
-    trial = Minter("Minter_2", 100000, .00002)
+    trial = Minter("Minter", 100000, .00002)
 
     trial.generator()
     # trial.check_for_uniques()
