@@ -9,7 +9,7 @@ class Block_:
         txns: list,
         signature: str,
         chain_data: dict,
-        chain_id:int=0
+        chain_id:int=0,
     ) -> tuple:
         self.block = {
             'index': index,
@@ -21,23 +21,23 @@ class Block_:
             'previous_hash': previous_hash
             } 
 
-        self.block_hash = self.hash_block_()
+        self.block_hash = self.hash_block_(self.block)
 
         
     def return_data(self):
-        print("Hello from class Block_ \n  START PRINTS \nBLOCK: ", self.block)
-        print("INDEX: ", self.block['index'])
+        print("\n\nNew Block_ initialized... \nBLOCK: ", json.dumps(self.block, indent=2))
         print("BLOCK_HASH: ", self.block_hash)
-        print("  END PRINTS \n")
+        print("PREV_HASH:  ",self.block['previous_hash'])
         return {self.block_hash: self.block}
 
 
-    def hash_block_(self) -> str:
+    def hash_block_(self, block:dict) -> str:
         '''
         Hash a block and return the cryptographic hash value of the block
 
         convert a string -> bytes and return encrypted hash
         '''
-        encoded_block = json.dumps(self.block).encode()
+        
+        encoded_block = json.dumps(block).encode()
         return ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
         

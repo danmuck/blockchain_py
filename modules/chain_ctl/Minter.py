@@ -88,47 +88,49 @@ class Minter_:
             rando_1 = (randint(1, 512) + randint(0, 1))
             rando_2 = (randint(0, 1024) + randint(0, 1))
             rando_3 = (randint(1, 768) + randint(0, 1))
-
             self.master_.append(ez_rand)
-            self.get_uniques(ez_rand)
-
+            unique_bool = False
             if rando_0 == rando_1 and rando_2 <= rando_3:
                 eq_count+=1
+                unique_bool = True
                 self.landed = eq_count
                 if ez_rand in UBINRS_LIST:
                     bins_+=1
                     self.ubinrs_.append(ez_rand)
                 elif ez_rand <= 15 and ez_rand != 0:
-                    print(f"  !!Rare::{ez_rand}")
+                    print(f"  !!!Rare::{ez_rand}")
                     self.unr_16_.append(ez_rand)
                 elif ez_rand in UDBBLS_LIST:
-                    print(f"  !!Rare::{ez_rand}")
+                    print(f"  !!!Rare::{ez_rand}")
                     self.udbbls_.append(ez_rand)
                 elif ez_rand in UTRIPS_LIST:
-                    print(f"  !!Rare::{ez_rand}")
+                    print(f"  !!!Rare::{ez_rand}")
                     self.utrips_.append(ez_rand)  
                 elif ez_rand in OTHERS_LIST:
-                    print(f"  !!Rare::{ez_rand}")
+                    print(f"  !!!Rare::{ez_rand}")
                     self.others_.append(ez_rand)
                 elif ez_rand == 0:
-                    print(f"  !!Rare::{ez_rand}")
+                    print(f"  !!!Rare::{ez_rand}")
                     self.ubinrs_.append(ez_rand)
                     self.zero_counter+=1
                 elif ez_rand > 999:
-                    print(f"!!Up::{ez_rand}")
+                    print(f"!!Upper::{ez_rand}")
                     self.uppers_.append(ez_rand)
                 else:
                     self.common_.append(ez_rand)
             else:
                 pass
 
+            self.unique_check_(ez_rand, unique_bool)
 
         self.end_timer()
-        if self.iters_ is not 1:
+        if self.iters_ != 1:
             self.summary_to_console()
             self.print_log_txt()
-            print("binary counter: ", bins_, "\n  zero counter: ", self.zero_counter)
-            print("landed: ", eq_count)
+            print("  \nzero counter: ", self.zero_counter, "\n\n")
+        elif self.iters_ == 1:
+            if rando_0 == rando_1 and rando_2 <= rando_3:
+                print("!!== ZOMG LANDED A SOLO BOII ==!!")
         return ez_rand
 
 
@@ -151,12 +153,21 @@ class Minter_:
         ]
         return percents_
 
-    def get_uniques(self, int_:int):
-        if int_ not in self.unique_:
-            self.unique_.append(int_)
-            print(f"  -- unique: {int_} --")
+    def unique_check_(self, int_:int, bool):
+        # needs to be fixed so that it does not error in 
+        # summary_log_txt if missed by the bool catch
+        # once fixed it will not append if not True
+        if bool is True:
+            if int_ not in self.unique_:
+                self.unique_.append(int_)
+                print(f"  -- unique: {int_} --")
+            else:
+                pass
         else:
-            pass
+            if int_ not in self.unique_:
+                self.unique_.append(int_)
+            else:
+                pass            
 
     # def get_unique_heights(self, i:int):
     #     j = 0

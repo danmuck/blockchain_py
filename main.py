@@ -68,7 +68,12 @@ def main():
     print(json.dumps(bc.chain, indent=2))
     bc.get_tallest_block()
 
-    print(QMINTER.generator())
+    print("qminter_check",QMINTER.generator())
+    print("qminter_check",QMINTER.generator())
+    print("qminter_check",QMINTER.generator())
+
+
+
     # menu.main_menu_()
 
 

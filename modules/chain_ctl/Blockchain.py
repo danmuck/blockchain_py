@@ -20,15 +20,16 @@ class Blockchain_:
         self.chain.update((self.genesis_block.return_data()))
         print("\n\n  Hello from class Blockchain_\n  CHAIN: ",self.chain, "\n\n")
 
-    def get_tallest_block(self):
+    def get_tallest_block(self) -> dict:
         block_list = tuple(self.chain.keys())
         block_data = self.chain.get(f'{block_list[-1]}')
 
         print("TALLEST BLOCK: ")
-        print(block_list[-1], ": ", block_data)
+        print(block_list[-1], ":", json.dumps(block_data, indent=2))
         
         return (block_data)
-    def get_previous_block(self, block_hash:str):
+
+    def check_previous_block(self, block_hash:str):
 
         pass
 
