@@ -61,6 +61,7 @@ def main():
             )
     bc.append_block_(block_0, block_1, block_2, block_3)
     print(json.dumps(bc.chain, indent=2))
+    bc.get_tallest_block()
     # menu.main_menu_()
 
 main()

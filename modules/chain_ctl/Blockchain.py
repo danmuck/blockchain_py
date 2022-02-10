@@ -8,7 +8,6 @@ class Blockchain_:
 
         self.chain_id = chain_id
         self.chain = {}
-        # self.chain = some_function_to_call_chain_data()
 
         self.genesis_block = Block_(
             index=0,
@@ -21,11 +20,16 @@ class Blockchain_:
         self.chain.update((self.genesis_block.return_data()))
         print("\n\n  Hello from class Blockchain_\n  CHAIN: ",self.chain, "\n\n")
 
+    def get_tallest_block(self):
+        block_list = tuple(self.chain.keys())
+        block_data = self.chain.get(f'{block_list[-1]}')
+
+        print("TALLEST BLOCK: ")
+        print(block_list[-1], ": ", block_data)
+        
+        return (block_data)
+
+
     def append_block_(self, *blocks:Block_):
         for block in blocks:
             self.chain.update(block.return_data())
-
-# def main():
-#     bc = Blockchain_(0)
-#     print(bc)
-# main()
