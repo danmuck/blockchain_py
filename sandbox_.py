@@ -67,7 +67,7 @@ class Minter:
     def generator(self):
         self.run_timer()
         i, j = 1, self.iters_
-        bins_, eq_count = 0, self.landed # i is magical 
+        bins_, eq_count = 0, self.landed # necessary 
         while i <= j:
             small_chk = (randint(1, 4096) + randint(0, 1))
             nanos_chk = ((time.time_ns() + small_chk) * math.pi)
