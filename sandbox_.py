@@ -42,7 +42,7 @@ class Minter:
         self.udbbls_ = [] # doubles
         self.utrips_ = [] # triples
         self.others_ = [] # some fun ones
-        self.ovr999_ = [] # over 999
+        self.uppers_ = [] # over 999
         self.common_ = [] # the rest
         self.unique_ = [] # uniques in a given session
         self.master_ = []
@@ -52,7 +52,7 @@ class Minter:
             "UDBBLS": [],
             "UTRIPS": [],
             "OTHERS": [],
-            "OVR999": [],
+            "UPPERS": [],
             "COMMON": [],
 
         }
@@ -107,8 +107,8 @@ class Minter:
                     self.ubinrs_.append(ez_rand)
                     self.zero_counter+=1
                 elif ez_rand > 999:
-                    print(f"!!Rare::{ez_rand}")
-                    self.ovr999_.append(ez_rand)
+                    print(f"!!Up::{ez_rand}")
+                    self.uppers_.append(ez_rand)
                 else:
                     self.common_.append(ez_rand)
             else:
@@ -128,7 +128,7 @@ class Minter:
         udbbls_p = (len(self.udbbls_) / self.iters_) * 100
         utrips_p = (len(self.utrips_) / self.iters_) * 100
         others_p = (len(self.others_) / self.iters_) * 100
-        ovr999_p = (len(self.ovr999_) / self.iters_) * 100
+        uppers_p = (len(self.uppers_) / self.iters_) * 100
         common_p = (len(self.common_) / self.iters_) * 100
         percents_ = [
             unr_16_p,
@@ -136,7 +136,7 @@ class Minter:
             udbbls_p,
             utrips_p,
             others_p,
-            ovr999_p,
+            uppers_p,
             common_p,
         ]
         return percents_
@@ -144,7 +144,7 @@ class Minter:
     def get_uniques(self, int_:int):
         if int_ not in self.unique_:
             self.unique_.append(int_)
-            print(f"!!Unique::{int_}")
+            print(f"  -- unique: {int_} --")
         else:
             pass
 
@@ -191,7 +191,7 @@ class Minter:
     Udbbls_: {sorted(self.udbbls_)}  
     Utrips_: {sorted(self.utrips_)}   
     Others_: {sorted(self.others_)}  
-    Ovr999_: {sorted(self.ovr999_)}  
+    Ovr999_: {sorted(self.uppers_)}  
     Common_: [disabled]
         """)
         print(f"""
@@ -206,7 +206,7 @@ class Minter:
             Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[2], 5)}%
             Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[3], 5)}%   
             Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[4], 5)}% 
-            Ovr999_: {len(self.ovr999_)}   \t\t{round((self.get_percents_())[5], 5)}% 
+            Ovr999_: {len(self.uppers_)}   \t\t{round((self.get_percents_())[5], 5)}% 
             Common_: {len(self.common_)}   \t\t{round((self.get_percents_())[6], 5)}%
 
         """)
@@ -231,7 +231,7 @@ class Minter:
         Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[2], 8)}%
         Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[3], 8)}%   
         Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[4], 8)}% 
-        Ovr999_: {len(self.ovr999_)}   \t\t{round((self.get_percents_())[5], 8)}% 
+        Ovr999_: {len(self.uppers_)}   \t\t{round((self.get_percents_())[5], 8)}% 
         Common_: {len(self.common_)}     \t{round((self.get_percents_())[6], 8)}%
 
         """)
@@ -250,20 +250,21 @@ class Minter:
                 file.write(f"Minter_{name_}")
         except FileExistsError:
             pass
-        try:
-            with open(f'{os.getcwd()}/sandbox_/{name_}_history.json', 'x') as file:
-                file.write(json.dumps({
-                    "UNR_16": [],
-                    "UBINRS": [],
-                    "UDBBLS": [],
-                    "UTRIPS": [],
-                    "OTHERS": [],
-                    "OVR999": [],
-                    "COMMON": []
+        finally:
+            try:
+                with open(f'{os.getcwd()}/sandbox_/{name_}_history.json', 'x') as file:
+                    file.write(json.dumps({
+                        "UNR_16": [],
+                        "UBINRS": [],
+                        "UDBBLS": [],
+                        "UTRIPS": [],
+                        "OTHERS": [],
+                        "UPPERS": [],
+                        "COMMON": []
 
-                }, indent=2))
-        except FileExistsError:
-            pass
+                    }, indent=2))
+            except FileExistsError:
+                pass
                 
 
                       
@@ -278,7 +279,7 @@ class Minter:
                 "UDBBLS": sorted(self.udbbls_),
                 "UTRIPS": sorted(self.utrips_),
                 "OTHERS": sorted(self.others_),
-                "OVR999": sorted(self.ovr999_),
+                "UPPERS": sorted(self.uppers_),
             }
         }
         json_list = json.dumps(new_dict, indent=4)
@@ -291,14 +292,14 @@ class Minter:
             self.history["UDBBLS"].extend(list(MINTER_DATA["UDBBLS"]))
             self.history["UTRIPS"].extend(list(MINTER_DATA["UTRIPS"]))
             self.history["OTHERS"].extend(list(MINTER_DATA["OTHERS"]))
-            self.history["OVR999"].extend(list(MINTER_DATA["OVR999"]))
+            self.history["UPPERS"].extend(list(MINTER_DATA["UPPERS"]))
             self.history["COMMON"].extend(list(MINTER_DATA["COMMON"]))
             self.history["UNR_16"].extend(self.unr_16_)
             self.history["UBINRS"].extend(self.ubinrs_)
             self.history["UDBBLS"].extend(self.udbbls_)
             self.history["UTRIPS"].extend(self.utrips_)
             self.history["OTHERS"].extend(self.others_)
-            self.history["OVR999"].extend(self.ovr999_)
+            self.history["UPPERS"].extend(self.uppers_)
             self.history["COMMON"].extend(self.common_)
 
         self.write_json_data()
@@ -310,7 +311,7 @@ class Minter:
         self.history["UDBBLS"].extend(self.udbbls_)
         self.history["UTRIPS"].extend(self.utrips_)
         self.history["OTHERS"].extend(self.others_)
-        self.history["OVR999"].extend(self.ovr999_)
+        self.history["UPPERS"].extend(self.uppers_)
         self.history["COMMON"].extend(self.common_)
 
         return self.history
@@ -323,7 +324,7 @@ class Minter:
 
 
 def main():
-    trial = Minter("Minter_Sleep", 1000000, .000002)
+    trial = Minter("Minter_Sleep", 100000, .000002)
 
     trial.generator()
 
