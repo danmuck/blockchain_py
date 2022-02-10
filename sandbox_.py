@@ -1,8 +1,10 @@
+# todo:
+#   fix logs so they do not compound results of multiple runs
+
+
 import math, datetime, os, json, dotenv
 from random import randint
 import time
-
-
 
 try:
     with open(f"{os.getcwd()}/sandbox_/Minter_lists.json", "r") as file:
@@ -19,7 +21,7 @@ except FileNotFoundError:
     finally:
         with open(f'{os.getcwd()}/sandbox_/Minter_lists.json', 'x') as file:
             file.write(json.dumps({
-            "OTHERS_LIST": [420, 69, 1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999, 1234, 999, 666, 123],
+            "OTHERS_LIST": [420, 69, 1111, 1234, 999, 666, 123],
             "UDBBLS_LIST": [11, 22, 33, 44, 55, 66, 77, 88, 99],
             "UTRIPS_LIST": [111, 222, 333, 444, 555, 666, 777, 888, 999],
             "UBINRS_LIST": [0, 1, 10, 11, 100, 101, 110, 111, 1000, 1001, 1010, 1011, 1100, 1101, 1110, 1111]                
@@ -42,7 +44,7 @@ class Minter:
         self.others_ = [] # some fun ones
         self.ovr999_ = [] # over 999
         self.common_ = [] # the rest
-        self.unique_ = [] # uniques in a given run
+        self.unique_ = [] # uniques in a given session
         self.master_ = []
         self.history = {
             "UNR_16": [],
@@ -65,7 +67,7 @@ class Minter:
     def generator(self):
         self.run_timer()
         i, j = 1, self.iters_
-        bins_, eq_count = 0, self.landed
+        bins_, eq_count = 0, self.landed # i is magical 
         while i <= j:
             small_chk = (randint(1, 4096) + randint(0, 1))
             nanos_chk = ((time.time_ns() + small_chk) * math.pi)
@@ -143,24 +145,35 @@ class Minter:
         if int_ not in self.unique_:
             self.unique_.append(int_)
             print(f"!!Unique::{int_}")
-            # print(f"{int_}::",len(self.unique_))
         else:
             pass
 
-    def single_unq_len(self, i:int):
-        j = 0
-        if i in self.master_:
-            j+=1
-        return j
+    # def get_unique_heights(self, i:int):
+    #     j = 0
+    #     if i in self.master_:
+    #         j+=1
+    #     return j
 
-    def check_for_uniques(self):
+    def check_for_uniques_full(self):
         some_dict = {}
         for i in sorted(self.unique_):
             j = self.master_.count(i)
             some_dict.update({i: j})
         for i, j in some_dict.items():
             print(f"{i}:\tx{j}")
-        print(len(some_dict), " total uniques")
+        print(len(some_dict), "/1235 total uniques")
+
+    def check_for_uniques(self):
+        some_dict = {}
+        for i in sorted(self.unique_):
+            if i not in list(self.history["COMMON"]):
+                j = self.master_.count(i)
+                some_dict.update({i: j})
+            else:
+                pass
+        for i, j in some_dict.items():
+            print(f"{i}:\t{j}")
+        print(len(some_dict), "/1235 total uniques (exluding commons)")
 
     def run_timer(self):
         self.start_time = time.time()
@@ -202,7 +215,8 @@ class Minter:
     # FILES ---
     def print_log_txt(self):
         with open(f'{os.getcwd()}/sandbox_/{self.name_}_log.txt', 'a') as file:
-            file.write(f"""
+            if self.iters_ > 750000:
+                file.write(f"""
     {self.iters_}::{len(self.unique_)}  
             iterations took {self.end_timer()} sec 
             sleep_time -- {self.sleep_time} sec 
@@ -212,13 +226,13 @@ class Minter:
             ceiling: {max(self.unique_)}
 
 
-        Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_())[0], 5)}%   
-        Ubinrs_: {len(self.ubinrs_)}   \t\t{round((self.get_percents_())[1], 5)}% 
-        Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[2], 5)}%
-        Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[3], 5)}%   
-        Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[4], 5)}% 
-        Ovr999_: {len(self.ovr999_)}   \t\t{round((self.get_percents_())[5], 5)}% 
-        Common_: {len(self.common_)}     \t{round((self.get_percents_())[6], 5)}%
+        Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_())[0], 8)}%   
+        Ubinrs_: {len(self.ubinrs_)}   \t\t{round((self.get_percents_())[1], 8)}% 
+        Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[2], 8)}%
+        Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[3], 8)}%   
+        Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[4], 8)}% 
+        Ovr999_: {len(self.ovr999_)}   \t\t{round((self.get_percents_())[5], 8)}% 
+        Common_: {len(self.common_)}     \t{round((self.get_percents_())[6], 8)}%
 
         """)
     # def json_init(self):
@@ -309,10 +323,13 @@ class Minter:
 
 
 def main():
-    trial = Minter("Minter", 100000, .00002)
+    trial = Minter("Minter_Sleep", 1000000, .000002)
 
     trial.generator()
+
+
     # trial.check_for_uniques()
+
 
     trial.update_history_json()
 
