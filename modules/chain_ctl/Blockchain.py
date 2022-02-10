@@ -21,8 +21,9 @@ class Blockchain_:
         self.chain.update((self.genesis_block.return_data()))
         print("\n\n  Hello from class Blockchain_\n  CHAIN: ",self.chain, "\n\n")
 
-    def append_block_(self, block:Block_):
-        self.chain.update(block.return_data())
+    def append_block_(self, *blocks:Block_):
+        for block in blocks:
+            self.chain.update(block.return_data())
 
 # def main():
 #     bc = Blockchain_(0)

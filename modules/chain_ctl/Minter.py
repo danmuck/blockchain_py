@@ -64,18 +64,23 @@ class Minter_:
         self.sleep_time = sleep_time
         self.init_new_Minter(name_)
 
+    def ez_rand(self):
+            small_chk = (randint(1, 4096) + randint(0, 1))
+            nanos_chk = ((time.time_ns() + small_chk) * math.pi)
+            ez_nums = int( ( ((nanos_chk * small_chk) * (small_chk) )) % 1023 )
+            ez_rand = (ez_nums + randint(0, 212)) # adjust ceiling with this line
+            return ez_rand
+
     def generator(self):
         self.run_timer()
         i, j = 1, self.iters_ # i is always magical
         bins_, eq_count = 0, self.landed # currently necessary 
         while i <= j:
-            small_chk = (randint(1, 4096) + randint(0, 1))
-            nanos_chk = ((time.time_ns() + small_chk) * math.pi)
             i+=1
             time.sleep(self.sleep_time)
-            ez_nums = int( ( ((nanos_chk * small_chk) * (small_chk) )) % 1023 )
-            
-            ez_rand = (ez_nums + randint(0, 212)) # adjust ceiling with this line
+
+            ez_rand = self.ez_rand()
+
             rando_0 = (randint(0, 256) + randint(0, 1))
             rando_1 = (randint(1, 512) + randint(0, 1))
             rando_2 = (randint(0, 1024) + randint(0, 1))
@@ -120,6 +125,7 @@ class Minter_:
         self.end_timer()
         self.summary_to_console()
         self.print_log_txt()
+        return ez_rand
 
 
     def get_percents_(self) -> list:
