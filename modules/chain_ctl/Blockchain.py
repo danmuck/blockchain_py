@@ -10,7 +10,7 @@ class Blockchain_:
         self.chain = {}
 
         self.genesis_block = Block_(
-            index=0,
+            index=len(self.chain.keys()),
             previous_hash = "0x" + str(self.chain_id).zfill(64),
             nonce = 0,
             txns = [],
@@ -28,8 +28,13 @@ class Blockchain_:
         print(block_list[-1], ": ", block_data)
         
         return (block_data)
+    def get_previous_block(self, block_hash:str):
 
+        pass
 
-    def append_block_(self, *blocks:Block_):
-        for block in blocks:
+    def append_block_(self, block:Block_):
+        appendage = block.return_data().get(block.block_hash)
+        if appendage['index'] == len(self.chain):
             self.chain.update(block.return_data())
+        else:
+            print("Err!! Wrong Height !!")

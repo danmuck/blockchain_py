@@ -34,9 +34,8 @@ except FileNotFoundError:
             UBINRS_LIST = jsonify["UBINRS_LIST"]
         
 
-
 class Minter_:
-    def __init__(self, name_:str, iters_:int, sleep_time:float) -> None:
+    def __init__(self, name_:str, iters_:int, sleep_time:float, quick:bool=False) -> None:
         self.unr_16_ = [] # rares
         self.ubinrs_ = [] # binaries
         self.udbbls_ = [] # doubles
@@ -60,9 +59,13 @@ class Minter_:
         self.zero_counter = 0
         self.landed = 0
         self.start_time = float
-        self.iters_ = iters_
-        self.sleep_time = sleep_time
-        self.init_new_Minter(name_)
+        if quick is True:
+            self.iters_ = 1
+            self.sleep_time = 0
+        else:
+            self.iters_ = iters_
+            self.sleep_time = sleep_time
+            self.init_new_Minter(name_)
 
     def ez_rand(self):
             small_chk = (randint(1, 4096) + randint(0, 1))
@@ -119,12 +122,13 @@ class Minter_:
             else:
                 pass
 
-        print("binary counter: ", bins_, "\n  zero counter: ", self.zero_counter)
-        print("landed: ", eq_count)
 
         self.end_timer()
-        self.summary_to_console()
-        self.print_log_txt()
+        if self.iters_ is not 1:
+            self.summary_to_console()
+            self.print_log_txt()
+            print("binary counter: ", bins_, "\n  zero counter: ", self.zero_counter)
+            print("landed: ", eq_count)
         return ez_rand
 
 
@@ -323,16 +327,4 @@ class Minter_:
 
 
 
-
-# def main():
-#     trial = Minter_("Minter_Sleep", 100000, .000002)
-
-#     trial.generator()
-
-
-#     # trial.check_for_uniques()
-
-
-#     trial.update_history_json()
-
-# main()
+QMINTER = Minter_("Q_MINT", 100000, .0005, True)

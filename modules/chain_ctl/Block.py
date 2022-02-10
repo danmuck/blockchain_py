@@ -1,7 +1,6 @@
 import datetime, json, hashlib
 
 
-
 class Block_:
     def __init__(self,
         index: int,
@@ -10,6 +9,7 @@ class Block_:
         txns: list,
         signature: str,
         chain_data: dict,
+        chain_id:int=0
     ) -> tuple:
         self.block = {
             'index': index,
