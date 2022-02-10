@@ -1,6 +1,6 @@
 import datetime, hashlib, json, os
 
-from Block import Block_
+from .Block import Block_
 
 class Blockchain_:
 

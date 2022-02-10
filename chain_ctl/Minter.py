@@ -35,7 +35,7 @@ except FileNotFoundError:
         
 
 
-class Minter:
+class Minter_:
     def __init__(self, name_:str, iters_:int, sleep_time:float) -> None:
         self.unr_16_ = [] # rares
         self.ubinrs_ = [] # binaries
@@ -323,15 +323,15 @@ class Minter:
 
 
 
-def main():
-    trial = Minter("Minter_Sleep", 100000, .000002)
+# def main():
+#     trial = Minter_("Minter_Sleep", 100000, .000002)
 
-    trial.generator()
-
-
-    # trial.check_for_uniques()
+#     trial.generator()
 
 
-    trial.update_history_json()
+#     # trial.check_for_uniques()
 
-main()
+
+#     trial.update_history_json()
+
+# main()
