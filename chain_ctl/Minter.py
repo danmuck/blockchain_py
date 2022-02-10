@@ -7,7 +7,7 @@ from random import randint
 import time
 
 try:
-    with open(f"{os.getcwd()}/sandbox_/Minter_lists.json", "r") as file:
+    with open(f"{os.getcwd()}/minter_data/Minter_lists.json", "r") as file:
         jsonify = dict(json.load(file))
         OTHERS_LIST = jsonify['OTHERS_LIST']
         UDBBLS_LIST = jsonify["UDBBLS_LIST"]
@@ -15,18 +15,18 @@ try:
         UBINRS_LIST = jsonify["UBINRS_LIST"]
 except FileNotFoundError:
     try:
-        os.mkdir(f"{os.getcwd()}/sandbox_")
+        os.mkdir(f"{os.getcwd()}/minter_data")
     except FileExistsError:
         pass
     finally:
-        with open(f'{os.getcwd()}/sandbox_/Minter_lists.json', 'x') as file:
+        with open(f'{os.getcwd()}/minter_data/Minter_lists.json', 'x') as file:
             file.write(json.dumps({
             "OTHERS_LIST": [420, 69, 1111, 1234, 999, 666, 123],
             "UDBBLS_LIST": [11, 22, 33, 44, 55, 66, 77, 88, 99],
             "UTRIPS_LIST": [111, 222, 333, 444, 555, 666, 777, 888, 999],
             "UBINRS_LIST": [0, 1, 10, 11, 100, 101, 110, 111, 1000, 1001, 1010, 1011, 1100, 1101, 1110, 1111]                
             }, indent=2))
-        with open(f"{os.getcwd()}/sandbox_/Minter_lists.json", "r") as file:
+        with open(f"{os.getcwd()}/minter_data/Minter_lists.json", "r") as file:
             jsonify = dict(json.load(file))
             OTHERS_LIST = jsonify['OTHERS_LIST']
             UDBBLS_LIST = jsonify["UDBBLS_LIST"]
@@ -214,7 +214,7 @@ class Minter:
 
     # FILES ---
     def print_log_txt(self):
-        with open(f'{os.getcwd()}/sandbox_/{self.name_}_log.txt', 'a') as file:
+        with open(f'{os.getcwd()}/minter_data/{self.name_}_log.txt', 'a') as file:
             if self.iters_ > 750000:
                 file.write(f"""
     {self.iters_}::{len(self.unique_)}  
@@ -237,7 +237,7 @@ class Minter:
         """)
     # def json_init(self):
     #     try:
-    #         with open(f'{os.getcwd()}/sandbox_/{self.name_}.json', 'x') as file:
+    #         with open(f'{os.getcwd()}/minter_data/{self.name_}.json', 'x') as file:
     #             json_obj_ = self.jsonify_()
     #             new_file = json.dumps(json_obj_, indent=4)
     #             file.write(new_file)
@@ -246,13 +246,13 @@ class Minter:
 
     def init_new_Minter(self, name_:str):
         try:
-            with open(f'{os.getcwd()}/sandbox_/{name_}_log.txt', 'x') as file:
+            with open(f'{os.getcwd()}/minter_data/{name_}_log.txt', 'x') as file:
                 file.write(f"Minter_{name_}")
         except FileExistsError:
             pass
         finally:
             try:
-                with open(f'{os.getcwd()}/sandbox_/{name_}_history.json', 'x') as file:
+                with open(f'{os.getcwd()}/minter_data/{name_}_history.json', 'x') as file:
                     file.write(json.dumps({
                         "UNR_16": [],
                         "UBINRS": [],
@@ -285,7 +285,7 @@ class Minter:
         json_list = json.dumps(new_dict, indent=4)
         return new_dict
     def update_history_json(self):
-        with open(f"{os.getcwd()}/sandbox_/{self.name_}_history.json", "r") as file:
+        with open(f"{os.getcwd()}/minter_data/{self.name_}_history.json", "r") as file:
             MINTER_DATA = dict(json.load(file))
             self.history["UNR_16"].extend(list(MINTER_DATA["UNR_16"]))
             self.history["UBINRS"].extend(list(MINTER_DATA["UBINRS"]))
@@ -316,7 +316,7 @@ class Minter:
 
         return self.history
     def write_json_data(self):
-        with open(f"{os.getcwd()}/sandbox_/{self.name_}_history.json", "w") as file:
+        with open(f"{os.getcwd()}/minter_data/{self.name_}_history.json", "w") as file:
             file.write((json.dumps((self.jsonify_data()), indent=2)))        
 
 

@@ -1,4 +1,4 @@
 coin_data/
 *__pycache__
-future/
 sandbox_/
+*minter_data/
