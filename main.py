@@ -64,7 +64,7 @@ def main():
                 chain_data = {},
             )
     bc.append_block_(block_4)
-    i, j = 5, 30
+    i, j = 5, 25
     b_hash = block_4.block_hash
     while i < j:
         if i < 6:
@@ -91,7 +91,6 @@ def main():
 
 
     print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(bc.chain, indent=2))
-    bc.get_tallest_block()
     print("HEIGHT: ", len(bc.chain))
 
     # print("qminter_check",QMINTER.generator())
