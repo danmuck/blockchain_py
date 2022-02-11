@@ -24,7 +24,7 @@ except FileNotFoundError:
             "OTHERS_LIST": [420, 69, 1111, 1234, 999, 666, 123],
             "UDBBLS_LIST": [11, 22, 33, 44, 55, 66, 77, 88, 99],
             "UTRIPS_LIST": [111, 222, 333, 444, 555, 666, 777, 888, 999],
-            "UBINRS_LIST": [0, 1, 10, 11, 100, 101, 110, 111, 1000, 1001, 1010, 1011, 1100, 1101, 1110, 1111]                
+            "UBINRS_LIST": [0, 1, 10, 11, 100, 101, 110, 111, 1000, 1001, 1010, 1011, 1100, 1101, 1110, 1111, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15]                
             }, indent=2))
         with open(f"{os.getcwd()}/minter_data/Minter_lists.json", "r") as file:
             jsonify = dict(json.load(file))
@@ -33,7 +33,25 @@ except FileNotFoundError:
             UTRIPS_LIST = jsonify["UTRIPS_LIST"]
             UBINRS_LIST = jsonify["UBINRS_LIST"]
         
+UNR_16_MAP = {
+    0: "0".zfill(4),
+    1: "1".zfill(4),
+    2: "10".zfill(4),
+    3: "11".zfill(4),
+    4: "100".zfill(4),
+    5: "101".zfill(4),
+    6: "110".zfill(4),
+    7: "111".zfill(4),
+    8: "1000".zfill(4),
+    9: "1001".zfill(4),
+    10: "1010".zfill(4),
+    11: "1011".zfill(4),
+    12: "1100".zfill(4),
+    13: "1101".zfill(4),
+    14: "1110".zfill(4),
+    15: "1111".zfill(4),
 
+}
 class Minter_:
     def __init__(self, name_:str, iters_:int, sleep_time:float, quick:bool=False) -> None:
         self.unr_16_ = [] # rares
@@ -67,22 +85,25 @@ class Minter_:
             self.sleep_time = sleep_time
             self.init_new_Minter(name_)
 
-    def ez_rand(self):
+    def ez_rand(self) -> float:
             small_chk = (randint(1, 4096) + randint(0, 1))
             nanos_chk = ((time.time_ns() + small_chk) * math.pi)
-            ez_nums = int( ( ((nanos_chk * small_chk) * (small_chk) )) % 1023 )
+            ez_nums = round( ( ((nanos_chk * small_chk) * (small_chk) )) % 1023 * (.0007 + randint(0, 1)), 5)
+            # print(ez_nums)
             ez_rand = (ez_nums + randint(0, 212)) # adjust ceiling with this line
             return ez_rand
 
     def generator(self):
+        print(self.unique_)
         self.run_timer()
+        self.unique_ = []
         i, j = 1, self.iters_ # i is always magical
         bins_, eq_count = 0, self.landed # currently necessary 
         while i <= j:
             i+=1
             time.sleep(self.sleep_time)
 
-            ez_rand = self.ez_rand()
+            ez_rand = int(self.ez_rand())
 
             rando_0 = (randint(0, 256) + randint(0, 1))
             rando_1 = (randint(1, 512) + randint(0, 1))
@@ -95,12 +116,17 @@ class Minter_:
                 unique_bool = True
                 self.landed = eq_count
                 if ez_rand in UBINRS_LIST:
-                    print(f"  !!!Bnr_16::{ez_rand}")
                     bins_+=1
-                    self.ubinrs_.append(ez_rand)
-                elif ez_rand <= 15 and ez_rand != 0:
-                    print(f"  !!!Unr_16::{ez_rand}")
-                    self.unr_16_.append(ez_rand)
+                    if ez_rand <= 15 and ez_rand != 0:
+                        print(f"  !!!Unr_16::{UNR_16_MAP[ez_rand]}")
+                        self.unr_16_.append(ez_rand)
+                    elif ez_rand != 0:
+                        print(f"  !!!Bnr_16::{str(ez_rand).zfill(4)}")
+                        self.ubinrs_.append(ez_rand)
+                    else:
+                        self.zero_counter+=1
+                        print(f"  !!!Zero::{UNR_16_MAP[ez_rand]}")
+                        self.unr_16_.append(ez_rand)
                 elif ez_rand in UDBBLS_LIST:
                     print(f"  !!!Doubles::{ez_rand}")
                     self.udbbls_.append(ez_rand)
@@ -110,10 +136,6 @@ class Minter_:
                 elif ez_rand in OTHERS_LIST:
                     print(f"  !!!Rare::{ez_rand}")
                     self.others_.append(ez_rand)
-                elif ez_rand == 0:
-                    print(f"  !!!Zero::{ez_rand}")
-                    self.ubinrs_.append(ez_rand)
-                    self.zero_counter+=1
                 elif ez_rand > 999:
                     print(f"!!Upper::{ez_rand}")
                     self.uppers_.append(ez_rand)
@@ -123,6 +145,7 @@ class Minter_:
                 pass
 
             self.unique_check_(ez_rand, unique_bool)
+        print("UNIQUE_FULL: ",sorted(self.unique_))
 
         self.end_timer()
         if self.iters_ != 1:
@@ -207,14 +230,14 @@ class Minter_:
     def summary_to_console(self):
         print(f"""
     # Data:
-
-    Unr_16_: {sorted(self.unr_16_)}   
-    Ubinrs_: {sorted(self.ubinrs_)}  
-    Udbbls_: {sorted(self.udbbls_)}  
-    Utrips_: {sorted(self.utrips_)}   
-    Others_: {sorted(self.others_)}  
-    Uppers_: {sorted(self.uppers_)}  
-    Common_: [disabled]
+        [showing only unique lands]
+    Unr_16_: {sorted(list(set(self.unr_16_)))}   
+    Ubinrs_: {sorted(list(set(self.ubinrs_)))}  
+    Udbbls_: {sorted(list(set(self.udbbls_)))}  
+    Utrips_: {sorted(list(set(self.utrips_)))}   
+    Others_: {sorted(list(set(self.others_)))}  
+    Uppers_: {sorted(list(set(self.uppers_)))}  
+    Common_: {sorted(list(set(self.common_)))}
         """)
         print(f"""
         {len(self.unique_)}_u::{self.iters_} Iterations took {self.end_timer()} sec 
