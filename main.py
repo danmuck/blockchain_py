@@ -22,7 +22,7 @@ menu = Menu_(
         )
 )
 def main():
-    trial = Minter_("Minter", 5000001, .000002)
+    trial = Minter_("Minter", 500001, .000002)
     trial.generator()
     # trial.check_for_uniques()
     trial.update_history_json()

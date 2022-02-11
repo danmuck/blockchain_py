@@ -90,7 +90,7 @@ class Minter_:
             nanos_chk = ((time.time_ns() + small_chk) * math.pi)
             ez_nums = round( ( ((nanos_chk * small_chk) * (small_chk) )) % 1023 * (.0007 + randint(0, 1)), 5)
             # print(ez_nums)
-            ez_rand = (ez_nums + randint(0, 212)) # adjust ceiling with this line
+            ez_rand = (ez_nums + randint(0, 211)) # adjust ceiling with this line
             return ez_rand
 
     def generator(self):
@@ -103,7 +103,7 @@ class Minter_:
             i+=1
             time.sleep(self.sleep_time)
 
-            ez_rand = int(self.ez_rand())
+            ez_rand = round(self.ez_rand())
 
             rando_0 = (randint(0, 256) + randint(0, 1))
             rando_1 = (randint(1, 512) + randint(0, 1))
