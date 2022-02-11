@@ -21,27 +21,18 @@ menu = Menu_(
         )
 )
 def main():
-    trial = Minter_("Minter", 50001, .000002)
+    trial = Minter_("Minter", 5001, .000002)
     trial.generator()
     # trial.check_for_uniques()
     trial.update_history_json()
 
     bc = Blockchain_(0)
-    block_0 = Block_(
+    block_1 = Block_(
                 index= len(bc.chain.keys()),
                 previous_hash = bc.genesis_block.block_hash,
                 nonce = QMINTER.ez_rand(),
                 txns = [],
-                signature = 'BLOCK_ZERO im the first unverified block :)',
-                chain_data = {},
-            )
-    bc.append_block_(block_0)
-    block_1 = Block_(
-                index=len(bc.chain.keys()),
-                previous_hash = block_0.block_hash,
-                nonce = QMINTER.ez_rand(),
-                txns = [],
-                signature = 'BLOCK_ONE',
+                signature = 'BLOCK_ONE im the first unverified block :)',
                 chain_data = {},
             )
     bc.append_block_(block_1)
@@ -50,7 +41,7 @@ def main():
                 previous_hash = block_1.block_hash,
                 nonce = QMINTER.ez_rand(),
                 txns = [],
-                signature = 'BLOCK_TWO ',
+                signature = 'BLOCK_TWO (manual)',
                 chain_data = {},
             )
     bc.append_block_(block_2)
@@ -59,11 +50,33 @@ def main():
                 previous_hash = block_2.block_hash,
                 nonce = QMINTER.ez_rand(),
                 txns = [],
-                signature = 'BLOCK_THREE',
+                signature = 'BLOCK_THREE (manual)',
                 chain_data = {},
             )
-    print(block_3)
     bc.append_block_(block_3)
+    block_4 = Block_(
+                index=len(bc.chain.keys()),
+                previous_hash = block_3.block_hash,
+                nonce = QMINTER.ez_rand(),
+                txns = [],
+                signature = 'BLOCK_FOUR (manual)',
+                chain_data = {},
+            )
+    bc.append_block_(block_4)
+    i, j = 5, 25
+    b_hash = block_4.block_hash
+    while i < j:
+        block_Z = Block_(
+                    index=i,
+                    previous_hash = b_hash,
+                    nonce = QMINTER.ez_rand(),
+                    txns = [],
+                    signature = f'BLOCK_{i}',
+                    chain_data = {})     
+        b_hash = block_Z.block_hash
+        bc.append_block_(block_Z)
+        i+=1
+
 
     print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(bc.chain, indent=2))
     bc.get_tallest_block()
