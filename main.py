@@ -21,7 +21,7 @@ menu = Menu_(
         )
 )
 def main():
-    trial = Minter_("Minter", 1000, .000002)
+    trial = Minter_("Minter", 50001, .000002)
     trial.generator()
     # trial.check_for_uniques()
     trial.update_history_json()
@@ -32,7 +32,7 @@ def main():
                 previous_hash = bc.genesis_block.block_hash,
                 nonce = QMINTER.ez_rand(),
                 txns = [],
-                signature = 'im the first unverified block :)',
+                signature = 'BLOCK_ZERO im the first unverified block :)',
                 chain_data = {},
             )
     bc.append_block_(block_0)
@@ -41,28 +41,28 @@ def main():
                 previous_hash = block_0.block_hash,
                 nonce = QMINTER.ez_rand(),
                 txns = [],
-                signature = 'im the block_1 unverified block :)',
+                signature = 'BLOCK_ONE',
                 chain_data = {},
             )
+    bc.append_block_(block_1)
     block_2 = Block_(
                 index=len(bc.chain.keys()),
                 previous_hash = block_1.block_hash,
                 nonce = QMINTER.ez_rand(),
                 txns = [],
-                signature = 'im the block_2 unverified block :)',
+                signature = 'BLOCK_TWO ',
                 chain_data = {},
             )
+    bc.append_block_(block_2)
     block_3 = Block_(
                 index=len(bc.chain.keys()),
                 previous_hash = block_2.block_hash,
                 nonce = QMINTER.ez_rand(),
                 txns = [],
-                signature = 'im the block_3 unverified block :)',
+                signature = 'BLOCK_THREE',
                 chain_data = {},
             )
     print(block_3)
-    bc.append_block_(block_1)
-    bc.append_block_(block_2)
     bc.append_block_(block_3)
 
     print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(bc.chain, indent=2))

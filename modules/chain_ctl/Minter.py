@@ -95,22 +95,23 @@ class Minter_:
                 unique_bool = True
                 self.landed = eq_count
                 if ez_rand in UBINRS_LIST:
+                    print(f"  !!!Bnr_16::{ez_rand}")
                     bins_+=1
                     self.ubinrs_.append(ez_rand)
                 elif ez_rand <= 15 and ez_rand != 0:
-                    print(f"  !!!Rare::{ez_rand}")
+                    print(f"  !!!Unr_16::{ez_rand}")
                     self.unr_16_.append(ez_rand)
                 elif ez_rand in UDBBLS_LIST:
-                    print(f"  !!!Rare::{ez_rand}")
+                    print(f"  !!!Doubles::{ez_rand}")
                     self.udbbls_.append(ez_rand)
                 elif ez_rand in UTRIPS_LIST:
-                    print(f"  !!!Rare::{ez_rand}")
+                    print(f"  !!!Triples::{ez_rand}")
                     self.utrips_.append(ez_rand)  
                 elif ez_rand in OTHERS_LIST:
                     print(f"  !!!Rare::{ez_rand}")
                     self.others_.append(ez_rand)
                 elif ez_rand == 0:
-                    print(f"  !!!Rare::{ez_rand}")
+                    print(f"  !!!Zero::{ez_rand}")
                     self.ubinrs_.append(ez_rand)
                     self.zero_counter+=1
                 elif ez_rand > 999:
@@ -212,7 +213,7 @@ class Minter_:
     Udbbls_: {sorted(self.udbbls_)}  
     Utrips_: {sorted(self.utrips_)}   
     Others_: {sorted(self.others_)}  
-    Ovr999_: {sorted(self.uppers_)}  
+    Uppers_: {sorted(self.uppers_)}  
     Common_: [disabled]
         """)
         print(f"""
@@ -227,7 +228,7 @@ class Minter_:
             Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[2], 5)}%
             Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[3], 5)}%   
             Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[4], 5)}% 
-            Ovr999_: {len(self.uppers_)}   \t\t{round((self.get_percents_())[5], 5)}% 
+            Uppers_: {len(self.uppers_)}   \t\t{round((self.get_percents_())[5], 5)}% 
             Common_: {len(self.common_)}   \t\t{round((self.get_percents_())[6], 5)}%
 
         """)
@@ -252,7 +253,7 @@ class Minter_:
         Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[2], 8)}%
         Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[3], 8)}%   
         Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[4], 8)}% 
-        Ovr999_: {len(self.uppers_)}   \t\t{round((self.get_percents_())[5], 8)}% 
+        Uppers_: {len(self.uppers_)}   \t\t{round((self.get_percents_())[5], 8)}% 
         Common_: {len(self.common_)}     \t{round((self.get_percents_())[6], 8)}%
 
         """)

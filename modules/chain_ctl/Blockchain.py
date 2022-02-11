@@ -37,7 +37,7 @@ class Blockchain_:
         if appendage.get('previous_hash') == self.get_tallest_block()[1] and appendage.get('index') == len(self.chain):
             self.chain.update(block.block_dict)
         else:
-            print(f"\n\nErr!! Wrong Previous Block on block sig: [{appendage.get('signature')}] !!")
+            print(f"\n\nErr!! Bad Block on block sig: [{appendage.get('signature')}] !!")
+            print("BLOCK_HEIGHT: ", appendage.get("index"), " | REAL_HEIGHT: ", len(self.chain))
             print("REAL_PREV_HASH: ", self.get_tallest_block()[1])
             print("PREV_ON_BLOCK:  ", appendage.get('previous_hash'))
-            print("BLOCK_HEIGHT: ", appendage.get("index"), " | REAL_HEIGHT: ", len(self.chain))
