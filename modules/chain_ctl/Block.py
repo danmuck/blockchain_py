@@ -10,26 +10,22 @@ class Block_:
         signature: str,
         chain_data: dict,
         chain_id:int=0,
-    ) -> tuple:
+    ) -> None:
         self.block = {
             'index': index,
             'time': str(datetime.datetime.now()),
-            'chain_data': chain_data,
             'signature': signature,
+            'chain_data': chain_data,
             'transactions': txns,
             'nonce': nonce,
             'previous_hash': previous_hash
             } 
 
         self.block_hash = self.hash_block_(self.block)
-
-        
-    def return_data(self):
+        self.block_dict = {self.block_hash: self.block}
         print("\n\nNew Block_ initialized... \nBLOCK: ", json.dumps(self.block, indent=2))
         print("BLOCK_HASH: ", self.block_hash)
         print("PREV_HASH:  ",self.block['previous_hash'])
-        return {self.block_hash: self.block}
-
 
     def hash_block_(self, block:dict) -> str:
         '''

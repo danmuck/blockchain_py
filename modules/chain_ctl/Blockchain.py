@@ -1,7 +1,6 @@
 import datetime, hashlib, json, os
 
 from .Block import Block_
-
 class Blockchain_:
 
     def __init__(self, chain_id:int) -> None:
@@ -12,30 +11,33 @@ class Blockchain_:
         self.genesis_block = Block_(
             index=len(self.chain.keys()),
             previous_hash = "0x" + str(self.chain_id).zfill(64),
-            nonce = 0,
+            nonce = 420,
+            signature = 'im the genesis block... new chain incoming!! :)',
             txns = [],
-            signature = 'im the genesis block :)',
             chain_data = {},
         )
-        self.chain.update((self.genesis_block.return_data()))
-        print("\n\n  Hello from class Blockchain_\n  CHAIN: ",self.chain, "\n\n")
+        self.chain.update((self.genesis_block.block_dict))
+        print("\n\nNew Blockchain_ initialized...\n  CHAIN: ", json.dumps(self.chain, indent=2), "\n\n")
 
-    def get_tallest_block(self) -> dict:
+    def get_tallest_block(self):
         block_list = tuple(self.chain.keys())
         block_data = self.chain.get(f'{block_list[-1]}')
 
-        print("TALLEST BLOCK: ")
-        print(block_list[-1], ":", json.dumps(block_data, indent=2))
+        # print("TALLEST BLOCK: ")
+        # print(block_list[-1], ":", json.dumps(block_data, indent=2))
         
-        return (block_data)
+        return (block_data), block_list[-1]
 
     def check_previous_block(self, block_hash:str):
 
         pass
 
     def append_block_(self, block:Block_):
-        appendage = block.return_data().get(block.block_hash)
-        if appendage['index'] == len(self.chain):
-            self.chain.update(block.return_data())
+        appendage = block.block
+        if appendage.get('previous_hash') == self.get_tallest_block()[1] and appendage.get('index') == len(self.chain):
+            self.chain.update(block.block_dict)
         else:
-            print("Err!! Wrong Height !!")
+            print(f"\n\nErr!! Wrong Previous Block on block sig: [{appendage.get('signature')}] !!")
+            print("REAL_PREV_HASH: ", self.get_tallest_block()[1])
+            print("PREV_ON_BLOCK:  ", appendage.get('previous_hash'))
+            print("BLOCK_HEIGHT: ", appendage.get("index"), " | REAL_HEIGHT: ", len(self.chain))

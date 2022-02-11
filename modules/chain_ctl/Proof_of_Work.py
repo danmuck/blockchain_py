@@ -9,7 +9,6 @@ from Miner_Problem import miner_problem_
 bc = Blockchain_(0)
 
 
-
 class Proof_of_Work:
     def __init__(self,
         chain_id,
@@ -21,7 +20,7 @@ class Proof_of_Work:
         self.txns = txns
         self.chain_data = chain_data
 
-    def _proof_of_work(self, 
+    def proof_of_work_(self, 
         previous_nonce: int, 
         index: int, 
         data: str
@@ -39,8 +38,8 @@ class Proof_of_Work:
             )
             hash_value = hashlib.sha256(hash_digest).hexdigest()
 
-    # increase nonce hash difficulty exponentionally
-    # checking how many 0s must be found at start 
+            # increase nonce hash difficulty exponentionally
+            # checking how many 0s must be found at start 
             if hash_value[:4] == '0000':
                 check_nonce = True
             else:
@@ -53,7 +52,7 @@ class Proof_of_Work:
         previous_nonce = previous_block['nonce']
         previous_hash = Block_.hash_block_(previous_block)
         index = len(bc.chain)
-        nonce = self._proof_of_work(previous_nonce, index, chain_data)
+        nonce = self.proof_of_work_(previous_nonce, index, chain_data)
 
         block = Block_(
             index = index,

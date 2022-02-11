@@ -60,17 +60,17 @@ def main():
                 signature = 'im the block_3 unverified block :)',
                 chain_data = {},
             )
-
+    print(block_3)
     bc.append_block_(block_1)
     bc.append_block_(block_2)
     bc.append_block_(block_3)
 
-    print(json.dumps(bc.chain, indent=2))
+    print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(bc.chain, indent=2))
     bc.get_tallest_block()
 
-    print("qminter_check",QMINTER.generator())
-    print("qminter_check",QMINTER.generator())
-    print("qminter_check",QMINTER.generator())
+    # print("qminter_check",QMINTER.generator())
+    # print("qminter_check",QMINTER.generator())
+    # print("qminter_check",QMINTER.generator())
 
 
 
