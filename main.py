@@ -1,4 +1,5 @@
 import json
+from random import randint
 from modules.Menus_ import Menu_
 from modules.chain_ctl.Minter import Minter_, QMINTER
 from modules.chain_ctl.Blockchain import Blockchain_
@@ -63,23 +64,35 @@ def main():
                 chain_data = {},
             )
     bc.append_block_(block_4)
-    i, j = 5, 25
+    i, j = 5, 30
     b_hash = block_4.block_hash
     while i < j:
-        block_Z = Block_(
-                    index=i,
-                    previous_hash = b_hash,
-                    nonce = QMINTER.ez_rand(),
-                    txns = [],
-                    signature = f'BLOCK_{i}',
-                    chain_data = {})     
+        if i < 6:
+            block_Z = Block_(
+                        index=i,
+                        previous_hash = b_hash,
+                        nonce = QMINTER.ez_rand(),
+                        txns = [],
+                        signature = f'BLOCK_{i}',
+                        chain_data = {})
+        else:
+            k = i + randint(0, 1)
+            block_Z = Block_(
+                        index=k,
+                        previous_hash = b_hash,
+                        nonce = QMINTER.ez_rand(),
+                        txns = [],
+                        signature = f'BLOCK_{i}',
+                        chain_data = {})            
         b_hash = block_Z.block_hash
         bc.append_block_(block_Z)
         i+=1
+    
 
 
     print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(bc.chain, indent=2))
     bc.get_tallest_block()
+    print("HEIGHT: ", len(bc.chain))
 
     # print("qminter_check",QMINTER.generator())
     # print("qminter_check",QMINTER.generator())
