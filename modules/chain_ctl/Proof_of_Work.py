@@ -2,18 +2,17 @@
 
 
 import hashlib
-from Blockchain import Blockchain_
-from Block import Block_
-from Miner_Problem import miner_problem_
+from .Blockchain import Blockchain_
+from .Block import Block_
+from .Miner_Problem import miner_problem_
 
-bc = Blockchain_(0)
 
 
 class Proof_of_Work:
     def __init__(self,
-        chain_id,
-        txns,
-        chain_data
+        chain_id=0,
+        txns=[],
+        chain_data={}
 
     ) -> None:
         self.chain_id = chain_id
@@ -29,7 +28,7 @@ class Proof_of_Work:
         check_nonce=False
         
         while not check_nonce:
-            print(new_nonce)
+            # print(new_nonce)
             hash_digest = miner_problem_(
                 new_nonce=new_nonce, 
                 previous_nonce=previous_nonce, 
@@ -47,12 +46,21 @@ class Proof_of_Work:
                 
         return new_nonce
 
-    def mine_block(self, chain_id:int, txns:list, chain_data:dict) -> dict:
-        previous_block = bc.get_tallest_block()
+    def mine_block(self, chain:Blockchain_ ,chain_id:int, txns:list, chain_data:dict) -> dict:
+        previous_block = chain.get_tallest_block()[0]
         previous_nonce = previous_block['nonce']
-        previous_hash = Block_.hash_block_(previous_block)
-        index = len(bc.chain)
-        nonce = self.proof_of_work_(previous_nonce, index, chain_data)
+        mock = Block_(
+            index = 0,
+            previous_hash = "",
+            nonce = 0,
+            signature = "MOCK_BLOCK",
+            txns = [],
+            chain_data = [],
+            chain_id = 0
+            )
+        previous_hash = mock.hash_block_(previous_block)
+        index = len(chain.chain)
+        nonce = self.proof_of_work_(previous_nonce, index, str(mock))
 
         block = Block_(
             index = index,
@@ -61,7 +69,8 @@ class Proof_of_Work:
             signature = "miner wallet",
             txns = self.txns,
             chain_data = self.chain_data,
-            chain_id = self.chain_id
+            chain_id = self.chain_id,
+            print_it = True
             )
-        bc.append_block_(block)
+        chain.append_block_(block)
         return block

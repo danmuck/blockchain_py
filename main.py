@@ -4,6 +4,7 @@ from modules.Menus_ import Menu_
 from modules.chain_ctl.Minter import Minter_, QMINTER
 from modules.chain_ctl.Blockchain import Blockchain_
 from modules.chain_ctl.Block import Block_
+from modules.chain_ctl.Proof_of_Work import Proof_of_Work
 # from chain_ctl.Block import Block_
 
 menu = Menu_(
@@ -21,17 +22,20 @@ menu = Menu_(
             "[Calculate Monthly Interest Gains]",
         )
 )
+BC_ = Blockchain_(0)
 def main():
-    trial = Minter_("Minter", 500001, .000002)
-    trial.generator()
+    trial = Minter_("Minter", 7501, .0002)
+    # trial.generator()
     # trial.check_for_uniques()
     trial.update_history_json()
+    trial.history_counts()
 
-    # bc = Blockchain_(0)
+    work = Proof_of_Work()
+    work.mine_block(BC_ ,0, [], {})
     # block_1 = Block_(
     #             index= len(bc.chain.keys()),
     #             previous_hash = bc.genesis_block.block_hash,
-    #             nonce = QMINTER.ez_rand(),
+    #             nonce = round(QMINTER.ez_rand(), 8),
     #             txns = [],
     #             signature = 'BLOCK_ONE im the first unverified block :)',
     #             chain_data = {},
@@ -40,7 +44,7 @@ def main():
     # block_2 = Block_(
     #             index=len(bc.chain.keys()),
     #             previous_hash = block_1.block_hash,
-    #             nonce = QMINTER.ez_rand(),
+    #             nonce = round(QMINTER.ez_rand(), 8),
     #             txns = [],
     #             signature = 'BLOCK_TWO (manual)',
     #             chain_data = {},
@@ -49,7 +53,7 @@ def main():
     # block_3 = Block_(
     #             index=len(bc.chain.keys()),
     #             previous_hash = block_2.block_hash,
-    #             nonce = QMINTER.ez_rand(),
+    #             nonce = round(QMINTER.ez_rand(), 8),
     #             txns = [],
     #             signature = 'BLOCK_THREE (manual)',
     #             chain_data = {},
@@ -58,7 +62,7 @@ def main():
     # block_4 = Block_(
     #             index=len(bc.chain.keys()),
     #             previous_hash = block_3.block_hash,
-    #             nonce = QMINTER.ez_rand(),
+    #             nonce = round(QMINTER.ez_rand(), 8),
     #             txns = [],
     #             signature = 'BLOCK_FOUR (manual)',
     #             chain_data = {},
@@ -90,8 +94,8 @@ def main():
     
 
 
-    # print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(bc.chain, indent=2))
-    # print("HEIGHT: ", len(bc.chain))
+    print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(BC_.chain, indent=2))
+    print("HEIGHT: ", len(BC_.chain))
 
 
 

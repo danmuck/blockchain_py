@@ -2,7 +2,9 @@
 #   fix logs so they do not compound results of multiple runs
 
 
-import math, datetime, os, json, dotenv
+import collections
+import math, datetime, os, json, hashlib
+from operator import itemgetter
 from random import randint
 import time
 
@@ -54,14 +56,15 @@ UNR_16_MAP = {
 }
 class Minter_:
     def __init__(self, name_:str, iters_:int, sleep_time:float, quick:bool=False) -> None:
-        self.unr_16_ = [] # rares
+        self.unr_16_ = [] # < 16
         self.ubinrs_ = [] # binaries
         self.udbbls_ = [] # doubles
         self.utrips_ = [] # triples
         self.others_ = [] # some fun ones
-        self.uppers_ = [] # over 999
+        self.uppers_ = [] # > 999
         self.common_ = [] # the rest
         self.unique_ = [] # uniques in a given session
+        self.real_binaries_landed_ = []
         self.master_ = []
         self.history = {
             "UNR_16": [],
@@ -88,9 +91,9 @@ class Minter_:
     def ez_rand(self) -> float:
             small_chk = (randint(1, 4096) + randint(0, 1))
             nanos_chk = ((time.time_ns() + small_chk) * math.pi)
-            ez_nums = round( ( ((nanos_chk * small_chk) * (small_chk) )) % 1023 * (.0007 + randint(0, 1)), 5)
+            ez_nums = round( ( ((nanos_chk * small_chk) * (small_chk) )) % 1023 * (.000007 + randint(0, 1)), 5)
             # print(ez_nums)
-            ez_rand = (ez_nums + randint(0, 211)) # adjust ceiling with this line
+            ez_rand = (ez_nums + randint(0, 212)) # adjust ceiling with this line
             return ez_rand
 
     def generator(self):
@@ -98,7 +101,7 @@ class Minter_:
         self.run_timer()
         self.unique_ = []
         i, j = 1, self.iters_ # i is always magical
-        bins_, eq_count = 0, self.landed # currently necessary 
+        bins_, eq_count = 0, self.landed # currently necessary
         while i <= j:
             i+=1
             time.sleep(self.sleep_time)
@@ -111,12 +114,17 @@ class Minter_:
             rando_3 = (randint(1, 768) + randint(0, 1))
             self.master_.append(ez_rand)
             unique_bool = False
+            # ez_hash:str = None 
             if rando_0 == rando_1 and rando_2 <= rando_3:
+                # ez_hash = self.hash_land_(ez_rand)
+                # print(ez_rand, '\t', ez_hash)
+
                 eq_count+=1
                 unique_bool = True
                 self.landed = eq_count
                 if ez_rand in UBINRS_LIST:
                     bins_+=1
+                    self.real_binaries_landed_ = bins_
                     if ez_rand <= 15 and ez_rand != 0:
                         print(f"  !!!Unr_16::{UNR_16_MAP[ez_rand]}")
                         self.unr_16_.append(ez_rand)
@@ -127,6 +135,7 @@ class Minter_:
                         self.zero_counter+=1
                         print(f"  !!!Zero::{UNR_16_MAP[ez_rand]}")
                         self.unr_16_.append(ez_rand)
+
                 elif ez_rand in UDBBLS_LIST:
                     print(f"  !!!Doubles::{ez_rand}")
                     self.udbbls_.append(ez_rand)
@@ -143,7 +152,6 @@ class Minter_:
                     self.common_.append(ez_rand)
             else:
                 pass
-
             self.unique_check_(ez_rand, unique_bool)
         print("UNIQUE_FULL: ",sorted(self.unique_))
 
@@ -174,6 +182,28 @@ class Minter_:
             others_p,
             uppers_p,
             common_p,
+        ]
+        return percents_
+    def get_percents_landed_(self) -> list:
+        unr_16_p = (len(self.unr_16_) / self.landed) * 100
+        ubinrs_p = (len(self.ubinrs_) / self.landed) * 100
+        udbbls_p = (len(self.udbbls_) / self.landed) * 100
+        utrips_p = (len(self.utrips_) / self.landed) * 100
+        others_p = (len(self.others_) / self.landed) * 100
+        uppers_p = (len(self.uppers_) / self.landed) * 100
+        common_p = (len(self.common_) / self.landed) * 100
+        totals_p = (sum([unr_16_p, ubinrs_p, udbbls_p, utrips_p, others_p, uppers_p, common_p]))
+        re_bin_p = (sum([unr_16_p, ubinrs_p]))
+        percents_ = [
+            unr_16_p,
+            ubinrs_p,
+            udbbls_p,
+            utrips_p,
+            others_p,
+            uppers_p,
+            common_p,
+            totals_p,
+            re_bin_p
         ]
         return percents_
 
@@ -227,6 +257,17 @@ class Minter_:
     def end_timer(self):
         return round(time.time() - self.start_time, 2)
 
+    def hash_land_(self, hash_data_:float):
+        ## to be removed
+        if hash_data_ == None:
+            str_0 = str(hex(randint(0, 4095))).zfill(4)
+            return ''.join((f'L{str_0}x', '_IT_IS_ALL_LIES_I_TELL_YOU'))
+        str_0 = str(hash_data_).zfill(4)
+        str_1 = str(str(round(hash_data_, 4)) + str(round(self.ez_rand(), 8)) + str(round(hash_data_, 8)) + str(round(self.ez_rand(), 8)))
+        str_2 = str(str(round(hash_data_ ** 2, 8)) + str(round(self.ez_rand() ** 3, 8)) + str(round(hash_data_ ** 4, 8)) + str(round(self.ez_rand() ** 7, 8)))
+        hash_data = str(str_0 + str_1 + str_2).encode()
+        return ''.join((f'L{str_0}x', hashlib.sha256(hash_data).hexdigest()))
+
     def summary_to_console(self):
         print(f"""
     # Data:
@@ -242,20 +283,36 @@ class Minter_:
         print(f"""
         {len(self.unique_)}_u::{self.iters_} Iterations took {self.end_timer()} sec 
                 sleep_time -- {self.sleep_time} sec
-                percent_landed -- {round(sum(self.get_percents_()), 2)}%
-                landed: {self.landed}
+                percent_landed -- {round(sum(self.get_percents_()), 2)}% -- acc {self.get_percents_landed_()[7]}%
                 ceiling: {max(self.unique_)}
+                landed: {self.landed}
+                binaries landed: {self.real_binaries_landed_} -- {round(self.get_percents_landed_()[8], 5)}%
 
-            Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_())[0], 5)}%   
-            Ubinrs_: {len(self.ubinrs_)}   \t\t{round((self.get_percents_())[1], 5)}% 
-            Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[2], 5)}%
-            Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[3], 5)}%   
-            Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[4], 5)}% 
-            Uppers_: {len(self.uppers_)}   \t\t{round((self.get_percents_())[5], 5)}% 
-            Common_: {len(self.common_)}   \t\t{round((self.get_percents_())[6], 5)}%
+            Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_landed_())[0], 5)}%   
+            Ubinrs_: {len(self.ubinrs_)}   \t\t{round((self.get_percents_landed_())[1], 5)}% 
+            Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_landed_())[2], 5)}%
+            Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_landed_())[3], 5)}%   
+            Others_: {len(self.others_)}   \t\t{round((self.get_percents_landed_())[4], 5)}% 
+            Uppers_: {len(self.uppers_)}   \t\t{round((self.get_percents_landed_())[5], 5)}% 
+            Common_: {len(self.common_)}   \t\t{round((self.get_percents_landed_())[6], 5)}%
 
         """)
+    def history_counts(self):
+        j = 0
+        hist_dict = []
+        for i in range(0, 1235):
+            for j in self.history.keys():
+                if i in self.history.get(j):
+                    hist_dict.append({"num": i ,"count" : self.history.get(j).count(i)})
+                    time.sleep(self.sleep_time)
+                    # print(f"{i}: " ,self.history.get(j).count(i))
+        # print(json.dumps(hist_dict, indent=None, sort_keys=True))
+        sorted_list = sorted(hist_dict, key=itemgetter("count"))
+        # print(json.dumps(sorted_list, indent=2))
+        with open(f'{os.getcwd()}/minter_data/{self.name_}_counts.json', "w") as file:
+            file.write(json.dumps(sorted_list, indent=2))
 
+        # print(sorted_list)
 
     # FILES ---
     def print_log_txt(self):
@@ -265,10 +322,10 @@ class Minter_:
     {self.iters_}::{len(self.unique_)}  
             iterations took {self.end_timer()} sec 
             sleep_time -- {self.sleep_time} sec 
-            percent_landed -- {round(sum(self.get_percents_()), 2)}% 
-            landed: {self.landed}
-
+            percent_landed -- {round(sum(self.get_percents_()), 2)}%
             ceiling: {max(self.unique_)}
+            landed: {self.landed}
+            binaries landed: {self.real_binaries_landed_}
 
 
         Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_())[0], 8)}%   
@@ -362,4 +419,4 @@ class Minter_:
 
 
 
-QMINTER = Minter_("Q_MINT", 100000, .0005, True)
+QMINTER = Minter_("Q_MINT", 1, .0005, True)

@@ -10,6 +10,7 @@ class Block_:
         signature: str,
         chain_data: dict,
         chain_id:int=0,
+        print_it=False
     ) -> None:
         self.block = {
             'index': index,
@@ -23,9 +24,10 @@ class Block_:
 
         self.block_hash = self.hash_block_(self.block)
         self.block_dict = {self.block_hash: self.block}
-        print("\n\nNew Block_ initialized... \nBLOCK: ", json.dumps(self.block, indent=2))
-        print("BLOCK_HASH: ", self.block_hash)
-        print("PREV_HASH:  ",self.block['previous_hash'])
+        if print_it is True:
+            print("\n\nNew Block_ initialized... \nBLOCK: ", json.dumps(self.block, indent=2))
+            print("BLOCK_HASH: ", self.block_hash)
+            print("PREV_HASH:  ",self.block['previous_hash'])
 
     def hash_block_(self, block:dict) -> str:
         '''

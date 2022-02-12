@@ -15,18 +15,19 @@ class Blockchain_:
             signature = 'im the genesis block... new chain incoming!! :)',
             txns = [],
             chain_data = {},
+            print_it=True
         )
         self.chain.update((self.genesis_block.block_dict))
         print("\n\nNew Blockchain_ initialized...\n  CHAIN: ", json.dumps(self.chain, indent=2), "\n\n")
 
     def get_tallest_block(self):
         block_list = tuple(self.chain.keys())
-        block_data = self.chain.get(f'{block_list[-1]}')
+        block_data = dict(self.chain.get(f'{block_list[-1]}'))
 
         # print("TALLEST BLOCK: ")
         # print(block_list[-1], ":", json.dumps(block_data, indent=2))
-        
-        return (block_data), block_list[-1]
+        # print(block_data)
+        return block_data, block_list[-1]
 
     def check_previous_block(self, block_hash:str):
 
