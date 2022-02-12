@@ -56,12 +56,7 @@ def main():
 
     # print("TIME: " ,timer.end_timer(), "sec")
 
-    # print("qminter_check",QMINTER.generator())
-    # print("qminter_check",QMINTER.generator())
-    # print("qminter_check",QMINTER.generator())
-
-
-
+  
     # menu.main_menu_()
 
 

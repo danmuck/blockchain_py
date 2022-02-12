@@ -1,7 +1,7 @@
 
 
 
-import hashlib, time
+import hashlib, time, os, json
 from .Blockchain import Blockchain_
 from .Block import Block_
 from .Miner_Problem import miner_problem_
@@ -52,9 +52,25 @@ class Proof_of_Work:
             else:
                 new_nonce += 1
         print("MINE_TIME: ", TIMER.end_timer(), "sec")
+        # try:
+        #     with open(f'{os.getcwd()}/minter_data/Block_times.json', 'x') as file:
+        #         file.write(json.dumps([{"Chain": "Data"}, ["Txns"], "Time in seconds"], indent=2))
+        # except FileExistsError:
+        #     with open(f'{os.getcwd()}/minter_data/Block_times.json', 'a+') as file:
+        #         # file_ = dict(json.load(file))
+        #         list_ = [
+        #             self.chain_data,
+        #             self.txns
+        #         ]
+        #         # for i in file_:
+        #             # list_.append(i)
+        #         list_.append(TIMER.end_timer())
+        #         file.write(',')
+        #         file.write((json.dumps(list_, indent=2)))
+
         return new_nonce
 
-    def mine_block(self, chain:Blockchain_, txns:list=[], chain_data:dict={}, chain_id:int=0) -> dict:
+    def mine_block(self, chain:Blockchain_, txns:list=[], chain_data:dict={}) -> dict:
         previous_block = chain.get_tallest_block()[0]
         previous_nonce = previous_block['nonce']
         mock = Block_(
