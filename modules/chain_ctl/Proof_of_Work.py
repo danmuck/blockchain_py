@@ -36,6 +36,8 @@ class Proof_of_Work:
         new_nonce=1
         check_nonce=False
         TIMER.start_timer()
+        print(f"Timer started -> chain_height: {len(self.chain_.chain)}")
+
         while not check_nonce:
             # print(new_nonce)
             hash_digest = miner_problem_(
@@ -47,19 +49,47 @@ class Proof_of_Work:
             hash_value = hashlib.sha256(hash_digest).hexdigest()
 
             # increase nonce hash difficulty exponentionally
+            
             # checking how many 0s must be found at start
-            if len(self.chain_.chain) < 50:
+            if len(self.chain_.chain) == 1:
+                check_nonce = True        
+            elif len(self.chain_.chain) < 5:
+                if hash_value[:1] == '0':
+                    check_nonce = True
+                else:
+                    new_nonce += 1
+            elif len(self.chain_.chain) < 7:
                 if hash_value[:2] == '00':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 100:
+            elif len(self.chain_.chain) < 10:
                 if hash_value[:3] == '000':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            else:
+            elif len(self.chain_.chain) < 11:
                 if hash_value[:4] == '0000':
+                    check_nonce = True
+                else:
+                    new_nonce += 1
+            elif len(self.chain_.chain) < 12:
+                if hash_value[:5] == '00001':
+                    check_nonce = True
+                else:
+                    new_nonce += 1
+            elif len(self.chain_.chain) < 13:
+                if hash_value[:6] == '000013':
+                    check_nonce = True
+                else:
+                    new_nonce += 1
+            elif len(self.chain_.chain) < 14:
+                if hash_value[:7] == '0000133':
+                    check_nonce = True
+                else:
+                    new_nonce += 1
+            else:
+                if hash_value[:8] == '00001337':
                     check_nonce = True
                 else:
                     new_nonce += 1
