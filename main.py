@@ -1,4 +1,4 @@
-import json
+import json, time
 from random import randint
 from modules.Menus_ import Menu_
 from modules.chain_ctl.Minter import Minter_, QMINTER
@@ -23,25 +23,49 @@ menu = Menu_(
         )
 )
 BC_ = Blockchain_(0)
+class Timer:
+    def __init__(self) -> None:
+        self.start_time = float
+    def start_timer(self):
+        self.start_time = time.time()
+        return self.start_time
+    def end_timer(self):
+        return round(time.time() - self.start_time, 2)
 def main():
-    trial = Minter_("Minter", 7501, .0002)
-    # trial.generator()
+    timer = Timer()
+    trial = Minter_("Minter", 50000, .0002, BC_)
+    trial.generator()
     # trial.check_for_uniques()
     trial.update_history_json()
     trial.history_counts()
 
-    work = Proof_of_Work()
-    work.mine_block(BC_)
-    work.mine_block(BC_)
-    work.mine_block(BC_)
-    work.mine_block(BC_)
-    i = 0
-    while i < 10:
-        work.mine_block(BC_)
-        i+=1
-    
+    # timer.start_timer()
+    # work = Proof_of_Work()
+    # work.mine_block(BC_)
+    # work.mine_block(BC_)
+    # work.mine_block(BC_)
+    # work.mine_block(BC_)
+    # i = 0
+    # while i < 10:
+    #     work.mine_block(BC_)
+    #     i+=1
 
 
+    print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(BC_.chain, indent=2))
+    print("HEIGHT: ", len(BC_.chain))
+
+    # print("TIME: " ,timer.end_timer(), "sec")
+
+    # print("qminter_check",QMINTER.generator())
+    # print("qminter_check",QMINTER.generator())
+    # print("qminter_check",QMINTER.generator())
+
+
+
+    # menu.main_menu_()
+
+
+main()
 
     # block_1 = Block_(
     #             index= len(bc.chain.keys()),
@@ -102,28 +126,3 @@ def main():
     #     b_hash = block_Z.block_hash
     #     bc.append_block_(block_Z)
     #     i+=1
-    
-
-
-    print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(BC_.chain, indent=2))
-    print("HEIGHT: ", len(BC_.chain))
-
-
-
-
-
-
-
-
-
-
-    # print("qminter_check",QMINTER.generator())
-    # print("qminter_check",QMINTER.generator())
-    # print("qminter_check",QMINTER.generator())
-
-
-
-    # menu.main_menu_()
-
-
-main()

@@ -1,13 +1,20 @@
 
 
 
-import hashlib
+import hashlib, time
 from .Blockchain import Blockchain_
 from .Block import Block_
 from .Miner_Problem import miner_problem_
 
-
-
+class Timer:
+    def __init__(self) -> None:
+        self.start_time = float
+    def start_timer(self):
+        self.start_time = time.time()
+        return self.start_time
+    def end_timer(self):
+        return round(time.time() - self.start_time, 2)
+TIMER = Timer()
 class Proof_of_Work:
     def __init__(self,
         chain_id=0,
@@ -27,8 +34,9 @@ class Proof_of_Work:
         new_nonce=1
         check_nonce=False
         
+        TIMER.start_timer()
         while not check_nonce:
-            print(new_nonce)
+            # print(new_nonce)
             hash_digest = miner_problem_(
                 new_nonce=new_nonce, 
                 previous_nonce=previous_nonce, 
@@ -43,7 +51,7 @@ class Proof_of_Work:
                 check_nonce = True
             else:
                 new_nonce += 1
-                
+        print("MINE_TIME: ", TIMER.end_timer(), "sec")
         return new_nonce
 
     def mine_block(self, chain:Blockchain_, txns:list=[], chain_data:dict={}, chain_id:int=0) -> dict:

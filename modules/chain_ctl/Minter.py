@@ -1,8 +1,7 @@
 # todo:
 #   fix logs so they do not compound results of multiple runs
 
-
-import collections
+from .Proof_of_Work import Proof_of_Work, Blockchain_
 import math, datetime, os, json, hashlib
 from operator import itemgetter
 from random import randint
@@ -55,7 +54,8 @@ UNR_16_MAP = {
 
 }
 class Minter_:
-    def __init__(self, name_:str, iters_:int, sleep_time:float, quick:bool=False) -> None:
+    def __init__(self, name_:str, iters_:int, sleep_time:float, chain:Blockchain_, quick:bool=False) -> None:
+        self.chain = chain
         self.unr_16_ = [] # < 16
         self.ubinrs_ = [] # binaries
         self.udbbls_ = [] # doubles
@@ -78,7 +78,7 @@ class Minter_:
         }
         self.name_ = name_
         self.zero_counter = 0
-        self.landed = 0
+        self.landed = 1
         self.start_time = float
         if quick is True:
             self.iters_ = 1
@@ -116,12 +116,14 @@ class Minter_:
             unique_bool = False
             # ez_hash:str = None 
             if rando_0 == rando_1 and rando_2 <= rando_3:
-                # ez_hash = self.hash_land_(ez_rand)
-                # print(ez_rand, '\t', ez_hash)
-
+                self.landed = eq_count
                 eq_count+=1
                 unique_bool = True
-                self.landed = eq_count
+
+
+                proof = Proof_of_Work()
+                proof.mine_block(self.chain)
+                
                 if ez_rand in UBINRS_LIST:
                     bins_+=1
                     self.real_binaries_landed_ = bins_
@@ -185,6 +187,7 @@ class Minter_:
         ]
         return percents_
     def get_percents_landed_(self) -> list:
+
         unr_16_p = (len(self.unr_16_) / self.landed) * 100
         ubinrs_p = (len(self.ubinrs_) / self.landed) * 100
         udbbls_p = (len(self.udbbls_) / self.landed) * 100
@@ -194,6 +197,7 @@ class Minter_:
         common_p = (len(self.common_) / self.landed) * 100
         totals_p = (sum([unr_16_p, ubinrs_p, udbbls_p, utrips_p, others_p, uppers_p, common_p]))
         re_bin_p = (sum([unr_16_p, ubinrs_p]))
+        
         percents_ = [
             unr_16_p,
             ubinrs_p,
