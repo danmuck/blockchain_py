@@ -81,7 +81,8 @@ class Proof_of_Work:
                 ]
                 # for i in file_:
                     # list_.append(i)
-                list_.append(str("time: " + str(TIMER.end_timer()) + "sec"))
+                list_.append(str("time(sec): " + str(TIMER.end_timer())))
+                list_.append(str("time(min): " + str(round(TIMER.end_timer() // 60, 2))))
                 file.write((json.dumps(list_, indent=2)))
 
         return new_nonce

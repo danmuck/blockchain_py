@@ -11,7 +11,7 @@ class Blockchain_:
         self.genesis_block = Block_(
             index=len(self.chain.keys()),
             previous_hash = "0x" + str(self.chain_id).zfill(64),
-            nonce = 420,
+            nonce = 42069,
             signature = 'im the genesis block... new chain incoming!! :)',
             txns = [],
             chain_data = {},
