@@ -31,7 +31,18 @@ def main():
     trial.history_counts()
 
     work = Proof_of_Work()
-    work.mine_block(BC_ ,0, [], {})
+    work.mine_block(BC_)
+    work.mine_block(BC_)
+    work.mine_block(BC_)
+    work.mine_block(BC_)
+    i = 0
+    while i < 10:
+        work.mine_block(BC_)
+        i+=1
+    
+
+
+
     # block_1 = Block_(
     #             index= len(bc.chain.keys()),
     #             previous_hash = bc.genesis_block.block_hash,

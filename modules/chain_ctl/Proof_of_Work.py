@@ -28,7 +28,7 @@ class Proof_of_Work:
         check_nonce=False
         
         while not check_nonce:
-            # print(new_nonce)
+            print(new_nonce)
             hash_digest = miner_problem_(
                 new_nonce=new_nonce, 
                 previous_nonce=previous_nonce, 
@@ -46,7 +46,7 @@ class Proof_of_Work:
                 
         return new_nonce
 
-    def mine_block(self, chain:Blockchain_ ,chain_id:int, txns:list, chain_data:dict) -> dict:
+    def mine_block(self, chain:Blockchain_, txns:list=[], chain_data:dict={}, chain_id:int=0) -> dict:
         previous_block = chain.get_tallest_block()[0]
         previous_nonce = previous_block['nonce']
         mock = Block_(
