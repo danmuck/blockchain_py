@@ -27,6 +27,7 @@ class Proof_of_Work:
         self.chain_id = self.chain_.chain_id
         self.txns = txns
         self.chain_data = chain_data
+        self.difficulty = int
 
     def proof_of_work_(self, 
         previous_nonce: int, 
@@ -52,44 +53,59 @@ class Proof_of_Work:
             
             # checking how many 0s must be found at start
             if len(self.chain_.chain) == 1:
+                self.difficulty = 0
                 check_nonce = True        
-            elif len(self.chain_.chain) < 5:
+            elif len(self.chain_.chain) < 50:
+                self.difficulty = 1
                 if hash_value[:1] == '0':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 7:
+            elif len(self.chain_.chain) < 100:
+                self.difficulty = 2
                 if hash_value[:2] == '00':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 10:
+            elif len(self.chain_.chain) < 125:
+                self.difficulty = 3
                 if hash_value[:3] == '000':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 11:
+            elif len(self.chain_.chain) < 500:
+                self.difficulty = 4
                 if hash_value[:4] == '0000':
                     check_nonce = True
                 else:
-                    new_nonce += 1
-            elif len(self.chain_.chain) < 12:
+                    new_nonce += 1                
+            elif len(self.chain_.chain) < 750:
+                self.difficulty = 5
                 if hash_value[:5] == '00001':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 13:
+            elif len(self.chain_.chain) < 1000:
+                self.difficulty = 6
                 if hash_value[:6] == '000013':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 14:
+            elif len(self.chain_.chain) < 1500:
+                self.difficulty = 7
                 if hash_value[:7] == '0000133':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            else:
+            elif len(self.chain_.chain) < 2000:
+                self.difficulty = 8
                 if hash_value[:8] == '00001337':
+                    check_nonce = True
+                else:
+                    new_nonce += 1
+            else:
+                self.difficulty = 9
+                if 'hellofromdirtpig' in hash_value[:]:
                     check_nonce = True
                 else:
                     new_nonce += 1
@@ -99,35 +115,37 @@ class Proof_of_Work:
         
         try:
             with open(f'{os.getcwd()}/minter_data/Block_times.txt', 'x') as file:
-                list_ = [
-                    str(datetime.datetime.now()),
-                    self.chain_data,
-                    self.txns,
-                    {"previous_hash": self.chain_.get_tallest_block()[1]},
-                    {"previous_block": self.chain_.get_tallest_block()[0]}
+                file.write(f"{str(TIMER.end_timer())}s\t\t: {self.difficulty}\n")
+
+                # list_ = [
+                #     str(datetime.datetime.now()),
+                #     self.chain_data,
+                #     self.txns,
+                #     {"previous_hash": self.chain_.get_tallest_block()[1]},
+                #     {"previous_block": self.chain_.get_tallest_block()[0]}
                     
-                ]
-                # for i in file_:
-                    # list_.append(i)
-                list_.append(str("time: " + str(TIMER.end_timer()) + "sec"))
-                file.write((json.dumps(list_, indent=2)))                
-                # file.write(json.dumps([{"Chain": "Data"}, ["Txns"], "Time in seconds"], indent=2))
+                # ]
+                # # for i in file_:
+                #     # list_.append(i)
+                # list_.append(str("time: " + str(TIMER.end_timer()) + "sec"))
+                # file.write((json.dumps(list_, indent=2)))                
         except FileExistsError:
             with open(f'{os.getcwd()}/minter_data/Block_times.txt', 'a+') as file:
+                file.write(f"{str(TIMER.end_timer())}s\t\t: {self.difficulty}\n")
                 # file_ = dict(json.load(file))
-                list_ = [
-                    str(datetime.datetime.now()),
-                    self.chain_data,
-                    self.txns,
-                    {"previous_hash": self.chain_.get_tallest_block()[1]},
-                    {"previous_block": self.chain_.get_tallest_block()[0]}
+                # list_ = [
+                #     str(datetime.datetime.now()),
+                #     self.chain_data,
+                #     self.txns,
+                #     {"previous_hash": self.chain_.get_tallest_block()[1]},
+                #     {"previous_block": self.chain_.get_tallest_block()[0]}
 
-                ]
-                # for i in file_:
-                    # list_.append(i)
-                list_.append(str("time(sec): " + str(TIMER.end_timer())))
-                list_.append(str("time(min): " + str(round(TIMER.end_timer() // 60, 2))))
-                file.write((json.dumps(list_, indent=2)))
+                # ]
+                # # for i in file_:
+                #     # list_.append(i)
+                # list_.append(str("time(sec): " + str(TIMER.end_timer())))
+                # list_.append(str("time(min): " + str(round(TIMER.end_timer() // 60, 2))))
+                # file.write((json.dumps(list_, indent=2)))
 
         return new_nonce
 

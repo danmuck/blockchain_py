@@ -57,12 +57,12 @@ def start_work() -> str:
 
     with Pool() as p:
         try:
-            # process_map = p.map(arb_tasks, [0, 1, 2, 3, 4, 5, 6])
-            process_map_2 = p.map(arb_tasks_testing, [0, 1, 2, 3, 4, 5, 6])
+            process_map = p.map(arb_tasks, [0, 1, 2, 3, 4, 5, 6])
+            # process_map_2 = p.map(arb_tasks_testing, [0, 1, 2, 3])
+            # encode_it = ''.join(process_map_2)
 
             # print(process_map)
-            # encode_it = ''.join(process_map)
-            encode_it = ''.join(process_map_2)
+            encode_it = ''.join(process_map)
             p.close()
             p.terminate()
             return encode_it
