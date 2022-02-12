@@ -47,12 +47,26 @@ class Proof_of_Work:
             hash_value = hashlib.sha256(hash_digest).hexdigest()
 
             # increase nonce hash difficulty exponentionally
-            # checking how many 0s must be found at start 
-            if hash_value[:4] == '0000':
-                check_nonce = True
+            # checking how many 0s must be found at start
+            if len(self.chain_.chain) < 50:
+                if hash_value[:2] == '00':
+                    check_nonce = True
+                else:
+                    new_nonce += 1
+            elif len(self.chain_.chain) < 100:
+                if hash_value[:3] == '000':
+                    check_nonce = True
+                else:
+                    new_nonce += 1
             else:
-                new_nonce += 1
-        print("MINE_TIME: ", TIMER.end_timer(), "sec")
+                if hash_value[:4] == '0000':
+                    check_nonce = True
+                else:
+                    new_nonce += 1
+        print("MINE_TIME:", round(TIMER.end_timer(), 8), "sec")
+        print("MINE_TIME:", f"{round(TIMER.end_timer() // 60, 8)}ish min")
+
+        
         try:
             with open(f'{os.getcwd()}/minter_data/Block_times.txt', 'x') as file:
                 list_ = [
@@ -114,3 +128,8 @@ class Proof_of_Work:
             )
         self.chain_.append_block_(block)
         return block
+
+
+
+
+

@@ -36,7 +36,7 @@ class Timer:
 
 def main():
     timer = Timer()
-    trial = Minter_("Minter", 5000, .0002, BC_)
+    trial = Minter_("Minter", 500000, 0, BC_)
     trial.generator()
     # trial.check_for_uniques()
     trial.update_history_json()

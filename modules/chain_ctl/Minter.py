@@ -121,9 +121,9 @@ class Minter_:
                 unique_bool = True
 
 
-                proof = Proof_of_Work(self.chain)
+                proof = Proof_of_Work(self.chain, txns=["This will be the txn to the miner of what is currently in chain_data"],chain_data={"EZ_NUM": ez_rand, "OTHER_ATTRS": "coming soon..."})
                 proof.mine_block()
-
+                print(f"iter_count: {i}")
                 if ez_rand in UBINRS_LIST:
                     bins_+=1
                     self.real_binaries_landed_ = bins_
@@ -261,17 +261,6 @@ class Minter_:
     def end_timer(self):
         return round(time.time() - self.start_time, 2)
 
-    def hash_land_(self, hash_data_:float):
-        ## to be removed
-        if hash_data_ == None:
-            str_0 = str(hex(randint(0, 4095))).zfill(4)
-            return ''.join((f'L{str_0}x', '_IT_IS_ALL_LIES_I_TELL_YOU'))
-        str_0 = str(hash_data_).zfill(4)
-        str_1 = str(str(round(hash_data_, 4)) + str(round(self.ez_rand(), 8)) + str(round(hash_data_, 8)) + str(round(self.ez_rand(), 8)))
-        str_2 = str(str(round(hash_data_ ** 2, 8)) + str(round(self.ez_rand() ** 3, 8)) + str(round(hash_data_ ** 4, 8)) + str(round(self.ez_rand() ** 7, 8)))
-        hash_data = str(str_0 + str_1 + str_2).encode()
-        return ''.join((f'L{str_0}x', hashlib.sha256(hash_data).hexdigest()))
-
     def summary_to_console(self):
         print(f"""
     # Data:
@@ -304,43 +293,45 @@ class Minter_:
     def history_counts(self):
         j = 0
         hist_dict = []
-        for i in range(0, 1235):
-            for j in self.history.keys():
-                if i in self.history.get(j):
-                    hist_dict.append({"num": i ,"count" : self.history.get(j).count(i)})
-                    time.sleep(self.sleep_time)
-                    # print(f"{i}: " ,self.history.get(j).count(i))
-        # print(json.dumps(hist_dict, indent=None, sort_keys=True))
-        sorted_list = sorted(hist_dict, key=itemgetter("count"))
-        # print(json.dumps(sorted_list, indent=2))
-        with open(f'{os.getcwd()}/minter_data/{self.name_}_counts.json', "w") as file:
-            file.write(json.dumps(sorted_list, indent=2))
+        if self.name_ != "Q_MINT":
+            for i in range(0, 1235):
+                for j in self.history.keys():
+                    if i in self.history.get(j):
+                        hist_dict.append({"num": i ,"count" : self.history.get(j).count(i)})
+                        time.sleep(self.sleep_time)
+                        # print(f"{i}: " ,self.history.get(j).count(i))
+            # print(json.dumps(hist_dict, indent=None, sort_keys=True))
+            sorted_list = sorted(hist_dict, key=itemgetter("count"))
+            # print(json.dumps(sorted_list, indent=2))
+            with open(f'{os.getcwd()}/minter_data/{self.name_}_counts.json', "w") as file:
+                file.write(json.dumps(sorted_list, indent=2))
 
-        # print(sorted_list)
+            # print(sorted_list)
 
     # FILES ---
     def print_log_txt(self):
-        with open(f'{os.getcwd()}/minter_data/{self.name_}_log.txt', 'a') as file:
-            if self.iters_ > 750000:
-                file.write(f"""
-    {self.iters_}::{len(self.unique_)}  
-            iterations took {self.end_timer()} sec 
-            sleep_time -- {self.sleep_time} sec 
-            percent_landed -- {round(sum(self.get_percents_()), 2)}%
-            ceiling: {max(self.unique_)}
-            landed: {self.landed}
-            binaries landed: {self.real_binaries_landed_}
+        if self.name_ != "Q_MINT":
+            with open(f'{os.getcwd()}/minter_data/{self.name_}_log.txt', 'a') as file:
+                if self.iters_ > 750:
+                    file.write(f"""
+        {self.iters_}::{len(self.unique_)}  
+                iterations took {self.end_timer()} sec 
+                sleep_time -- {self.sleep_time} sec 
+                percent_landed -- {round(sum(self.get_percents_()), 2)}%
+                ceiling: {max(self.unique_)}
+                landed: {self.landed}
+                binaries landed: {self.real_binaries_landed_}
 
 
-        Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_())[0], 8)}%   
-        Ubinrs_: {len(self.ubinrs_)}   \t\t{round((self.get_percents_())[1], 8)}% 
-        Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[2], 8)}%
-        Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[3], 8)}%   
-        Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[4], 8)}% 
-        Uppers_: {len(self.uppers_)}   \t\t{round((self.get_percents_())[5], 8)}% 
-        Common_: {len(self.common_)}     \t{round((self.get_percents_())[6], 8)}%
+            Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_())[0], 8)}%   
+            Ubinrs_: {len(self.ubinrs_)}   \t\t{round((self.get_percents_())[1], 8)}% 
+            Udbbls_: {len(self.udbbls_)}   \t\t{round((self.get_percents_())[2], 8)}%
+            Utrips_: {len(self.utrips_)}   \t\t{round((self.get_percents_())[3], 8)}%   
+            Others_: {len(self.others_)}   \t\t{round((self.get_percents_())[4], 8)}% 
+            Uppers_: {len(self.uppers_)}   \t\t{round((self.get_percents_())[5], 8)}% 
+            Common_: {len(self.common_)}     \t{round((self.get_percents_())[6], 8)}%
 
-        """)
+            """)
     # def json_init(self):
     #     try:
     #         with open(f'{os.getcwd()}/minter_data/{self.name_}.json', 'x') as file:
@@ -351,26 +342,27 @@ class Minter_:
     #         print("Err!! Filename in use.")
 
     def init_new_Minter(self, name_:str):
-        try:
-            with open(f'{os.getcwd()}/minter_data/{name_}_log.txt', 'x') as file:
-                file.write(f"Minter_{name_}")
-        except FileExistsError:
-            pass
-        finally:
+        if self.name_ != "Q_MINT":
             try:
-                with open(f'{os.getcwd()}/minter_data/{name_}_history.json', 'x') as file:
-                    file.write(json.dumps({
-                        "UNR_16": [],
-                        "UBINRS": [],
-                        "UDBBLS": [],
-                        "UTRIPS": [],
-                        "OTHERS": [],
-                        "UPPERS": [],
-                        "COMMON": []
-
-                    }, indent=2))
+                with open(f'{os.getcwd()}/minter_data/{name_}_log.txt', 'x') as file:
+                    file.write(f"Minter_{name_}")
             except FileExistsError:
                 pass
+            finally:
+                try:
+                    with open(f'{os.getcwd()}/minter_data/{name_}_history.json', 'x') as file:
+                        file.write(json.dumps({
+                            "UNR_16": [],
+                            "UBINRS": [],
+                            "UDBBLS": [],
+                            "UTRIPS": [],
+                            "OTHERS": [],
+                            "UPPERS": [],
+                            "COMMON": []
+
+                        }, indent=2))
+                except FileExistsError:
+                    pass
                           
     def jsonify_(self) -> dict:
         new_dict = {
@@ -386,25 +378,26 @@ class Minter_:
         json_list = json.dumps(new_dict, indent=4)
         return new_dict
     def update_history_json(self):
-        with open(f"{os.getcwd()}/minter_data/{self.name_}_history.json", "r") as file:
-            MINTER_DATA = dict(json.load(file))
-            self.history["UNR_16"].extend(list(MINTER_DATA["UNR_16"]))
-            self.history["UBINRS"].extend(list(MINTER_DATA["UBINRS"]))
-            self.history["UDBBLS"].extend(list(MINTER_DATA["UDBBLS"]))
-            self.history["UTRIPS"].extend(list(MINTER_DATA["UTRIPS"]))
-            self.history["OTHERS"].extend(list(MINTER_DATA["OTHERS"]))
-            self.history["UPPERS"].extend(list(MINTER_DATA["UPPERS"]))
-            self.history["COMMON"].extend(list(MINTER_DATA["COMMON"]))
-            self.history["UNR_16"].extend(self.unr_16_)
-            self.history["UBINRS"].extend(self.ubinrs_)
-            self.history["UDBBLS"].extend(self.udbbls_)
-            self.history["UTRIPS"].extend(self.utrips_)
-            self.history["OTHERS"].extend(self.others_)
-            self.history["UPPERS"].extend(self.uppers_)
-            self.history["COMMON"].extend(self.common_)
+        if self.name_ != "Q_MINT":
+            with open(f"{os.getcwd()}/minter_data/{self.name_}_history.json", "r") as file:
+                MINTER_DATA = dict(json.load(file))
+                self.history["UNR_16"].extend(list(MINTER_DATA["UNR_16"]))
+                self.history["UBINRS"].extend(list(MINTER_DATA["UBINRS"]))
+                self.history["UDBBLS"].extend(list(MINTER_DATA["UDBBLS"]))
+                self.history["UTRIPS"].extend(list(MINTER_DATA["UTRIPS"]))
+                self.history["OTHERS"].extend(list(MINTER_DATA["OTHERS"]))
+                self.history["UPPERS"].extend(list(MINTER_DATA["UPPERS"]))
+                self.history["COMMON"].extend(list(MINTER_DATA["COMMON"]))
+                self.history["UNR_16"].extend(self.unr_16_)
+                self.history["UBINRS"].extend(self.ubinrs_)
+                self.history["UDBBLS"].extend(self.udbbls_)
+                self.history["UTRIPS"].extend(self.utrips_)
+                self.history["OTHERS"].extend(self.others_)
+                self.history["UPPERS"].extend(self.uppers_)
+                self.history["COMMON"].extend(self.common_)
 
-        self.write_json_data()
-        return self.history            
+            self.write_json_data()
+            return self.history            
 
     def jsonify_data(self) -> dict:
         self.history["UNR_16"].extend(self.unr_16_)
