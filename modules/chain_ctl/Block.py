@@ -21,7 +21,6 @@ class Block_:
             'nonce': nonce,
             'previous_hash': previous_hash
             } 
-
         self.block_hash = self.hash_block_(self.block)
         self.block_dict = {self.block_hash: self.block}
         if print_it is True:

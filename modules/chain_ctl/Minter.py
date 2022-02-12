@@ -121,9 +121,9 @@ class Minter_:
                 unique_bool = True
 
 
-                proof = Proof_of_Work()
-                proof.mine_block(self.chain)
-                
+                proof = Proof_of_Work(self.chain)
+                proof.mine_block()
+
                 if ez_rand in UBINRS_LIST:
                     bins_+=1
                     self.real_binaries_landed_ = bins_

@@ -31,6 +31,9 @@ class Timer:
         return self.start_time
     def end_timer(self):
         return round(time.time() - self.start_time, 2)
+
+
+        
 def main():
     timer = Timer()
     trial = Minter_("Minter", 50000, .0002, BC_)
