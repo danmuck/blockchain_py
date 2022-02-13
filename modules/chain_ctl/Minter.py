@@ -164,7 +164,7 @@ class Minter_:
             else:
                 pass
             self.unique_check_(ez_rand, unique_bool)
-        print("UNIQUE_FULL: ",sorted(self.unique_))
+        # print("UNIQUE_FULL: ",sorted(self.unique_))
 
         self.end_timer()
         if self.iters_ != 1:
@@ -411,6 +411,25 @@ class Minter_:
             file.write((json.dumps((self.jsonify_data()), indent=2)))        
 
 
+    def finalize_ez_rand(self, ez_rand:int):
+        final_rand = {
+            "hash": {
+                "ez_num": "",
+                "float": "",
+                "bg_color": "",
+                "sticker": "",
+                "border": "",
+                "void": "bool: black border/black bg/abyss sticker"
+            }
+        }
+        if ez_rand <= 1234 or (ez_rand > 1234 and ez_rand == randint(0, 9999999)):
+            block_chain_data = {"EZ_NUM": ez_rand, "OTHER_ATTRS": "coming soon..."}
+            if ez_rand > 1234:
+                print("\t\t  !!Wowzers::")
+                self.others_.append("VOID")
+                block_chain_data = {"EZ_NUM": "VOID", "OTHER_ATTRS": "coming soon..."}
 
-
-QMINTER = Minter_("Q_MINT", 1, .0005, True)
+        else:
+            block_chain_data = {}
+        proof = Proof_of_Work(self.chain, txns=["This will be the txn to the miner of what is currently in chain_data"],chain_data=block_chain_data)
+        proof.mine_block()

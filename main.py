@@ -36,12 +36,12 @@ class Timer:
 
 def main():
     timer = Timer()
-    trial = Minter_("Minter", 40000, 0, BC_)
+    trial = Minter_("Minter", 1250, 0, BC_)
     trial.generator()
     # trial.check_for_uniques()
     trial.update_history_json()
     trial.history_counts()
-
+    BC_.validate_chain()
     # timer.start_timer()
     # work = Proof_of_Work()
     # work.mine_block(BC_)

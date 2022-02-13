@@ -58,8 +58,24 @@ class Blockchain_:
         return block_data, block_list[-1]
 
     def check_previous_block(self, block_hash:str):
-
         pass
+
+    def validate_chain(self):
+        for i in self.chain.keys():
+            block_key = self.chain.get(i)['previous_hash']
+            prev_block = self.chain.get(block_key)
+            encoded_block = json.dumps(prev_block).encode()
+            hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
+            if block_key == hashed_block:
+                print(f'good_block: {i}')
+                print(f'Prev_hash: {hashed_block}')
+                pass
+            elif i == list(self.chain.keys())[0]:
+                print(f'Gen_block: {i}')
+            else:
+                print(f'!!Err Bad chain. [{i}] !!')
+                print(f'    Real_hash: {hashed_block}')
+
 
     def append_block_(self, block:Block_):
         appendage = block.block
