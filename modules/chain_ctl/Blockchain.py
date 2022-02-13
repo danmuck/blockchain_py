@@ -21,6 +21,36 @@ class Blockchain_:
         self.chain.update((self.genesis_block.block_dict))
         print("\n\nNew Blockchain_ initialized...\n  CHAIN: ", json.dumps(self.chain, indent=2), "\n\n")
 
+    def load_chain_json(self):
+        try:
+            with open(f"{os.getcwd()}/{self.chain_id}_data.json", "r") as file:
+                chain_ = list(json.load(file))
+                self.chain = chain_[-1]
+        except FileNotFoundError:
+            with open(f"{os.getcwd()}/{self.chain_id}_data.json", "x") as file:
+                chain_ = json.dump(self.chain)
+                file.write(chain_)
+        except FileExistsError:
+            with open(f"{os.getcwd()}/{self.chain_id}_data.json", "r+") as file:
+                chain_ = list(json.load(file))
+                self.chain = chain_
+
+        pass
+    def write_chain_json(self):
+        try:
+            with open(f"{os.getcwd()}/{self.chain_id}_data.json", "r+") as file:
+                chain_ = list(json.load(file))
+                chain_.append({"" : self.chain})        
+        except FileNotFoundError:
+            with open(f"{os.getcwd()}/{self.chain_id}_data.json", "x") as file:
+                chain_ = json.dump(self.chain)
+                file.write(chain_)
+        except FileExistsError:
+            with open(f"{os.getcwd()}/{self.chain_id}_data.json", "r") as file:
+                chain_ = list(json.load(file))
+                self.chain = chain_[-1]
+
+        pass
     def get_tallest_block(self):
         block_list = tuple(self.chain.keys())
         block_data = dict(self.chain.get(f'{block_list[-1]}'))

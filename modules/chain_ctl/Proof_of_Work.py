@@ -55,13 +55,13 @@ class Proof_of_Work:
             if len(self.chain_.chain) == 1:
                 self.difficulty = 0
                 check_nonce = True        
-            elif len(self.chain_.chain) < 50:
+            elif len(self.chain_.chain) < 5:
                 self.difficulty = 1
                 if hash_value[:1] == '0':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 100:
+            elif len(self.chain_.chain) < 10:
                 self.difficulty = 2
                 if hash_value[:2] == '00':
                     check_nonce = True
@@ -105,7 +105,7 @@ class Proof_of_Work:
                     new_nonce += 1
             else:
                 self.difficulty = 9
-                if 'hellofromdirtpig' in hash_value[:]:
+                if 'hellofromdanmuck' in hash_value[:]:
                     check_nonce = True
                 else:
                     new_nonce += 1

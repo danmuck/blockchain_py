@@ -2,3 +2,4 @@ coin_data/
 *__pycache__
 sandbox_/
 *minter_data/
+*secrets

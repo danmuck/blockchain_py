@@ -120,7 +120,6 @@ class Minter_:
                 eq_count+=1
                 unique_bool = True
 
-
                 proof = Proof_of_Work(self.chain, txns=["This will be the txn to the miner of what is currently in chain_data"],chain_data={"EZ_NUM": ez_rand, "OTHER_ATTRS": "coming soon..."})
                 proof.mine_block()
                 print(f"iter_count: {i}")
@@ -188,27 +187,15 @@ class Minter_:
         return percents_
     def get_percents_landed_(self) -> list:
 
-        unr_16_p = (len(self.unr_16_) / self.landed) * 100
-        ubinrs_p = (len(self.ubinrs_) / self.landed) * 100
-        udbbls_p = (len(self.udbbls_) / self.landed) * 100
-        utrips_p = (len(self.utrips_) / self.landed) * 100
-        others_p = (len(self.others_) / self.landed) * 100
-        uppers_p = (len(self.uppers_) / self.landed) * 100
-        common_p = (len(self.common_) / self.landed) * 100
-        totals_p = (sum([unr_16_p, ubinrs_p, udbbls_p, utrips_p, others_p, uppers_p, common_p]))
-        re_bin_p = (sum([unr_16_p, ubinrs_p]))
+        main_list_ = self.get_percents_()
+        totals_p = (sum(main_list_))
+        real_binary_p = (sum(main_list_[0:2]))
         
         percents_ = [
-            unr_16_p,
-            ubinrs_p,
-            udbbls_p,
-            utrips_p,
-            others_p,
-            uppers_p,
-            common_p,
             totals_p,
-            re_bin_p
+            real_binary_p
         ]
+        percents_.extend(main_list_)
         return percents_
 
     def unique_check_(self, int_:int, bool):
