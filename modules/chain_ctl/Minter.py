@@ -103,6 +103,7 @@ class Minter_:
         self.unique_ = []
         i, j = 1, self.iters_ # i is always magical
         bins_, eq_count = 0, self.landed # currently necessary
+        print(f"iter_count: {i}")
         while i <= j:
             i+=1
             time.sleep(self.sleep_time)
@@ -124,42 +125,14 @@ class Minter_:
                     if ez_rand > 1234:
                         print("\t\t  !!Wowzers::")
                         self.others_.append("VOID")
-                        block_chain_data = {"EZ_NUM": "VOID", "OTHER_ATTRS": "coming soon..."}
+                        block_chain_data = {"EZ_NUM": "[VOID]", "OTHER_ATTRS": "coming soon..."}
                 else:
                     block_chain_data = {}
-                proof = Proof_of_Work(self.chain, txns=["This will be the txn to the miner of what is currently in chain_data"],chain_data=block_chain_data)
+                proof = Proof_of_Work(self.chain, txns=["This will be the txn to the miner of chain_data"], chain_data=block_chain_data)
                 proof.mine_block()
-                print(f"iter_count: {i}")
-                if ez_rand in UBINRS_LIST:
-                    bins_+=1
-                    self.real_binaries_landed_ = bins_
-                    if ez_rand <= 15 and ez_rand != 0:
-                        print(f"  !!!Unr_16::{UNR_16_MAP[ez_rand]}")
-                        self.unr_16_.append(ez_rand)
-                    elif ez_rand != 0:
-                        print(f"  !!!Bnr_16::{str(ez_rand).zfill(4)}")
-                        self.ubinrs_.append(ez_rand)
-                    else:
-                        self.zero_counter+=1
-                        print(f"  !!!Zero::{UNR_16_MAP[ez_rand]}")
-                        self.unr_16_.append(ez_rand)
 
-                elif ez_rand in UDBBLS_LIST:
-                    print(f"  !!!Doubles::{ez_rand}")
-                    self.udbbls_.append(ez_rand)
-                elif ez_rand in UTRIPS_LIST:
-                    print(f"  !!!Triples::{ez_rand}")
-                    self.utrips_.append(ez_rand)  
-                elif ez_rand in OTHERS_LIST:
-                    print(f"  !!!Rare::{ez_rand}")
-                    self.others_.append(ez_rand)
-                elif ez_rand > 999 and ez_rand <= 1234:
-                    print(f"!!Upper::{ez_rand}")
-                    self.uppers_.append(ez_rand)
-                elif ez_rand <= 1234:
-                    self.common_.append(ez_rand)
-                else:
-                    print("::rip::")
+                # logs stuff
+                self.print_minter_Heys(ez_rand)
             else:
                 pass
             self.unique_check_(ez_rand, unique_bool)
@@ -174,6 +147,93 @@ class Minter_:
             if rando_0 == rando_1 and rando_2 <= rando_3:
                 print("!!== ZOMG LANDED A SOLO BOII ==!!")
         return ez_rand
+
+    def finalize_ez_rand(self, ez_rand:int):
+        final_rand = {
+            "hash": {
+                "ez_num": "1234",
+                "float": "00000000.00000000".zfill(8),
+                "bg_color": "black, white, grey, red, yellow, green, blue, purple, orange, pink",
+                "sticker": "some designs of some kind in bit form?",
+                "border": "black, white, grey, red, yellow, green, blue, purple, orange, pink",
+                "void": "bool: black border/black bg/void sticker"
+            }
+        }
+        if ez_rand <= 1234 or (ez_rand > 1234 and ez_rand == randint(0, 9999999)):
+            block_chain_data = {"EZ_NUM": ez_rand, "OTHER_ATTRS": "coming soon..."}
+            if ez_rand > 1234:
+                print("\t\t  !!Wowzers::")
+                self.others_.append("VOID")
+                block_chain_data = {"EZ_NUM": "VOID", "OTHER_ATTRS": "coming soon..."}
+                if ez_rand in UBINRS_LIST:
+                    if ez_rand <= 15 and ez_rand != 0:
+                        print(f"\n!!Hey Unr_16::{UNR_16_MAP[ez_rand]}  !!\n")
+                        self.unr_16_.append(ez_rand)
+                    elif ez_rand != 0:
+                        print(f"\n!!Hey Bnr_16::{str(ez_rand).zfill(4)}  !!\n")
+                        self.ubinrs_.append(ez_rand)
+                    else:
+                        self.zero_counter+=1
+                        print(f"!!Hey Zero::{UNR_16_MAP[ez_rand]}  !!\n")
+                        self.unr_16_.append(ez_rand)
+
+                elif ez_rand in UDBBLS_LIST:
+                    print(f"!!Hey Doubles::{ez_rand}  !!\n")
+                    self.udbbls_.append(ez_rand)
+                elif ez_rand in UTRIPS_LIST:
+                    print(f"!!Hey Triples::{ez_rand}  !!\n")
+                    self.utrips_.append(ez_rand)  
+                elif ez_rand in OTHERS_LIST:
+                    print(f"!!Hey Rare::{ez_rand}  !!\n")
+                    self.others_.append(ez_rand)
+                elif ez_rand > 999 and ez_rand <= 1234:
+                    print(f"!!Hey Upper::{ez_rand}  !!\n")
+                    self.uppers_.append(ez_rand)
+                elif ez_rand <= 1234:
+                    self.common_.append(ez_rand)
+                else:
+                    print("  .::[rip]::. ")
+                    print("  u no winner ")
+        else:
+            block_chain_data = {}
+        proof = Proof_of_Work(self.chain, txns=["This will be the txn to the miner of what is currently in chain_data"],chain_data=block_chain_data)
+        proof.mine_block()
+
+
+    def print_minter_Heys(self, ez_rand:int):
+        bins_ = 0
+        if ez_rand in UBINRS_LIST:
+            bins_+=1
+            self.real_binaries_landed_ = bins_
+            if ez_rand <= 15 and ez_rand != 0:
+                print(f"\n!!Hey Unr_16::{UNR_16_MAP[ez_rand]}  !!\n")
+                self.unr_16_.append(ez_rand)
+            elif ez_rand != 0:
+                print(f"\n!!Hey Bnr_16::{str(ez_rand).zfill(4)}  !!\n")
+                self.ubinrs_.append(ez_rand)
+            else:
+                self.zero_counter+=1
+                print(f"!!Hey Zero::{UNR_16_MAP[ez_rand]}  !!\n")
+                self.unr_16_.append(ez_rand)
+
+        elif ez_rand in UDBBLS_LIST:
+            print(f"!!Hey Doubles::{ez_rand}  !!\n")
+            self.udbbls_.append(ez_rand)
+        elif ez_rand in UTRIPS_LIST:
+            print(f"!!Hey Triples::{ez_rand}  !!\n")
+            self.utrips_.append(ez_rand)  
+        elif ez_rand in OTHERS_LIST:
+            print(f"!!Hey Rare::{ez_rand}  !!\n")
+            self.others_.append(ez_rand)
+        elif ez_rand > 999 and ez_rand <= 1234:
+            print(f"!!Hey Upper::{ez_rand}  !!\n")
+            self.uppers_.append(ez_rand)
+        elif ez_rand <= 1234:
+            print(f"!!Hey Common::{ez_rand}  !!\n")
+            self.common_.append(ez_rand)
+        else:
+            print("  .::[rip]::.")
+            print("  u no winner ")
 
 
     def get_percents_(self) -> list:
@@ -410,25 +470,4 @@ class Minter_:
             file.write((json.dumps((self.jsonify_data()), indent=2)))        
 
 
-    def finalize_ez_rand(self, ez_rand:int):
-        final_rand = {
-            "hash": {
-                "ez_num": "",
-                "float": "",
-                "bg_color": "",
-                "sticker": "",
-                "border": "",
-                "void": "bool: black border/black bg/abyss sticker"
-            }
-        }
-        if ez_rand <= 1234 or (ez_rand > 1234 and ez_rand == randint(0, 9999999)):
-            block_chain_data = {"EZ_NUM": ez_rand, "OTHER_ATTRS": "coming soon..."}
-            if ez_rand > 1234:
-                print("\t\t  !!Wowzers::")
-                self.others_.append("VOID")
-                block_chain_data = {"EZ_NUM": "VOID", "OTHER_ATTRS": "coming soon..."}
 
-        else:
-            block_chain_data = {}
-        proof = Proof_of_Work(self.chain, txns=["This will be the txn to the miner of what is currently in chain_data"],chain_data=block_chain_data)
-        proof.mine_block()
