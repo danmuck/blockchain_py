@@ -125,7 +125,6 @@ class Minter_:
                         print("\t\t  !!Wowzers::")
                         self.others_.append("VOID")
                         block_chain_data = {"EZ_NUM": "VOID", "OTHER_ATTRS": "coming soon..."}
-
                 else:
                     block_chain_data = {}
                 proof = Proof_of_Work(self.chain, txns=["This will be the txn to the miner of what is currently in chain_data"],chain_data=block_chain_data)
@@ -287,7 +286,7 @@ class Minter_:
             Common_: {len(self.common_)}   \t\t{round((self.get_percents_landed_())[6], 5)}%
 
         """)
-        
+
     # FILES ---
     def history_counts(self):
         j = 0

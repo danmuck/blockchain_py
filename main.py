@@ -9,18 +9,29 @@ from modules.chain_ctl.Proof_of_Work import Proof_of_Work
 
 menu = Menu_(
         main_menu = (
+            "[Chain]",
             "[Tasks]",
-            "[Personal]",
             "[Tools]",
             "[Projects]",
             "[Finance]",
+            "[Personal]",
             "[Users]",
-            "[Learning Tools]",
             "[Games]",
             ),
         finance_menu = (
             "[Calculate Monthly Interest Gains]",
-        )
+        ),
+        chain_menu = (
+            "[Mine a Block]",
+            "[Print Chain]",
+            "[Print Chain]",
+            "[Print Chain]",
+            "[Print Chain]",
+            "[Print Chain]",
+            "[Print Chain]",
+            "[Print Chain]",
+
+        )        
 )
 
 '''
@@ -47,15 +58,15 @@ timer = Timer()
 
 
 def main():
-    BC_ = Blockchain_(0)
-    work = Proof_of_Work(BC_)
-    work.mine_block()
+    # BC_ = Blockchain_(0)
+    # work = Proof_of_Work(BC_)
+    # work.mine_block()
     
-    trial = Minter_("Minter", 1250, 0, BC_)
-    trial.generator()
-    trial.check_for_uniques()
-    trial.update_history_json()
-    trial.history_counts()
+    # trial = Minter_("Minter", 250000, 0, BC_)
+    # trial.generator()
+    # trial.check_for_uniques()
+    # trial.update_history_json()
+    # trial.history_counts()
 
     # timer.start_timer()
     # work.mine_block(BC_)
@@ -68,12 +79,11 @@ def main():
     # print("TIME: " ,timer.end_timer(), "sec")
 
 
-    print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(BC_.chain, indent=2))
-    print("HEIGHT: ", len(BC_.chain))
+
 
 
   
-    # menu.main_menu_()
+    menu.main_menu_()
 
 
 main()
