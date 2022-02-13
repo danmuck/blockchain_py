@@ -37,7 +37,7 @@ class Proof_of_Work:
         new_nonce=1
         check_nonce=False
         TIMER.start_timer()
-        print(f"Timer started::fishing block{len(self.chain_.chain) - 1} -> chain_height: {len(self.chain_.chain)}")
+        print(f"Timer started::fishing block: {len(self.chain_.chain) - 1} -> chain_height: {len(self.chain_.chain)}")
 
         while not check_nonce:
             # print(new_nonce)
