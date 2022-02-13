@@ -42,21 +42,22 @@ class Timer:
         return self.start_time
     def end_timer(self):
         return round(time.time() - self.start_time, 2)
+timer = Timer()
 
 
 
 def main():
     BC_ = Blockchain_(0)
-    timer = Timer()
-    trial = Minter_("Minter", 1250, 0, BC_)
-    # trial.generator()
-    # trial.check_for_uniques()
-    trial.update_history_json()
-    trial.history_counts()
-    # BC_.validate_chain()
-    # timer.start_timer()
     work = Proof_of_Work(BC_)
     work.mine_block()
+    
+    trial = Minter_("Minter", 1250, 0, BC_)
+    trial.generator()
+    trial.check_for_uniques()
+    trial.update_history_json()
+    trial.history_counts()
+
+    # timer.start_timer()
     # work.mine_block(BC_)
     # work.mine_block(BC_)
     # work.mine_block(BC_)
@@ -64,12 +65,12 @@ def main():
     # while i < 10:
     #     work.mine_block(BC_)
     #     i+=1
+    # print("TIME: " ,timer.end_timer(), "sec")
 
 
     print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(BC_.chain, indent=2))
     print("HEIGHT: ", len(BC_.chain))
 
-    # print("TIME: " ,timer.end_timer(), "sec")
 
   
     # menu.main_menu_()
