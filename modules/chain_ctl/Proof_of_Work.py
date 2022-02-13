@@ -66,13 +66,13 @@ class Proof_of_Work:
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 125:
+            elif len(self.chain_.chain) < 25:
                 self.difficulty = 3
                 if hash_value[:3] == '000':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 500:
+            elif len(self.chain_.chain) < 50:
                 self.difficulty = 4
                 if hash_value[:4] == '0000':
                     check_nonce = True
@@ -113,7 +113,7 @@ class Proof_of_Work:
 
         
         try:
-            with open(f'{os.getcwd()}/minter_data/Block_times.txt', 'x') as file:
+            with open(f'{os.getcwd()}/chain_data/Block_times_{self.chain_id}.txt', 'x') as file:
                 file.write(f"{str(TIMER.end_timer())}s\t\t: {self.difficulty}\n")
 
                 # list_ = [
@@ -129,7 +129,7 @@ class Proof_of_Work:
                 # list_.append(str("time: " + str(TIMER.end_timer()) + "sec"))
                 # file.write((json.dumps(list_, indent=2)))                
         except FileExistsError:
-            with open(f'{os.getcwd()}/minter_data/Block_times.txt', 'a+') as file:
+            with open(f'{os.getcwd()}/chain_data/Block_times_{self.chain_id}.txt', 'a+') as file:
                 file.write(f"{str(TIMER.end_timer())}s\t\t: {self.difficulty}\n")
                 # file_ = dict(json.load(file))
                 # list_ = [

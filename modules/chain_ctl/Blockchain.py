@@ -21,12 +21,12 @@ class Blockchain_:
         )
         self.chain.update((self.genesis_block.block_dict))
         self.chain = self.load_chain_json()
-        print("\n\nNew Blockchain_ initialized...\n  CHAIN: ", json.dumps(self.chain, indent=2), "\n\n")
+        print("\n\nBlockchain_ initialized...\n  CHAIN: ", json.dumps(self.chain, indent=2), "\n\n")
 
 
     def load_chain_json(self):
         try:
-            with open(f"{os.getcwd()}/chain_data/{self.chain_id}_data.json", "r") as file:
+            with open(f"{os.getcwd()}/chain_data/Chain_state_{self.chain_id}.json", "r") as file:
                 chain_ = dict(json.load(file))
                 self.chain = chain_
                 return chain_
@@ -38,12 +38,12 @@ class Blockchain_:
             except FileExistsError:
                 pass
             finally:
-                with open(f"{os.getcwd()}/chain_data/{self.chain_id}_data.json", "x") as file:
+                with open(f"{os.getcwd()}/chain_data/Chain_state_{self.chain_id}.json", "x") as file:
                     chain_ = json.dumps(self.chain)
                     file.write(chain_)
 
     def write_chain_json(self):
-        with open(f"{os.getcwd()}/chain_data/{self.chain_id}_data.json", "w") as file:
+        with open(f"{os.getcwd()}/chain_data/Chain_state_{self.chain_id}.json", "w") as file:
             file.write(json.dumps(self.chain, indent=2))
 
     def get_tallest_block(self):

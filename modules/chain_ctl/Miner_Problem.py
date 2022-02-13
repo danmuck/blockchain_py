@@ -53,9 +53,7 @@ def arb_tasks_testing(switch:int):
         task = str((time.time_ns() ** 7) // (randint(69, time.time_ns() + randint(13, 777))))
         return hashlib.sha512(task.encode()).hexdigest()
     else:
-        task = str((time.time_ns() ** 3) // (randint(3, time.time_ns() + randint(3, 6))))
-        # hash_value = hashlib.sha256(task.encode()).hexdigest()
-        return task
+        return str((time.time_ns() ** 3) // (randint(3, time.time_ns() + randint(3, 6))))
 
 def start_work() -> str:
     with Pool() as p:
@@ -78,7 +76,6 @@ def start_work() -> str:
 
 
 def miner_problem_(new_nonce: int, previous_nonce: int, index: str, data: str) -> bytes:
-    # make more difficult
     miner_problem = str(new_nonce ** 2 - previous_nonce ** 2 + index) + data
     other_problem = start_work()
     problems = [miner_problem, other_problem]
