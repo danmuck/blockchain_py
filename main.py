@@ -41,7 +41,7 @@ def main():
     # trial.check_for_uniques()
     trial.update_history_json()
     trial.history_counts()
-    BC_.validate_chain()
+    # BC_.validate_chain()
     # timer.start_timer()
     # work = Proof_of_Work()
     # work.mine_block(BC_)

@@ -117,9 +117,9 @@ class Minter_:
             unique_bool = False
             if rando_0 == rando_1 and rando_2 <= rando_3:
                 self.landed = eq_count
-                eq_count+=1
                 unique_bool = True
                 if ez_rand <= 1234 or (ez_rand > 1234 and ez_rand == randint(0, 9999999)):
+                    eq_count+=1
                     block_chain_data = {"EZ_NUM": ez_rand, "OTHER_ATTRS": "coming soon..."}
                     if ez_rand > 1234:
                         print("\t\t  !!Wowzers::")
@@ -275,7 +275,7 @@ class Minter_:
                 sleep_time -- {self.sleep_time} sec
                 percent_landed -- {round(sum(self.get_percents_()), 2)}% -- acc {self.get_percents_landed_()[7]}%
                 ceiling: {max(self.unique_)}
-                landed: {self.landed}
+                landed: {self.landed - 1}
                 binaries landed: {self.real_binaries_landed_} -- {round(self.get_percents_landed_()[8], 5)}%
 
             Unr_16_: {len(self.unr_16_)}   \t\t{round((self.get_percents_landed_())[0], 5)}%   
@@ -316,7 +316,7 @@ class Minter_:
                 sleep_time -- {self.sleep_time} sec 
                 percent_landed -- {round(sum(self.get_percents_()), 2)}%
                 ceiling: {max(self.unique_)}
-                landed: {self.landed}
+                landed: {self.landed - 1}
                 binaries landed: {self.real_binaries_landed_}
 
 
