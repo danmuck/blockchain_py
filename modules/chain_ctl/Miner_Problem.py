@@ -68,12 +68,13 @@ def start_work() -> str:
             maps_.extend(process_map_2)
             encode_it = ''.join(maps_)
 
-            p.close()
-            p.terminate()
             return encode_it
         except:
             p.close()
             p.terminate()
+        finally:
+            p.close()
+            p.terminate()            
 
 
 def miner_problem_(new_nonce: int, previous_nonce: int, index: str, data: str) -> bytes:
