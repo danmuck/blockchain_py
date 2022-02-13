@@ -45,6 +45,8 @@ class Blockchain_:
     def write_chain_json(self):
         with open(f"{os.getcwd()}/chain_data/Chain_state_{self.chain_id}.json", "w") as file:
             file.write(json.dumps(self.chain, indent=2))
+        with open(f"{os.getcwd()}/chain_data/Chain_data_{self.chain_id}.json", "w") as file:
+            file.write(json.dumps(self.chain_data, indent=2))
 
     def get_tallest_block(self):
         block_list = tuple(self.chain.keys())

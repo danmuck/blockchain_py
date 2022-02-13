@@ -92,7 +92,9 @@ class Minter_:
             nanos_chk = ((time.time_ns() + small_chk) * math.pi)
             ez_nums = round( ( ((nanos_chk * small_chk) * (small_chk) )) % 1023 * (.000007 + randint(0, 1)), 5)
             # print(ez_nums)
-            ez_rand = (ez_nums + randint(0, 212)) # adjust ceiling with this line
+            # ez_rand = (ez_nums + randint(0, 212)) # adjust ceiling with this line
+            ez_rand = (ez_nums + randint(0, 9999)) # adjust ceiling with this line
+
             return ez_rand
 
     def generator(self):
@@ -117,8 +119,16 @@ class Minter_:
                 self.landed = eq_count
                 eq_count+=1
                 unique_bool = True
+                if ez_rand <= 1234 or (ez_rand > 1234 and ez_rand == randint(0, 9999999)):
+                    block_chain_data = {"EZ_NUM": ez_rand, "OTHER_ATTRS": "coming soon..."}
+                    if ez_rand > 1234:
+                        print("\t\t  !!Wowzers::")
+                        self.others_.append("VOID")
+                        block_chain_data = {"EZ_NUM": "VOID", "OTHER_ATTRS": "coming soon..."}
 
-                proof = Proof_of_Work(self.chain, txns=["This will be the txn to the miner of what is currently in chain_data"],chain_data={"EZ_NUM": ez_rand, "OTHER_ATTRS": "coming soon..."})
+                else:
+                    block_chain_data = {}
+                proof = Proof_of_Work(self.chain, txns=["This will be the txn to the miner of what is currently in chain_data"],chain_data=block_chain_data)
                 proof.mine_block()
                 print(f"iter_count: {i}")
                 if ez_rand in UBINRS_LIST:
@@ -144,11 +154,13 @@ class Minter_:
                 elif ez_rand in OTHERS_LIST:
                     print(f"  !!!Rare::{ez_rand}")
                     self.others_.append(ez_rand)
-                elif ez_rand > 999:
+                elif ez_rand > 999 and ez_rand <= 1234:
                     print(f"!!Upper::{ez_rand}")
                     self.uppers_.append(ez_rand)
-                else:
+                elif ez_rand <= 1234:
                     self.common_.append(ez_rand)
+                else:
+                    print("::rip::")
             else:
                 pass
             self.unique_check_(ez_rand, unique_bool)
