@@ -22,7 +22,7 @@ class Blockchain_:
         )
         self.chain.update((self.genesis_block.block_dict))
         self.validate_chain()
-        print("\n\nBlockchain_ initialized...\n  CHAIN: ", json.dumps(self.chain, indent=2), "\n\n")
+        print("\n\nBlockchain_ initialized...\n  TAIL: ", json.dumps(list(self.chain.values())[-4:], indent=2), "\n\n")
 
 
     def load_chain_json(self) -> dict:
@@ -61,35 +61,6 @@ class Blockchain_:
     def check_previous_block(self, block_hash:str):
         pass
 
-    def validate_chain_OLD(self):
-        # valid blocks
-        real_chain = self.load_chain_json()
-        # new blocks
-        for key in self.chain.keys():
-            if key in real_chain.keys():
-                print()
-            else:
-                new_block = self.chain.get(key)
-                real_chain.update({key: new_block})
-        # validate the whole chain
-        for i in real_chain.keys():
-            block_key = real_chain.get(i)['previous_hash']
-            prev_block = real_chain.get(block_key)
-            encoded_block = json.dumps(prev_block).encode()
-            hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
-            if block_key == hashed_block:
-                # print(f'\nBlock_prev: {block_key}')
-                # print(f'Real_prev : {hashed_block}')
-                print()
-            elif i == list(real_chain.keys())[0]:
-                # print(f'\n!Gen_block: {i}')
-                print()
-            else:
-                print(f'\nBlock_prev: {block_key}')
-                print(f'Real_prev : {hashed_block}')
-                print(f'!!Err => Bad block: [{i}] !!')
-                raise Exception
-
     def validate_chain(self):
         self.chain = self.load_chain_json()
         j = 0
@@ -103,7 +74,7 @@ class Blockchain_:
                 print(f'Good Block:\t\t {self.chain.get(i)["index"]}::{i}')
             elif i == list(self.chain.keys())[0]:
                 print()
-                print(f'{j}:\tGen_block: {i}')
+                print(f'Genesis_block:\t\t {j}::{i}')
             else:
                 print(f'\n!!Err Bad block. [{i}] !! \n')
                 raise Exception
@@ -113,7 +84,6 @@ class Blockchain_:
     def append_block_(self, block:Block_):
         self.validate_chain()
         appendage = block.block
-        # self.load_chain_json()
         if appendage.get('previous_hash') == self.get_tallest_block()[1] and appendage.get('index') == len(self.chain):
             self.chain.update(block.block_dict)
             self.write_chain_json()

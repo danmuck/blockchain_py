@@ -213,13 +213,13 @@ class Minter_:
         # summary_log_txt if missed by the bool catch
         # once fixed it will not append if not True
         if bool is True:
-            if int_ not in self.unique_:
+            if int_ not in self.unique_ and int_ <= 1234:
                 self.unique_.append(int_)
                 print(f"  -- unique: {int_} --")
             else:
                 pass
         else:
-            if int_ not in self.unique_:
+            if int_ not in self.unique_ and int_ <= 1234:
                 self.unique_.append(int_)
             else:
                 pass            
@@ -287,6 +287,8 @@ class Minter_:
             Common_: {len(self.common_)}   \t\t{round((self.get_percents_landed_())[6], 5)}%
 
         """)
+        
+    # FILES ---
     def history_counts(self):
         j = 0
         hist_dict = []
@@ -302,10 +304,8 @@ class Minter_:
             # print(json.dumps(sorted_list, indent=2))
             with open(f'{os.getcwd()}/minter_data/{self.name_}_counts.json', "w") as file:
                 file.write(json.dumps(sorted_list, indent=2))
-
             # print(sorted_list)
 
-    # FILES ---
     def print_log_txt(self):
         if self.name_ != "Q_MINT":
             with open(f'{os.getcwd()}/minter_data/{self.name_}_log.txt', 'a') as file:

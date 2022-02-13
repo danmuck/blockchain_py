@@ -22,7 +22,18 @@ menu = Menu_(
             "[Calculate Monthly Interest Gains]",
         )
 )
-BC_ = Blockchain_(0)
+
+'''
+    Minter
+    Mine One Custom
+    Mine empty blocks
+    Print data
+    Nuke chain
+
+
+
+
+'''
 class Timer:
     def __init__(self) -> None:
         self.start_time = float
@@ -35,16 +46,17 @@ class Timer:
 
 
 def main():
+    BC_ = Blockchain_(0)
     timer = Timer()
     trial = Minter_("Minter", 1250, 0, BC_)
-    trial.generator()
+    # trial.generator()
     # trial.check_for_uniques()
     trial.update_history_json()
     trial.history_counts()
     # BC_.validate_chain()
     # timer.start_timer()
-    # work = Proof_of_Work()
-    # work.mine_block(BC_)
+    work = Proof_of_Work(BC_)
+    work.mine_block()
     # work.mine_block(BC_)
     # work.mine_block(BC_)
     # work.mine_block(BC_)
