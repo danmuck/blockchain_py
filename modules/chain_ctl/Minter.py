@@ -51,7 +51,6 @@ UNR_16_MAP = {
     13: "1101".zfill(4),
     14: "1110".zfill(4),
     15: "1111".zfill(4),
-
 }
 class Minter_:
     def __init__(self, name_:str, iters_:int, sleep_time:float, chain:Blockchain_, quick:bool=False) -> None:
@@ -114,7 +113,6 @@ class Minter_:
             rando_3 = (randint(1, 768) + randint(0, 1))
             self.master_.append(ez_rand)
             unique_bool = False
-            # ez_hash:str = None 
             if rando_0 == rando_1 and rando_2 <= rando_3:
                 self.landed = eq_count
                 eq_count+=1

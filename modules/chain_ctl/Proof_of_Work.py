@@ -50,7 +50,6 @@ class Proof_of_Work:
             hash_value = hashlib.sha256(hash_digest).hexdigest()
 
             # increase nonce hash difficulty exponentionally
-            
             # checking how many 0s must be found at start
             if len(self.chain_.chain) == 1:
                 self.difficulty = 0

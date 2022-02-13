@@ -10,84 +10,58 @@ from multiprocessing import Pool
 
 def arb_tasks(switch:int):
     if switch == 0:
-        return str(randint(0, 99999) % 3 + randint(1, 768) + time.time_ns())
+        return str((randint(123, 999) ** 5) + randint(321, 9999) ** 3 + time.time_ns())  
     elif switch == 1:
-        return str(randint(0, 19999) % 6 + randint(768, 1024) + time.time_ns())
+        return str((randint(234, 999) ** 6) + randint(432, 9999) ** 5 + time.time_ns())  
     elif switch == 2:
-        return str((time.time_ns() ** 32) // (randint(0, time.time_ns() + randint(1, 3))))
+        return str((randint(345, 9999) ** 7) + randint(543, 9999) ** 7 + time.time_ns())  
     elif switch == 3:
-        return str((time.time_ns() ** 35) // (randint(0, time.time_ns() + randint(3, 6))))
+        return str((randint(456, 99999) ** 8) + randint(654, 9999) ** 9 + time.time_ns())  
     elif switch == 4:
-        return str(randint(555, 9999999) % 55 + randint(7, 10) + time.time_ns() ** 35)
+        return str((randint(567, 999999) ** 9) + randint(765, 9999) ** 11 + time.time_ns())  
     elif switch == 5:
-        return str((time.time_ns() ** 3) // (randint(0, time.time_ns() + randint(1, 3))))
+        return str((randint(678, 9999999) ** 10) + randint(876, 9999) ** 13 + time.time_ns())  
     elif switch == 6:
-        return str((time.time_ns() ** 2) // (randint(0, time.time_ns() + randint(3, 6))))
+        return str((randint(789, 9999999) ** 11) + randint(987, 99999) ** 15 + time.time_ns())  
     elif switch == 7:
-        return str(((randint(0, 99999999) % 7 + randint(7, 10480) * (time.time_ns() ** 5)) * (randint(0, time.time_ns() + randint(3, 666)))))        
+        return str((randint(890, 9999999) ** 12) + randint(9876, 999999) ** 17 + time.time_ns())  
     elif switch == 8:
-        return str((randint(69, 42069) // 3) + randint(777, 69420) ** 3 + time.time_ns())
+        return str((randint(901, 9999999) ** 13) + randint(8765, 9999999) ** 19 + time.time_ns())  
     elif switch == 9:
-        return str((time.time_ns() ** 33) // (randint(0, time.time_ns() + randint(1, 3333))))
+        return str((randint(1234, 99999) ** 14) + randint(7654, 9999999) ** 21 + time.time_ns())  
     elif switch == 10:
-        return str((time.time_ns() ** 7) // (randint(0, time.time_ns() + randint(3, 64))))    
+        return str((randint(2345, 9999) ** 15) + randint(6543, 99999999) ** 23 + time.time_ns())  
     elif switch == 11:
-        return str(randint(555555, 9999999) % 55 + randint(7, 10) + time.time_ns() ** 35)
+        return str((randint(3456, 99999) ** 16) + randint(5432, 99999999) ** 25 + time.time_ns())  
     elif switch == 12:
-        return str((time.time_ns() ** 3) // (randint(0, time.time_ns() + randint(1, 3))))
+        return str((randint(4567, 999999) ** 17) + randint(4321, 99999999) ** 27 + time.time_ns())  
     elif switch == 13:
-        return str((time.time_ns() ** 2) // (randint(0, time.time_ns() + randint(3, 6))))
+        return str((randint(5678, 9999999) ** 18) + randint(3211, 99999999) ** 29 + time.time_ns())  
     elif switch == 14:
-        return str(((randint(444444, 99999999) % 7 + randint(7, 10480) * (time.time_ns() ** 5)) * (randint(0, time.time_ns() + randint(333, 666)))))        
+        return str((randint(6789, 99999999) ** 19) + randint(2111, 99999999) ** 31 + time.time_ns())       
     elif switch == 15:
-        return str((randint(696969, 4204206969) ** 3) + randint(777, 69420) ** 3 + time.time_ns())  
+        return str((randint(7890, 999999999) ** 33) + randint(1111, 99999999) ** 33 + time.time_ns())  
     else:
-        return str((time.time_ns() + randint(9, 999) ** 13) // (randint(0, time.time_ns() + randint(3, 6))))        
+        return str((time.time_ns() + randint(9, 999) ** 3))     
 
 def arb_tasks_testing(switch:int):
     task = str
     if switch == 0:
-        task = str(randint(0, 999) ** 39 + randint(1, 768) + time.time_ns())
-        hash_value = hashlib.sha256(task.encode()).hexdigest()
-        return hash_value
+        task = str((time.time_ns() ** 3) // (randint(69, time.time_ns() + randint(13, 333))))
+        return hashlib.sha512(task.encode()).hexdigest()
     elif switch == 1:
-        task = str(randint(0, 199) ** 69 + randint(768, 1024) + time.time_ns())
-        hash_value = hashlib.sha256(task.encode()).hexdigest()
-        return hash_value
-    elif switch == 2:
-        task = str((time.time_ns() ** 32) // (randint(0, time.time_ns() + randint(1, 3))))
-        hash_value = hashlib.sha256(task.encode()).hexdigest()
-        return hash_value
-    elif switch == 3:
-        task = str((time.time_ns() ** 12) // (randint(0, time.time_ns() + randint(3, 6))))
-        hash_value = hashlib.sha256(task.encode()).hexdigest()
-        return hash_value
-    elif switch == 4:
-        task = str(randint(0, 199) ** 29 + randint(7, 10) + time.time_ns())
-        hash_value = hashlib.sha256(task.encode()).hexdigest()
-        return hash_value
-    elif switch == 5:
-        task = str((time.time_ns() ** 3) // (randint(0, time.time_ns() + randint(1, 3))))
-        hash_value = hashlib.sha256(task.encode()).hexdigest()
-        return hash_value
-    elif switch == 6:
-        task = str((time.time_ns() ** 23) // (randint(0, time.time_ns() + randint(3, 6))))
-        hash_value = hashlib.sha256(task.encode()).hexdigest()
-        return hash_value
-    elif switch == 7:
-        task = str((time.time_ns() ** 22) // (randint(0, time.time_ns() + randint(3, 6))))
-        hash_value = hashlib.sha256(task.encode()).hexdigest()
-        return hash_value
+        task = str((time.time_ns() ** 7) // (randint(69, time.time_ns() + randint(13, 777))))
+        return hashlib.sha512(task.encode()).hexdigest()
     else:
-        task = str((time.time_ns() ** 77) // (randint(0, time.time_ns() + randint(3, 6))))
-        hash_value = hashlib.sha256(task.encode()).hexdigest()
-        return hash_value
+        task = str((time.time_ns() ** 3) // (randint(3, time.time_ns() + randint(3, 6))))
+        # hash_value = hashlib.sha256(task.encode()).hexdigest()
+        return task
 
 def start_work() -> str:
     with Pool() as p:
         try:
-            process_map = p.map(arb_tasks, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
-            process_map_2 = p.map(arb_tasks_testing, [0, 1, 2, 3, 4, 5, 6, 7])
+            process_map = p.map(arb_tasks, [99, 99])
+            process_map_2 = p.map(arb_tasks_testing, [99, 99])
             # encode_it = ''.join(process_map)
             maps_ = []
             maps_.extend(process_map)
