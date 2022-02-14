@@ -54,43 +54,43 @@ class Proof_of_Work:
             if len(self.chain_.chain) == 1:
                 self.difficulty = 0
                 check_nonce = True        
-            elif len(self.chain_.chain) < 5:
+            elif len(self.chain_.chain) < 100:
                 self.difficulty = 1
                 if hash_value[:1] == '0':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 10:
+            elif len(self.chain_.chain) < 105:
                 self.difficulty = 2
                 if hash_value[:2] == '00':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 75:
+            elif len(self.chain_.chain) < 750:
                 self.difficulty = 3
                 if hash_value[:3] == '000':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 100:
+            elif len(self.chain_.chain) < 1000:
                 self.difficulty = 4
                 if hash_value[:4] == '0000':
                     check_nonce = True
                 else:
                     new_nonce += 1                
-            elif len(self.chain_.chain) < 750:
+            elif len(self.chain_.chain) < 7500:
                 self.difficulty = 5
                 if hash_value[:5] == '00001':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 1000:
+            elif len(self.chain_.chain) < 10000:
                 self.difficulty = 6
                 if hash_value[:6] == '000013':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 1500:
+            elif len(self.chain_.chain) < 15000:
                 self.difficulty = 7
                 if hash_value[:7] == '0000133':
                     check_nonce = True
