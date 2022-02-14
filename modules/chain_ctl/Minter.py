@@ -22,7 +22,7 @@ except FileNotFoundError:
     finally:
         with open(f'{os.getcwd()}/minter_data/Minter_lists.json', 'x') as file:
             file.write(json.dumps({
-            "OTHERS_LIST": [1234, 123, 321, 420, 69, 360, 1112, 200, 300, 400, 500, 600, 700, 800, 900, 1200],
+            "OTHERS_LIST": [1234, 123, 321, 420, 69, 360, 1112, 200, 300, 400, 500, 600, 700, 800, 900, 1200, 1212],
             "UDBBLS_LIST": [11, 22, 33, 44, 55, 66, 77, 88, 99],
             "UTRIPS_LIST": [111, 222, 333, 444, 555, 666, 777, 888, 999],
             "UBINRS_LIST": [0, 1, 10, 11, 100, 101, 110, 111, 1000, 1001, 1010, 1011, 1100, 1101, 1110, 1111, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15]                
@@ -168,29 +168,22 @@ class Minter_:
                 if ez_rand in UBINRS_LIST:
                     if ez_rand <= 15 and ez_rand != 0:
                         print(f"\n!!Hey Unr_16::{UNR_16_MAP[ez_rand]}  !!\n")
-                        self.unr_16_.append(ez_rand)
                     elif ez_rand != 0:
                         print(f"\n!!Hey Bnr_16::{str(ez_rand).zfill(4)}  !!\n")
-                        self.ubinrs_.append(ez_rand)
                     else:
                         self.zero_counter+=1
                         print(f"!!Hey Zero::{UNR_16_MAP[ez_rand]}  !!\n")
-                        self.unr_16_.append(ez_rand)
-
                 elif ez_rand in UDBBLS_LIST:
                     print(f"!!Hey Doubles::{ez_rand}  !!\n")
-                    self.udbbls_.append(ez_rand)
                 elif ez_rand in UTRIPS_LIST:
                     print(f"!!Hey Triples::{ez_rand}  !!\n")
-                    self.utrips_.append(ez_rand)  
                 elif ez_rand in OTHERS_LIST:
                     print(f"!!Hey Rare::{ez_rand}  !!\n")
-                    self.others_.append(ez_rand)
                 elif ez_rand > 999 and ez_rand <= 1234:
                     print(f"!!Hey Upper::{ez_rand}  !!\n")
-                    self.uppers_.append(ez_rand)
                 elif ez_rand <= 1234:
-                    self.common_.append(ez_rand)
+                    # self.common_.append(ez_rand)
+                    pass
                 else:
                     print("  .::[rip]::. ")
                     print("  u no winner ")
@@ -215,7 +208,6 @@ class Minter_:
                 self.zero_counter+=1
                 print(f"!!Hey Zero::{UNR_16_MAP[ez_rand]}  !!\n")
                 self.unr_16_.append(ez_rand)
-
         elif ez_rand in UDBBLS_LIST:
             print(f"!!Hey Doubles::{ez_rand}  !!\n")
             self.udbbls_.append(ez_rand)
@@ -356,7 +348,7 @@ class Minter_:
                 for j in self.history.keys():
                     if i in self.history.get(j):
                         hist_dict.append({"num": i ,"count" : self.history.get(j).count(i)})
-                        time.sleep(self.sleep_time)
+                        # time.sleep(self.sleep_time)
                         # print(f"{i}: " ,self.history.get(j).count(i))
             # print(json.dumps(hist_dict, indent=None, sort_keys=True))
             sorted_list = sorted(hist_dict, key=itemgetter("count"))
@@ -420,19 +412,20 @@ class Minter_:
                 except FileExistsError:
                     pass
                           
-    def jsonify_(self) -> dict:
-        new_dict = {
-            f"{self.name_}": {
-                "UNR_16": sorted(self.unr_16_),
-                "UBINRS": sorted(self.ubinrs_),
-                "UDBBLS": sorted(self.udbbls_),
-                "UTRIPS": sorted(self.utrips_),
-                "OTHERS": sorted(self.others_),
-                "UPPERS": sorted(self.uppers_),
-            }
-        }
-        json_list = json.dumps(new_dict, indent=4)
-        return new_dict
+    # def jsonify_(self) -> dict:
+    #     new_dict = {
+    #         f"{self.name_}": {
+    #             "UNR_16": sorted(self.unr_16_),
+    #             "UBINRS": sorted(self.ubinrs_),
+    #             "UDBBLS": sorted(self.udbbls_),
+    #             "UTRIPS": sorted(self.utrips_),
+    #             "OTHERS": sorted(self.others_),
+    #             "UPPERS": sorted(self.uppers_),
+    #         }
+    #     }
+    #     json_list = json.dumps(new_dict, indent=4)
+    #     return new_dict
+    
     def update_history_json(self):
         if self.name_ != "Q_MINT":
             with open(f"{os.getcwd()}/minter_data/{self.name_}_history.json", "r") as file:
@@ -444,17 +437,20 @@ class Minter_:
                 self.history["OTHERS"].extend(list(MINTER_DATA["OTHERS"]))
                 self.history["UPPERS"].extend(list(MINTER_DATA["UPPERS"]))
                 self.history["COMMON"].extend(list(MINTER_DATA["COMMON"]))
-                self.history["UNR_16"].extend(self.unr_16_)
-                self.history["UBINRS"].extend(self.ubinrs_)
-                self.history["UDBBLS"].extend(self.udbbls_)
-                self.history["UTRIPS"].extend(self.utrips_)
-                self.history["OTHERS"].extend(self.others_)
-                self.history["UPPERS"].extend(self.uppers_)
-                self.history["COMMON"].extend(self.common_)
+                # self.history["UNR_16"].extend(self.unr_16_)
+                # self.history["UBINRS"].extend(self.ubinrs_)
+                # self.history["UDBBLS"].extend(self.udbbls_)
+                # self.history["UTRIPS"].extend(self.utrips_)
+                # self.history["OTHERS"].extend(self.others_)
+                # self.history["UPPERS"].extend(self.uppers_)
+                # self.history["COMMON"].extend(self.common_)
 
             self.write_json_data()
             return self.history            
 
+    def write_json_data(self):
+        with open(f"{os.getcwd()}/minter_data/{self.name_}_history.json", "w") as file:
+            file.write((json.dumps((self.jsonify_data()), indent=2)))        
     def jsonify_data(self) -> dict:
         self.history["UNR_16"].extend(self.unr_16_)
         self.history["UBINRS"].extend(self.ubinrs_)
@@ -465,9 +461,7 @@ class Minter_:
         self.history["COMMON"].extend(self.common_)
 
         return self.history
-    def write_json_data(self):
-        with open(f"{os.getcwd()}/minter_data/{self.name_}_history.json", "w") as file:
-            file.write((json.dumps((self.jsonify_data()), indent=2)))        
+
 
 
 

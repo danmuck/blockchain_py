@@ -84,7 +84,6 @@ class Blockchain_:
         '''
         block_list = tuple(self.chain.keys())
         block_data = dict(self.chain.get(f'{block_list[-1]}'))
-
         # print("TALLEST BLOCK: ")
         # print(block_list[-1], ":", json.dumps(block_data, indent=2))
         # print(block_data)
@@ -95,11 +94,6 @@ class Blockchain_:
             Not even a thing yet, dont worry about comments
         '''
         pass
-
-    # def hash_json_(self) -> str:
-    #     chain_ = self.load_chain_json()
-    #     encoded_chain = json.dumps(chain_).encode()
-    #     return ''.join(('0x', hashlib.sha512(encoded_chain).hexdigest()))
 
     def hash_chain_(self) -> str:
         '''

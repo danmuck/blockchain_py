@@ -49,7 +49,7 @@ timer = Timer()
 def main():
     bc = Blockchain_(0)
     work = Proof_of_Work(bc, txns=["FAKER hehe :)", "8==D"], chain_data={"Im_data": "Liar, he's a my key, IM data... maybe we're both data..."})
-    minter = Minter_("Minter", 150000, 0, bc)
+    minter = Minter_("Minter", 15000, 0, bc)
     minter.generator()
     # minter.check_for_uniques()
     minter.update_history_json()
