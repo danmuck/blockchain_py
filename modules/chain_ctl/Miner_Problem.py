@@ -59,8 +59,8 @@ def arb_tasks_testing(switch:int):
 def start_work() -> str:
     with Pool() as p:
         try:
-            process_map = p.map(arb_tasks, [0, 1, 2, 3, 4, 5])
-            process_map_2 = p.map(arb_tasks_testing, [0, 1])
+            process_map = p.map(arb_tasks, [0, 1, 2, 3, 4, 5, 6, 7])
+            process_map_2 = p.map(arb_tasks_testing, [0, 1, 0 , 1])
             # encode_it = ''.join(process_map)
             maps_ = []
             maps_.extend(process_map)
