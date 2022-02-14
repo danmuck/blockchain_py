@@ -83,7 +83,7 @@ def start_single_work() -> str:
 def miner_problem_(new_nonce: int, previous_nonce: int, index: str, data: str) -> bytes:
     miner_problem = str(new_nonce ** 2 - previous_nonce ** 2 + index) + data
     single_problem = start_single_work()
-    if "macOS" in platform.platform():
+    if "macOS" in platform.platform() or "Windows" in platform.platform():
         other_problem = str(((randint(77, 133) ** randint(77, 711)) * randint(137, 555) ** randint(777, 7711)) // randint(1337, 9999))
         miner_problem = str(((randint(133, 711) ** randint(133, 711)) * randint(133, 555) ** randint(133, 711)) // randint(1337, 9999))
 
