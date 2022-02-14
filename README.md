@@ -5,3 +5,5 @@
 `clone me and run main.py... the rest is up to you :)`
 
 #### menus require Python 3.10 but clean_data.sh assumes `python3` on path and bypasses the 3.10 dep
+
+##### run `./chain_ctl.py` or `./clean_data.sh` instead to bypass 3.10 altogether
