@@ -103,7 +103,6 @@ class Minter_:
         self.unique_ = []
         i, j = 1, self.iters_ # i is always magical
         bins_, eq_count = 0, self.landed # currently necessary
-        print(f"iter_count: {i}")
         while i <= j:
             i+=1
             time.sleep(self.sleep_time)
@@ -133,6 +132,7 @@ class Minter_:
 
                 # logs stuff
                 self.print_minter_Heys(ez_rand)
+                print(f"iter_count: {i}")
             else:
                 pass
             self.unique_check_(ez_rand, unique_bool)

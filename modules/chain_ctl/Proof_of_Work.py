@@ -110,41 +110,12 @@ class Proof_of_Work:
                     new_nonce += 1
         print("MINE_TIME:", round(TIMER.end_timer(), 8), "sec")
         print("MINE_TIME:", f"{round(TIMER.end_timer() // 60, 8)}ish min")
-
-        
         try:
             with open(f'{os.getcwd()}/chain_data/Block_times_{self.chain_id}.txt', 'x') as file:
-                file.write(f"{str(TIMER.end_timer())}s\t\t: {self.difficulty}\n")
-
-                # list_ = [
-                #     str(datetime.datetime.now()),
-                #     self.chain_data,
-                #     self.txns,
-                #     {"previous_hash": self.chain_.get_tallest_block()[1]},
-                #     {"previous_block": self.chain_.get_tallest_block()[0]}
-                    
-                # ]
-                # # for i in file_:
-                #     # list_.append(i)
-                # list_.append(str("time: " + str(TIMER.end_timer()) + "sec"))
-                # file.write((json.dumps(list_, indent=2)))                
+                file.write(f"{str(TIMER.end_timer())}s\t\t: {self.difficulty}\n")               
         except FileExistsError:
             with open(f'{os.getcwd()}/chain_data/Block_times_{self.chain_id}.txt', 'a+') as file:
                 file.write(f"{str(TIMER.end_timer())}s\t\t: {self.difficulty}\n")
-                # file_ = dict(json.load(file))
-                # list_ = [
-                #     str(datetime.datetime.now()),
-                #     self.chain_data,
-                #     self.txns,
-                #     {"previous_hash": self.chain_.get_tallest_block()[1]},
-                #     {"previous_block": self.chain_.get_tallest_block()[0]}
-
-                # ]
-                # # for i in file_:
-                #     # list_.append(i)
-                # list_.append(str("time(sec): " + str(TIMER.end_timer())))
-                # list_.append(str("time(min): " + str(round(TIMER.end_timer() // 60, 2))))
-                # file.write((json.dumps(list_, indent=2)))
 
         return new_nonce
 
