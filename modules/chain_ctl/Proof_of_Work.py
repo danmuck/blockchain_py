@@ -61,43 +61,43 @@ class Proof_of_Work:
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 50:
+            elif len(self.chain_.chain) < 100:
                 self.difficulty = 2
                 if hash_value[:2] == '00':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 125:
+            elif len(self.chain_.chain) < 2500:
                 self.difficulty = 3
                 if hash_value[:3] == '000':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 250:
+            elif len(self.chain_.chain) < 5000:
                 self.difficulty = 4
                 if hash_value[:4] == '0000':
                     check_nonce = True
                 else:
                     new_nonce += 1                
-            elif len(self.chain_.chain) < 7500:
+            elif len(self.chain_.chain) < 15000:
                 self.difficulty = 5
                 if hash_value[:5] == '00001':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 10000:
+            elif len(self.chain_.chain) < 30000:
                 self.difficulty = 6
                 if hash_value[:6] == '000013':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 15000:
+            elif len(self.chain_.chain) < 60000:
                 self.difficulty = 7
                 if hash_value[:7] == '0000133':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 2000:
+            elif len(self.chain_.chain) < 120000:
                 self.difficulty = 8
                 if hash_value[:8] == '00001337':
                     check_nonce = True
@@ -111,7 +111,7 @@ class Proof_of_Work:
                     new_nonce += 1
         print("MINE_TIME:", round(TIMER.end_timer(), 8), "sec")
         print("MINE_TIME:", f"{round(TIMER.end_timer() // 60, 8)}ish min")
-        print("prev_difficulty:" ,self.difficulty)
+        print("MINE_DIFF: lvl" ,self.difficulty)
         try:
             with open(f'{os.getcwd()}/chain_data/Block_times_{self.chain_id}.txt', 'x') as file:
                 file.write(f"{str(TIMER.end_timer())}s\t\t: {self.difficulty}\n")               
