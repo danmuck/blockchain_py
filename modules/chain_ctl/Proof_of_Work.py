@@ -27,13 +27,14 @@ class Proof_of_Work:
         self.chain_id = self.chain_.chain_id
         self.txns = txns
         self.chain_data = chain_data
-        self.difficulty = int
+        # self.difficulty = 0
 
     def proof_of_work_(self, 
         previous_nonce: int, 
         index: int, 
         data: str,
     ) -> int:
+        
         new_nonce=1
         check_nonce=False
         TIMER.start_timer()
@@ -60,13 +61,13 @@ class Proof_of_Work:
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 105:
+            elif len(self.chain_.chain) < 50:
                 self.difficulty = 2
                 if hash_value[:2] == '00':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 250:
+            elif len(self.chain_.chain) < 125:
                 self.difficulty = 3
                 if hash_value[:3] == '000':
                     check_nonce = True
@@ -110,6 +111,7 @@ class Proof_of_Work:
                     new_nonce += 1
         print("MINE_TIME:", round(TIMER.end_timer(), 8), "sec")
         print("MINE_TIME:", f"{round(TIMER.end_timer() // 60, 8)}ish min")
+        print("prev_difficulty:" ,self.difficulty)
         try:
             with open(f'{os.getcwd()}/chain_data/Block_times_{self.chain_id}.txt', 'x') as file:
                 file.write(f"{str(TIMER.end_timer())}s\t\t: {self.difficulty}\n")               

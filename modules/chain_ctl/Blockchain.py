@@ -35,16 +35,18 @@ class Blockchain_:
             encoded_block = json.dumps(prev_block).encode()
             hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
             if block_key == hashed_block:
-                print(f'Previous block hashed:\t {prev_block["index"]}::{hashed_block}')
-                print(f'Good Block:\t\t {self.chain.get(i)["index"]}::{i}')
+                # print(f'Previous block hashed:\t {prev_block["index"]}::{hashed_block}')
+                # print(f'Good Block:\t\t {self.chain.get(i)["index"]}::{i}')
+                pass
             elif i == list(self.chain.keys())[0]:
-                print()
-                print(f'Genesis_block:\t\t {j}::{i}')
+                # print()
+                # print(f'Genesis_block:\t\t {j}::{i}')
+                pass
             else:
                 print(f'\n!!Err Bad block. [{i}] !! \n')
                 raise Exception
         self.update_chain_data_()
-        print("!!Hey [CHAIN IS VALID]  !!")
+        print("!!Hey [chain validated]  !!")
         if len(self.chain.keys()) % 100 == 0:
             print(self.hash_chain_())
 
@@ -107,9 +109,9 @@ class Blockchain_:
         '''
             Append block to chain...
         '''
-        self.validate_chain()
         appendage = block.block
         if appendage.get('previous_hash') == self.get_tallest_block()[1] and appendage.get('index') == len(self.chain):
+            self.validate_chain()
             self.chain.update(block.block_dict)
             self.write_chain_json()
             self.validate_chain()
