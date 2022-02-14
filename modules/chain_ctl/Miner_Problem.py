@@ -65,7 +65,6 @@ def start_work() -> str:
             maps_.extend(process_map)
             maps_.extend(process_map_2)
             encode_it = ''.join(maps_)
-
             return encode_it
         except:
             p.close()
