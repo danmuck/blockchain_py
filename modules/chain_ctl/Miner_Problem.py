@@ -11,15 +11,15 @@ from multiprocessing import Pool
 
 def arb_tasks(switch:int):
     if switch == 0:
-        return str((randint(123, 999) ** 5) + randint(321, 9999) ** 3 + time.time_ns())  
+        return str((randint(123, 999) ** 15) + randint(321, 9999) ** 3 + time.time_ns())  
     elif switch == 1:
-        return str((randint(234, 999) ** 6) + randint(432, 9999) ** 5 + time.time_ns())  
+        return str((randint(234, 999) ** 16) + randint(432, 9999) ** 5 + time.time_ns())  
     elif switch == 2:
-        return str((randint(345, 9999) ** 7) + randint(543, 9999) ** 7 + time.time_ns())  
+        return str((randint(345, 9999) ** 17) + randint(543, 9999) ** 7 + time.time_ns())  
     elif switch == 3:
-        return str((randint(4567, 99999) ** 8) + randint(654, 9999) ** 9 + time.time_ns())  
+        return str((randint(4567, 99999) ** 18) + randint(654, 9999) ** 9 + time.time_ns())  
     elif switch == 4:
-        return str((randint(5678, 999999) ** 9) + randint(765, 9999) ** 11 + time.time_ns())  
+        return str((randint(5678, 999999) ** 19) + randint(765, 9999) ** 11 + time.time_ns())  
     elif switch == 5:
         return str((randint(6789, 9999999) ** 10) + randint(876, 9999) ** 13 + time.time_ns())  
     elif switch == 6:
