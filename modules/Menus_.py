@@ -102,7 +102,7 @@ class Menu_:
                     BC_ = Blockchain_(0)
                     work = Proof_of_Work(BC_)
                     work.mine_block()
-                    trial = Minter_("Minter", 15000, 0, BC_)
+                    trial = Minter_("Minter", 2500, 0, BC_)
                     trial.generator()
                     trial.check_for_uniques()
                     trial.update_history_json()

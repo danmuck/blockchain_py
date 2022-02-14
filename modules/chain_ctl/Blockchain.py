@@ -1,6 +1,4 @@
 import datetime, hashlib, json, os
-from itertools import chain
-from wsgiref import validate
 
 from .Block import Block_
 class Blockchain_:
@@ -47,6 +45,8 @@ class Blockchain_:
                 raise Exception
         self.update_chain_data_()
         print("!!Hey [CHAIN IS VALID]  !!")
+        if len(self.chain.keys()) % 100 == 0:
+            print(self.hash_chain_())
 
     def load_chain_json(self) -> dict:
         '''
@@ -84,7 +84,6 @@ class Blockchain_:
         '''
         block_list = tuple(self.chain.keys())
         block_data = dict(self.chain.get(f'{block_list[-1]}'))
-
         # print("TALLEST BLOCK: ")
         # print(block_list[-1], ":", json.dumps(block_data, indent=2))
         # print(block_data)
@@ -100,10 +99,10 @@ class Blockchain_:
         '''
             Hash the chain...
         '''
-        self.validate_chain()
-        encoded_chain = json.dumps(self.chain).encode()
+        chain_ = self.chain
+        encoded_chain = json.dumps(chain_).encode()
         return ''.join(('0x', hashlib.sha512(encoded_chain).hexdigest()))
-
+        
     def append_block_(self, block:Block_):
         '''
             Append block to chain...
@@ -122,9 +121,9 @@ class Blockchain_:
 
     def update_chain_data_(self):
         '''
-            Update chain_data on chain
+            Update chain_data on chain as separate dictionary for logging and interfacing
         '''
-        self.load_chain_json()
+        # self.load_chain_json()
         for block in self.chain.items():
             # print(block)
             self.chain_data.update({block[0]: (block[1]['index'], block[1]['chain_data'])})
