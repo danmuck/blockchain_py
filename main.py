@@ -2,39 +2,39 @@
 
 import json, time
 from random import randint
-from modules.Menus_ import Menu_
+# from modules.Menus_ import Menu_
 from modules.chain_ctl.Minter import Minter_
 from modules.chain_ctl.Blockchain import Blockchain_
 from modules.chain_ctl.Block import Block_
 from modules.chain_ctl.Proof_of_Work import Proof_of_Work
 # from chain_ctl.Block import Block_
 
-menu = Menu_(
-        main_menu = (
-            "[Chain]",
-            "[Tasks]",
-            "[Tools]",
-            "[Projects]",
-            "[Finance]",
-            "[Personal]",
-            "[Users]",
-            "[Games]",
-            ),
-        finance_menu = (
-            "[Calculate Monthly Interest Gains]",
-        ),
-        chain_menu = (
-            "[Mine a Block]",
-            "[Print Chain]",
-            "[Print Chain]",
-            "[Print Chain]",
-            "[Print Chain]",
-            "[Print Chain]",
-            "[Print Chain]",
-            "[Print Chain]",
+# menu = Menu_(
+#         main_menu = (
+#             "[Chain]",
+#             "[Tasks]",
+#             "[Tools]",
+#             "[Projects]",
+#             "[Finance]",
+#             "[Personal]",
+#             "[Users]",
+#             "[Games]",
+#             ),
+#         finance_menu = (
+#             "[Calculate Monthly Interest Gains]",
+#         ),
+#         chain_menu = (
+#             "[Mine a Block]",
+#             "[Print Chain]",
+#             "[Print Chain]",
+#             "[Print Chain]",
+#             "[Print Chain]",
+#             "[Print Chain]",
+#             "[Print Chain]",
+#             "[Print Chain]",
 
-        )        
-)
+#         )        
+# )
 
 '''
     Minter

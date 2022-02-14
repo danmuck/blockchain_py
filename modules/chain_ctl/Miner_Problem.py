@@ -2,8 +2,9 @@
 
 
 
+from os import system
 from random import randint
-import time, hashlib
+import time, hashlib, platform
 
 from multiprocessing import Pool
 
@@ -65,20 +66,29 @@ def start_work() -> str:
             maps_.extend(process_map)
             maps_.extend(process_map_2)
             encode_it = ''.join(maps_)
-
             return encode_it
         except:
             p.close()
             p.terminate()
         finally:
             p.close()
-            p.terminate()            
+            p.terminate()   
 
+def start_single_work() -> str:
+    task_1 = arb_tasks(99)
+    task_2 = arb_tasks_testing(99)
+    encode_it = ''.join([task_1, task_2])
+    return encode_it
 
 def miner_problem_(new_nonce: int, previous_nonce: int, index: str, data: str) -> bytes:
     miner_problem = str(new_nonce ** 2 - previous_nonce ** 2 + index) + data
-    other_problem = start_work()
-    problems = [miner_problem, other_problem]
+    single_problem = start_single_work()
+    if "macOS" in platform.platform():
+        other_problem = str(7**13**7)
+    else:
+        other_problem = start_work()
+
+    problems = [miner_problem, single_problem, other_problem]
     encode_it = ''.join(problems)
 
     return encode_it.encode()
