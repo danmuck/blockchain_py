@@ -1,3 +1,3 @@
 #!/bin/bash
 rm -rf chain_data/ minter_data/;
-python main.py
+python3 ctl_center.py
