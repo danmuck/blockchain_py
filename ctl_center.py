@@ -4,11 +4,11 @@
 
 import json, time
 from random import randint
-from modules.chain_ctl.Minter import Minter_
+from modules.chain_ctl.Minter import Minter_, ez_random, No_fun
 from modules.chain_ctl.Blockchain import Blockchain_
 from modules.chain_ctl.Block import Block_
 from modules.chain_ctl.Proof_of_Work import Proof_of_Work
-from modules.chain_ctl.No_funs import No_fun
+# from modules.chain_ctl.No_funs import No_fun
 
 
 
@@ -51,7 +51,7 @@ timer = Timer()
 def main():
     bc = Blockchain_(0)
     work = Proof_of_Work(bc)
-    minter = Minter_("Minter", 20000, 0, bc)
+    minter = Minter_("Minter", 9000, 0, bc)
     minter.generator()
     # minter.check_for_uniques()
     minter.update_history_json()
@@ -59,8 +59,10 @@ def main():
     print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(bc.chain, indent=2))
     print("HEIGHT: ", len(bc.chain))
     print(bc.hash_chain_())
-    work.mine_block(txns=["FAKER hehe :)", "8==D"], chain_data={"Im_data": "Liar, he's a my key, IM data... maybe we're both data..."})
-    print(bc.hash_chain_())
+    # work.mine_block(txns=["FAKER hehe :)", "8==D"], chain_data={"Im_data": "Liar, he's a my key, IM data... maybe we're both data..."})
+    # print(bc.hash_chain_())
+    test = ez_random().get_()
+    print(test)
     # bl = Block_(0,"0xsomestringshehe", 13, [], "stresfd", {})
     # bc.append_block_(bl)
     # timer.start_timer()

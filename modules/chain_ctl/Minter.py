@@ -2,7 +2,7 @@
 #   fix logs so they do not compound results of multiple runs
 
 from .Proof_of_Work import Proof_of_Work, Blockchain_
-from .No_funs import No_fun
+# from .No_funs import No_fun
 import math, datetime, os, json, hashlib
 from operator import itemgetter
 from random import randint
@@ -34,7 +34,7 @@ except FileNotFoundError:
             UDBBLS_LIST = jsonify["UDBBLS_LIST"]
             UTRIPS_LIST = jsonify["UTRIPS_LIST"]
             UBINRS_LIST = jsonify["UBINRS_LIST"]
-        
+
 UNR_16_MAP = {
     0: "0".zfill(4),
     1: "1".zfill(4),
@@ -53,6 +53,108 @@ UNR_16_MAP = {
     14: "1110".zfill(4),
     15: "1111".zfill(4),
 }
+class ez_random:
+    def __init__(self) -> None:
+        self.return_ = self.get_()
+    def get_(self) -> float:
+            small_chk = (randint(1, 4096) + randint(0, 1))
+            nanos_chk = ((time.time_ns() + small_chk) * math.pi)
+            ez_nums = round( ( ((nanos_chk * small_chk) * (small_chk) )) % 1023 * (.000007 + randint(0, 1)), 5)
+            ez_rand = (ez_nums + randint(0, 9999)) # adjust ceiling with this line
+            return round(ez_rand)
+
+class No_fun:
+    def __init__(self, ez_num:ez_random) -> None:
+        self.ez_num = ez_num.return_
+        self.attrs = {}
+        self.hash_ = str
+        if self.ez_num > 1234:
+            self.void = True
+        else:
+            self.void = False
+
+    def get_attrs(self) -> dict:
+        ez_num_ = self.ez_num
+        time_ = str(datetime.datetime.now())
+        float_ = self.get_float()
+        color_ =  str
+        border_ = str
+        img_ = str
+        trait_ = str
+        if self.void is True:
+            color_ = "V"
+            border_ = "V"
+            void_ = "VOID"
+        else:
+            color_, border_ = self.get_colors()
+            img_ = self.get_image()
+            void_ = "    "
+
+        if ez_num_ in UBINRS_LIST:
+            ez_num_ = UNR_16_MAP[ez_num_]
+            trait_ = ".::Unr_16::Binary::."
+        elif ez_num_ in OTHERS_LIST:
+            ez_num_ = str(ez_num_)
+            trait_ = ".:Rare:."
+        elif ez_num_ in UDBBLS_LIST:
+            ez_num_ = str(ez_num_)
+            trait_ = ".::Dubbs::."
+        elif ez_num_ in UTRIPS_LIST:
+            ez_num_ = str(ez_num_)
+            trait_ = ".::Trippps::."
+        elif ez_num_ > 999 and ez_num_ <= 1234:
+            ez_num_ = str(ez_num_)
+            trait_ = ".Uppers."
+        elif ez_num_ > 1234:
+            ez_num_ = str(ez_num_)
+            trait_ = "::::void::::"
+        else:
+            ez_num_ = str(ez_num_)
+            trait_ = "Common"
+
+        void_attrs:dict = {
+                "num": ez_num_,
+                "trait": trait_,
+                "float": float_,
+                "color": color_,
+                "border": border_,
+                "img": img_,
+                "time": time_,
+                "void": void_,
+            }
+        void_hash:str = self.hash_it(void_attrs)
+        final_void:dict = {void_hash: void_attrs}
+        self.hash_ = void_hash
+        self.attrs = void_attrs
+        return final_void
+
+    def hash_it(self, attrs_:dict) -> str:
+        encoded_data = json.dumps(attrs_).encode()
+        return ''.join(('0x', hashlib.sha256(encoded_data).hexdigest()))
+
+    def get_float(self) -> str:
+        float_ = randint(0, 100000000)
+        if float_ >= 99999999:
+            float_ = "VOID"
+            self.void = True
+            return float_
+        else:
+            float_ = "." + f"{float_}".zfill(8)
+            return float_
+
+    def get_colors(self) -> str:
+        bg_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple"]
+        border_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple"]
+        return bg_[randint(0,9)], border_[randint(0,9)]
+
+    def get_image(self) -> str:
+        '''
+            Not sure about this yet, returning a random char for now...
+        '''
+        img_ = ["*", "$", "+", "!", "?", "#", "@", "&", "~", "%"]
+        return img_[randint(0,9)]
+
+
 class Minter_:
     def __init__(self, name_:str, iters_:int, sleep_time:float, chain:Blockchain_, quick:bool=False) -> None:
         self.chain = chain
@@ -88,12 +190,12 @@ class Minter_:
             self.sleep_time = sleep_time
             self.init_new_Minter(name_)
 
-    def ez_rand(self) -> float:
-            small_chk = (randint(1, 4096) + randint(0, 1))
-            nanos_chk = ((time.time_ns() + small_chk) * math.pi)
-            ez_nums = round( ( ((nanos_chk * small_chk) * (small_chk) )) % 1023 * (.000007 + randint(0, 1)), 5)
-            ez_rand = (ez_nums + randint(0, 9999)) # adjust ceiling with this line
-            return round(ez_rand)
+    # def ez_rand(self) -> float:
+    #         small_chk = (randint(1, 4096) + randint(0, 1))
+    #         nanos_chk = ((time.time_ns() + small_chk) * math.pi)
+    #         ez_nums = round( ( ((nanos_chk * small_chk) * (small_chk) )) % 1023 * (.000007 + randint(0, 1)), 5)
+    #         ez_rand = (ez_nums + randint(0, 9999))
+    #         return round(ez_rand)
 
     def generator(self):
         # print(self.unique_)
@@ -101,25 +203,28 @@ class Minter_:
         self.unique_ = []
         i, j = 1, self.iters_ # i is always magical
         bins_, eq_count = 0, self.landed # currently necessary
+        ez_rand = ez_random()
+        print(ez_rand.return_)
         while i <= j:
             i+=1
             time.sleep(self.sleep_time)
-
-            ez_rand = self.ez_rand()
+            # ez_rand = self.ez_rand()
+            ez_rand = ez_random()
+            print(ez_rand.return_)
 
             rando_0 = (randint(0, 256) + randint(0, 1))
             rando_1 = (randint(1, 512) + randint(0, 1))
             rando_2 = (randint(0, 1024) + randint(0, 1))
             rando_3 = (randint(1, 768) + randint(0, 1))
-            self.master_.append(ez_rand)
+            self.master_.append(ez_rand.return_)
             unique_bool = False
             if rando_0 == rando_1 and rando_2 <= rando_3:
                 self.landed = eq_count
                 unique_bool = True
-                if ez_rand <= 1234 or (ez_rand > 1234 and ez_rand == randint(0, 9999999)):
+                if ez_rand.return_ <= 1234 or (ez_rand.return_ > 1234 and ez_rand.return_ == randint(0, 9999999)):
                     block_chain_data = No_fun(ez_rand).get_attrs()
                     eq_count+=1
-                    if ez_rand > 1234:
+                    if ez_rand.return_ > 1234:
                         print("\t\t  !!Wowzers::")
                         self.others_.append("VOID")
                 else:
@@ -128,11 +233,11 @@ class Minter_:
                 proof.mine_block(txns=["txn data"], chain_data=block_chain_data)
 
                 # logs stuff
-                self.print_minter_Heys(ez_rand)
+                self.print_minter_Heys(ez_rand.return_)
                 print(f"iter_count: {i}")
             else:
                 pass
-            self.unique_check_(ez_rand, unique_bool)
+            self.unique_check_(ez_rand.return_, unique_bool)
         # print("UNIQUE_FULL: ",sorted(self.unique_))
 
         self.end_timer()
@@ -143,51 +248,8 @@ class Minter_:
         elif self.iters_ == 1:
             if rando_0 == rando_1 and rando_2 <= rando_3:
                 print("!!== ZOMG LANDED A SOLO BOII ==!!")
-        return ez_rand
-
-    def finalize_ez_rand(self, ez_rand:int):
-        final_rand = {
-            "hash": {
-                "ez_num": "1234",
-                "float": "00000000.00000000".zfill(8),
-                "bg_color": "black, white, grey, red, yellow, green, blue, purple, orange, pink",
-                "sticker": "some designs of some kind in bit form?",
-                "border": "black, white, grey, red, yellow, green, blue, purple, orange, pink",
-                "void": "bool: black border/black bg/void sticker"
-            }
-        }
-        if ez_rand <= 1234 or (ez_rand > 1234 and ez_rand == randint(0, 9999999)):
-            block_chain_data = {"EZ_NUM": ez_rand, "OTHER_ATTRS": "coming soon..."}
-            if ez_rand > 1234:
-                print("\t\t  !!Wowzers::")
-                self.others_.append("VOID")
-                block_chain_data = {"EZ_NUM": "VOID", "OTHER_ATTRS": "coming soon..."}
-                if ez_rand in UBINRS_LIST:
-                    if ez_rand <= 15 and ez_rand != 0:
-                        print(f"\n!!Hey Unr_16::{UNR_16_MAP[ez_rand]}  !!\n")
-                    elif ez_rand != 0:
-                        print(f"\n!!Hey Bnr_16::{str(ez_rand).zfill(4)}  !!\n")
-                    else:
-                        self.zero_counter+=1
-                        print(f"!!Hey Zero::{UNR_16_MAP[ez_rand]}  !!\n")
-                elif ez_rand in UDBBLS_LIST:
-                    print(f"!!Hey Doubles::{ez_rand}  !!\n")
-                elif ez_rand in UTRIPS_LIST:
-                    print(f"!!Hey Triples::{ez_rand}  !!\n")
-                elif ez_rand in OTHERS_LIST:
-                    print(f"!!Hey Rare::{ez_rand}  !!\n")
-                elif ez_rand > 999 and ez_rand <= 1234:
-                    print(f"!!Hey Upper::{ez_rand}  !!\n")
-                elif ez_rand <= 1234:
-                    # self.common_.append(ez_rand)
-                    pass
-                else:
-                    print("  .::[rip]::. ")
-                    print("  u no winner ")
-        else:
-            block_chain_data = {}
-        proof = Proof_of_Work(self.chain, txns=["This will be the txn to the miner of what is currently in chain_data"],chain_data=block_chain_data)
-        proof.mine_block()
+        print(ez_rand.return_)
+        return ez_rand.return_
 
     def print_minter_Heys(self, ez_rand:int):
         bins_ = 0
@@ -418,7 +480,6 @@ class Minter_:
         self.history["COMMON"].extend(self.common_)
 
         return self.history
-
 
 
 
