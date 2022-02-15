@@ -18,15 +18,15 @@ TIMER = Timer()
 class Proof_of_Work:
     def __init__(self,
         chain_:Blockchain_,
-        txns=[],
-        chain_data={}
+        # txns=[],
+        # chain_data={}
 
     ) -> None:
         
         self.chain_ = chain_
         self.chain_id = self.chain_.chain_id
-        self.txns = txns
-        self.chain_data = chain_data
+        # self.txns = txns
+        # self.chain_data = chain_data
         # self.difficulty = 0
 
     def proof_of_work_(self, 
@@ -142,8 +142,8 @@ class Proof_of_Work:
             previous_hash = previous_hash,
             nonce = nonce,
             signature = "miner wallet",
-            txns = self.txns,
-            chain_data = self.chain_data,
+            txns = txns,
+            chain_data = chain_data,
             chain_id = self.chain_id,
             print_it = True
             )

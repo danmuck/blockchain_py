@@ -2,6 +2,7 @@
 #   fix logs so they do not compound results of multiple runs
 
 from .Proof_of_Work import Proof_of_Work, Blockchain_
+from .No_funs import No_fun
 import math, datetime, os, json, hashlib
 from operator import itemgetter
 from random import randint
@@ -91,14 +92,11 @@ class Minter_:
             small_chk = (randint(1, 4096) + randint(0, 1))
             nanos_chk = ((time.time_ns() + small_chk) * math.pi)
             ez_nums = round( ( ((nanos_chk * small_chk) * (small_chk) )) % 1023 * (.000007 + randint(0, 1)), 5)
-            # print(ez_nums)
-            # ez_rand = (ez_nums + randint(0, 212)) # adjust ceiling with this line
             ez_rand = (ez_nums + randint(0, 9999)) # adjust ceiling with this line
-
-            return ez_rand
+            return round(ez_rand)
 
     def generator(self):
-        print(self.unique_)
+        # print(self.unique_)
         self.run_timer()
         self.unique_ = []
         i, j = 1, self.iters_ # i is always magical
@@ -107,7 +105,7 @@ class Minter_:
             i+=1
             time.sleep(self.sleep_time)
 
-            ez_rand = round(self.ez_rand())
+            ez_rand = self.ez_rand()
 
             rando_0 = (randint(0, 256) + randint(0, 1))
             rando_1 = (randint(1, 512) + randint(0, 1))
@@ -119,16 +117,15 @@ class Minter_:
                 self.landed = eq_count
                 unique_bool = True
                 if ez_rand <= 1234 or (ez_rand > 1234 and ez_rand == randint(0, 9999999)):
+                    block_chain_data = No_fun(ez_rand).get_attrs()
                     eq_count+=1
-                    block_chain_data = {"EZ_NUM": ez_rand, "OTHER_ATTRS": "coming soon..."}
                     if ez_rand > 1234:
                         print("\t\t  !!Wowzers::")
                         self.others_.append("VOID")
-                        block_chain_data = {"EZ_NUM": "[VOID]", "OTHER_ATTRS": "coming soon..."}
                 else:
                     block_chain_data = {}
-                proof = Proof_of_Work(self.chain, txns=["This will be the txn to the miner of chain_data"], chain_data=block_chain_data)
-                proof.mine_block()
+                proof = Proof_of_Work(self.chain)
+                proof.mine_block(txns=["txn data"], chain_data=block_chain_data)
 
                 # logs stuff
                 self.print_minter_Heys(ez_rand)
