@@ -51,7 +51,7 @@ timer = Timer()
 def main():
     bc = Blockchain_(0)
     work = Proof_of_Work(bc)
-    minter = Minter_("Minter", 9000, 0, bc)
+    minter = Minter_("Minter", 500000, 0, bc)
     minter.generator()
     # minter.check_for_uniques()
     minter.update_history_json()

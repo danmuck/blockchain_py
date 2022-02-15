@@ -156,18 +156,18 @@ class No_fun:
 
 
 class Minter_:
+    unr_16_ = [] # < 16
+    ubinrs_ = [] # binaries
+    udbbls_ = [] # doubles
+    utrips_ = [] # triples
+    others_ = [] # some fun ones
+    uppers_ = [] # > 999
+    common_ = [] # the rest
+    master_ = []
     def __init__(self, name_:str, iters_:int, sleep_time:float, chain:Blockchain_, quick:bool=False) -> None:
         self.chain = chain
-        self.unr_16_ = [] # < 16
-        self.ubinrs_ = [] # binaries
-        self.udbbls_ = [] # doubles
-        self.utrips_ = [] # triples
-        self.others_ = [] # some fun ones
-        self.uppers_ = [] # > 999
-        self.common_ = [] # the rest
         self.unique_ = [] # uniques in a given session
         self.real_binaries_landed_ = []
-        self.master_ = []
         self.history = {
             "UNR_16": [],
             "UBINRS": [],
@@ -204,13 +204,11 @@ class Minter_:
         i, j = 1, self.iters_ # i is always magical
         bins_, eq_count = 0, self.landed # currently necessary
         ez_rand = ez_random()
-        print(ez_rand.return_)
         while i <= j:
             i+=1
             time.sleep(self.sleep_time)
             # ez_rand = self.ez_rand()
             ez_rand = ez_random()
-            print(ez_rand.return_)
 
             rando_0 = (randint(0, 256) + randint(0, 1))
             rando_1 = (randint(1, 512) + randint(0, 1))
@@ -248,7 +246,6 @@ class Minter_:
         elif self.iters_ == 1:
             if rando_0 == rando_1 and rando_2 <= rando_3:
                 print("!!== ZOMG LANDED A SOLO BOII ==!!")
-        print(ez_rand.return_)
         return ez_rand.return_
 
     def print_minter_Heys(self, ez_rand:int):
