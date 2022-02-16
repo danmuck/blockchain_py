@@ -1,6 +1,7 @@
 import datetime, hashlib, json, os
 
 from .Block import Block_
+
 class Blockchain_:
 
     def __init__(self, chain_id:int) -> None:
@@ -18,6 +19,8 @@ class Blockchain_:
             chain_data = {},
             print_it=False
         )
+        # global MASTER_CHAIN
+        # MASTER_CHAIN = load_master_chain(self)
         
         self.chain.update((self.genesis_block.block_dict))
         # try:
@@ -70,14 +73,14 @@ class Blockchain_:
             print(f"!Err Chain height surpassed master::Diverging to chain_id: {self.chain_id}...  !!")
             self.validate_chain()
         else:
-            # take the chain on file
-            # dead code
             self.chain = self.load_chain_json()
+
+        validate_master_chain(chain_)
+
         self.update_chain_data_()
         print("!!Hey [chain validated]  !!")
         if len(self.chain.keys()) % 100 == 0:
             print(self.hash_chain_())
-
 
 
     def load_chain_json(self) -> dict:
@@ -156,4 +159,65 @@ class Blockchain_:
         for block in self.chain.items():
             # print(block)
             self.chain_data.update({block[0]: (block[1]['index'], block[1]['chain_data'])})
+
+def load_master_chain(chk_chain:Blockchain_=None) -> dict:
+    '''
+        File handling for the Master Blockchain_ state via JSON
+    '''
+    try:
+        with open(f"{os.getcwd()}/chain_data/Master_chain.json", "r") as file:
+            chain_ = dict(json.load(file))
+            print("MASTER LOADED")
+            return chain_
+    except json.JSONDecodeError:
+        print("SCREAM")
+    except FileNotFoundError:
+        try:
+            os.mkdir(f"{os.getcwd()}/chain_data/")
+        except FileExistsError:
+            pass
+        finally:
+            with open(f"{os.getcwd()}/chain_data/Master_chain.json", "x") as file:
+                if chk_chain != None:
+                    chain_ = json.dumps(chk_chain.chain)
+                    file.write(chain_)
+                    return chk_chain.chain
+                file.write(json.dumps({"oops":"goof"}))
+                print("no chain given to load_master_chain()")
+                return {}
+
+def update_master_chain(new_master:dict):
+    '''
+        Update Blockchain_ state along with its chain_data to JSON files
+    '''
+    with open(f"{os.getcwd()}/chain_data/Master_chain.json", "w") as file:
+        file.write(json.dumps(new_master, indent=2))
+
+        print("MASTER UPDATED")
+    pass
+
+def validate_master_chain(new_master:dict=None):
+    '''
+        Validate the canonical master chain; 
+    '''
+    chain_ = load_master_chain()
+
+    for i in chain_.keys():
+        block_key = chain_.get(i)['previous_hash']
+        prev_block = chain_.get(block_key)
+        encoded_block = json.dumps(prev_block).encode()
+        hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
+        if block_key == hashed_block:
+            pass
+        elif i == list(chain_.keys())[0]:
+            pass
+        else:
+            print(f'\n!!Err Bad block. [{i}] !! \n')
+            raise Exception
+    if new_master != None:
+        if new_master.items() == chain_.items() or len(new_master) == len(chain_) + 1:
+            update_master_chain(new_master)
+        else:
+            print("not on master")
+    print("!!Hey [master validated]  !!")
 
