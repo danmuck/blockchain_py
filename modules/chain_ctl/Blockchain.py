@@ -218,5 +218,5 @@ def validate_master_chain(new_master:dict=None):
             update_master_chain(new_master)
         else:
             print("!!Hey [not on master]  !!")
-    print("!!Hey [master valid]  !!")
+    # print("!!Hey [master valid]  !!")
 
