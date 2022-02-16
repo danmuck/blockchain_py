@@ -216,6 +216,6 @@ def validate_master_chain(new_master:dict=None):
         if new_master.items() == chain_.items() or len(new_master) == len(chain_) + 1:
             update_master_chain(new_master)
         else:
-            print("not on master")
+            print("!!Hey [not on master]  !!")
     print("!!Hey [master validated]  !!")
 
