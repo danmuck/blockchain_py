@@ -67,6 +67,7 @@ class Blockchain_:
         elif len(self.chain) > len(chain_) and list(chain_.keys()) in list(self.chain.keys()):
             # prepare to diverge
             self.chain_id+=1
+            print("!Err Chain height surpassed master::Diverging...  !!")
             self.validate_chain()
         else:
             # take the chain on file
