@@ -167,7 +167,6 @@ def load_master_chain(chk_chain:dict=None) -> dict:
     try:
         with open(f"{os.getcwd()}/chain_data/Master_chain.json", "r") as file:
             chain_ = dict(json.load(file))
-            print("MASTER LOADED")
             return chain_
     except json.JSONDecodeError:
         print("SCREAM")
@@ -192,8 +191,7 @@ def update_master_chain(new_master:dict):
     '''
     with open(f"{os.getcwd()}/chain_data/Master_chain.json", "w") as file:
         file.write(json.dumps(new_master, indent=2))
-
-        print("MASTER UPDATED")
+        print("!!Hey [on master]  !!")
     pass
 
 def validate_master_chain(new_master:dict=None):
