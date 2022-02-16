@@ -27,7 +27,7 @@ class Blockchain_:
         self.validate_chain()
         print("\n\nBlockchain_ initialized...\n  TAIL: ", json.dumps(list(self.chain.values())[-4:], indent=2), "\n\n")
     
-    def validate_chain(self):
+    def validate_chain(self) -> bool:
         '''
             Validate the current chain against its canonical master; 
                 currently validating against chain_data/Chain_state.json
@@ -68,8 +68,7 @@ class Blockchain_:
         print("!!Hey [chain validated]  !!")
         if len(self.chain.keys()) % 100 == 0:
             print(self.hash_chain_())
-        # else:
-        #     raise Exception
+
 
 
     def load_chain_json(self) -> dict:
@@ -132,8 +131,8 @@ class Blockchain_:
             Append block to chain...
         '''
         appendage = block.block
+        self.validate_chain()
         if appendage.get('previous_hash') == self.get_tallest_block()[1] and appendage.get('index') == len(self.chain):
-            self.validate_chain()
             self.chain.update(block.block_dict)
             self.write_chain_json()
             self.validate_chain()
