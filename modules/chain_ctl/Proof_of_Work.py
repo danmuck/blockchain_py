@@ -61,7 +61,7 @@ class Proof_of_Work:
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 100:
+            elif len(self.chain_.chain) < 2000:
                 self.difficulty = 2
                 if hash_value[:2] == '00':
                     check_nonce = True

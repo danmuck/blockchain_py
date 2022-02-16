@@ -105,7 +105,7 @@ class No_fun:
 
         if ez_num_ in UBINRS_LIST:
             ez_num_ = UNR_16_MAP[ez_num_]
-            trait_ = ".::Unr_16::Binary::."
+            trait_ = ".::Unr_16::."
         elif ez_num_ in OTHERS_LIST:
             ez_num_ = str(ez_num_)
             trait_ = ".:Rare:."
@@ -117,10 +117,13 @@ class No_fun:
             trait_ = ".::Trippps::."
         elif ez_num_ > 999 and ez_num_ <= 1234:
             ez_num_ = str(ez_num_)
-            trait_ = ".Uppers."
+            trait_ = ".Upper."
         elif ez_num_ > 1234:
             ez_num_ = str(ez_num_)
-            trait_ = "::::(V/O/I/D)::::"
+            if trait_ != "":
+                trait_ = ''.join(["(V/O/", trait_, "/I/D)"])
+            else:
+                trait_ = "::::(V/O/I/D)::::"
         else:
             ez_num_ = str(ez_num_)
             trait_ = "Common"

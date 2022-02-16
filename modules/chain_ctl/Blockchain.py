@@ -59,9 +59,11 @@ class Blockchain_:
             else:
                 print(f'\n!!Err Bad block. [{i}] !! \n')
                 raise Exception
-        
+
         if self.chain == chain_ or len(chain_) == 1:
             pass
+        elif len(self.chain) > len(chain_):
+            self.chain_id+=1
         else:
             self.chain = self.load_chain_json()
         self.update_chain_data_()
