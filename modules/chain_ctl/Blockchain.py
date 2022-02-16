@@ -78,7 +78,7 @@ class Blockchain_:
         validate_master_chain(chain_)
 
         self.update_chain_data_()
-        print("!!Hey [chain validated]  !!")
+        print("!!Hey [chain valid]  !!")
         if len(self.chain.keys()) % 100 == 0:
             print(self.hash_chain_())
 
@@ -146,6 +146,7 @@ class Blockchain_:
         self.validate_chain()
         if appendage.get('previous_hash') == self.get_tallest_block()[1] and appendage.get('index') == len(self.chain):
             self.chain.update(block.block_dict)
+            print("!!Hey [new block success]  !!")
             self.write_chain_json()
             self.validate_chain()
         else:
@@ -187,7 +188,7 @@ def load_master_chain(chk_chain:dict=None) -> dict:
 
 def update_master_chain(new_master:dict):
     '''
-        Update Blockchain_ state along with its chain_data to JSON files
+        Update Master Blockchain_ state along with its chain_data to JSON files
     '''
     with open(f"{os.getcwd()}/Master_chain.json", "w") as file:
         file.write(json.dumps(new_master, indent=2))
@@ -196,7 +197,7 @@ def update_master_chain(new_master:dict):
 
 def validate_master_chain(new_master:dict=None):
     '''
-        Validate the canonical master chain; 
+        Validate the canonical Master chain; 
     '''
     chain_ = load_master_chain(new_master)
 
@@ -217,5 +218,5 @@ def validate_master_chain(new_master:dict=None):
             update_master_chain(new_master)
         else:
             print("!!Hey [not on master]  !!")
-    print("!!Hey [master validated]  !!")
+    print("!!Hey [master valid]  !!")
 
