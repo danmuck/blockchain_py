@@ -165,7 +165,7 @@ def load_master_chain(chk_chain:dict=None) -> dict:
         File handling for the Master Blockchain_ state via JSON
     '''
     try:
-        with open(f"{os.getcwd()}/chain_data/Master_chain.json", "r") as file:
+        with open(f"{os.getcwd()}/Master_chain.json", "r") as file:
             chain_ = dict(json.load(file))
             return chain_
     except json.JSONDecodeError:
@@ -176,7 +176,7 @@ def load_master_chain(chk_chain:dict=None) -> dict:
         except FileExistsError:
             pass
         finally:
-            with open(f"{os.getcwd()}/chain_data/Master_chain.json", "x") as file:
+            with open(f"{os.getcwd()}/Master_chain.json", "x") as file:
                 if chk_chain != None:
                     chain_ = json.dumps(chk_chain)
                     file.write(chain_)
@@ -189,7 +189,7 @@ def update_master_chain(new_master:dict):
     '''
         Update Blockchain_ state along with its chain_data to JSON files
     '''
-    with open(f"{os.getcwd()}/chain_data/Master_chain.json", "w") as file:
+    with open(f"{os.getcwd()}/Master_chain.json", "w") as file:
         file.write(json.dumps(new_master, indent=2))
         print("!!Hey [on master]  !!")
     pass
