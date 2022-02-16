@@ -94,9 +94,10 @@ class No_fun:
         img_ = str
         trait_ = str
         if self.void is True:
-            color_ = "V"
-            border_ = "V"
+            color_ = "black"
+            border_ = "black"
             void_ = "(V/O/I/D)"
+            img_ = "[    ]"
             print("(((V/O/I/D/V/O/I/D/V/O/I/D)))")
         else:
             color_, border_ = self.get_colors()
@@ -129,14 +130,14 @@ class No_fun:
             trait_ = "Common"
 
         void_attrs:dict = {
-                "num": ez_num_,
-                "trait": trait_,
-                "float": float_,
-                "color": color_,
-                "border": border_,
-                "img": img_,
-                "time": time_,
-                "void": void_,
+                "num": str(ez_num_),
+                "trait": str(trait_),
+                "float": str(float_),
+                "color": str(color_),
+                "border": str(border_),
+                "img": str(img_),
+                "time": str(time_),
+                "void": str(void_),
             }
         void_hash:str = self.hash_it(void_attrs)
         final_void:dict = {void_hash: void_attrs}
@@ -161,6 +162,7 @@ class No_fun:
     def get_colors(self) -> str:
         bg_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple"]
         border_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple"]
+    
         return bg_[randint(0,9)], border_[randint(0,9)]
 
     def get_image(self) -> str:
