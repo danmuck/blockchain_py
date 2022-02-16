@@ -96,7 +96,8 @@ class No_fun:
         if self.void is True:
             color_ = "V"
             border_ = "V"
-            void_ = "VOID"
+            void_ = "(V/O/I/D)"
+            print("(((V/O/I/D/V/O/I/D/V/O/I/D)))")
         else:
             color_, border_ = self.get_colors()
             img_ = self.get_image()
@@ -119,7 +120,7 @@ class No_fun:
             trait_ = ".Uppers."
         elif ez_num_ > 1234:
             ez_num_ = str(ez_num_)
-            trait_ = "::::void::::"
+            trait_ = "::::(V/O/I/D)::::"
         else:
             ez_num_ = str(ez_num_)
             trait_ = "Common"
@@ -146,7 +147,7 @@ class No_fun:
 
     def get_float(self) -> str:
         float_ = randint(0, 100000000)
-        if float_ >= 99999999:
+        if float_ >= 99999992:
             float_ = "VOID"
             self.void = True
             return float_
@@ -293,6 +294,7 @@ class Minter_:
         else:
             print("  .::[rip]::.")
             print("  u no winner ")
+        
 
     def get_percents_(self) -> list:
         unr_16_p = (len(self.unr_16_) / self.iters_) * 100
