@@ -160,7 +160,7 @@ class Blockchain_:
             # print(block)
             self.chain_data.update({block[0]: (block[1]['index'], block[1]['chain_data'])})
 
-def load_master_chain(chk_chain:Blockchain_=None) -> dict:
+def load_master_chain(chk_chain:dict=None) -> dict:
     '''
         File handling for the Master Blockchain_ state via JSON
     '''
@@ -179,9 +179,9 @@ def load_master_chain(chk_chain:Blockchain_=None) -> dict:
         finally:
             with open(f"{os.getcwd()}/chain_data/Master_chain.json", "x") as file:
                 if chk_chain != None:
-                    chain_ = json.dumps(chk_chain.chain)
+                    chain_ = json.dumps(chk_chain)
                     file.write(chain_)
-                    return chk_chain.chain
+                    return chk_chain
                 file.write(json.dumps({"oops":"goof"}))
                 print("no chain given to load_master_chain()")
                 return {}
@@ -200,7 +200,7 @@ def validate_master_chain(new_master:dict=None):
     '''
         Validate the canonical master chain; 
     '''
-    chain_ = load_master_chain()
+    chain_ = load_master_chain(new_master)
 
     for i in chain_.keys():
         block_key = chain_.get(i)['previous_hash']
