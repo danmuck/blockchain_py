@@ -60,11 +60,17 @@ class Blockchain_:
                 print(f'\n!!Err Bad block. [{i}] !! \n')
                 raise Exception
 
-        if self.chain == chain_ or len(chain_) == 1:
-            pass
-        elif len(self.chain) > len(chain_):
+        if list(self.chain.keys()) in list(chain_.keys()) and len(chain_) >= len(self.chain) or len(chain_) == 1:
+            if self.chain == chain_:
+                pass
+            self.load_chain_json()
+        elif len(self.chain) > len(chain_) and list(chain_.keys()) in list(self.chain.keys()):
+            # prepare to diverge
             self.chain_id+=1
+            self.validate_chain()
         else:
+            # take the chain on file
+            # dead code
             self.chain = self.load_chain_json()
         self.update_chain_data_()
         print("!!Hey [chain validated]  !!")
