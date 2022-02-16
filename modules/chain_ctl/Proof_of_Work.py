@@ -122,7 +122,6 @@ class Proof_of_Work:
         return new_nonce
 
     def mine_block(self, txns:list=[], chain_data:dict={}) -> dict:
-        self.chain_.update_chain_data_()
         previous_block = self.chain_.get_tallest_block()[0]
         previous_nonce = previous_block['nonce']
         mock = Block_(

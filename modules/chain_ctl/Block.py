@@ -30,11 +30,9 @@ class Block_:
 
     def hash_block_(self, block:dict) -> str:
         '''
-        Hash a block and return the cryptographic hash value of the block
-
-        convert a string -> bytes and return encrypted hash
-        '''
-        
+            Hash a block and return the cryptographic hash value of the block
+                convert a string -> bytes and return encrypted hash
+        '''    
         encoded_block = json.dumps(block).encode()
         return ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
         

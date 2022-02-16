@@ -5,9 +5,9 @@ class Blockchain_:
 
     def __init__(self, chain_id:int) -> None:
 
-        self.chain_id = chain_id
-        self.chain = {}
-        self.chain_data = {}
+        self.chain_id:int = chain_id
+        self.chain:dict = {}
+        self.chain_data:dict = {}
 
         self.genesis_block = Block_(
             index=len(self.chain.keys()),
@@ -18,8 +18,13 @@ class Blockchain_:
             chain_data = {},
             print_it=False
         )
+        
         self.chain.update((self.genesis_block.block_dict))
-        self.validate_chain()
+        try:
+            self.validate_chain()
+        except Exception:
+            self.chain = self.load_chain_json()
+            self.validate_chain()
         print("\n\nBlockchain_ initialized...\n  TAIL: ", json.dumps(list(self.chain.values())[-4:], indent=2), "\n\n")
     
     def validate_chain(self):
@@ -27,28 +32,41 @@ class Blockchain_:
             Validate the current chain against its canonical master; 
                 currently validating against chain_data/Chain_state.json
         '''
-        self.chain = self.load_chain_json()
-        j = 0
-        for i in self.chain.keys():
-            block_key = self.chain.get(i)['previous_hash']
-            prev_block = self.chain.get(block_key)
-            encoded_block = json.dumps(prev_block).encode()
-            hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
-            if block_key == hashed_block:
-                # print(f'Previous block hashed:\t {prev_block["index"]}::{hashed_block}')
-                # print(f'Good Block:\t\t {self.chain.get(i)["index"]}::{i}')
-                pass
-            elif i == list(self.chain.keys())[0]:
-                # print()
-                # print(f'Genesis_block:\t\t {j}::{i}')
-                pass
-            else:
-                print(f'\n!!Err Bad block. [{i}] !! \n')
-                raise Exception
-        self.update_chain_data_()
-        print("!!Hey [chain validated]  !!")
-        if len(self.chain.keys()) % 100 == 0:
-            print(self.hash_chain_())
+        chain_ = self.load_chain_json()
+        if self.chain == chain_ or len(chain_) == 1:
+            for i in self.chain.keys():
+                block_key = self.chain.get(i)['previous_hash']
+                prev_block = self.chain.get(block_key)
+                encoded_block = json.dumps(prev_block).encode()
+                hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
+                if block_key == hashed_block:
+                    # print(f'Previous block hashed:\t {prev_block["index"]}::{hashed_block}')
+                    # print(f'Good Block:\t\t {chain_.get(i)["index"]}::{i}')
+                    pass
+                elif i == list(self.chain.keys())[0]:
+                    pass
+                else:
+                    print(f'\n!!Err Bad block. [{i}] !! \n')
+                    raise Exception
+            for j in chain_.keys():
+                block_key = chain_.get(j)['previous_hash']
+                prev_block = chain_.get(block_key)
+                encoded_block = json.dumps(prev_block).encode()
+                hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
+                if block_key == hashed_block:
+                    pass
+                elif j == list(chain_.keys())[0]:
+                    pass
+                else:
+                    print(f'\n!!Err Bad block. [{i}] !! \n')
+                    raise Exception
+            self.update_chain_data_()
+            print("!!Hey [chain validated]  !!")
+            if len(self.chain.keys()) % 100 == 0:
+                print(self.hash_chain_())
+        else:
+            raise Exception
+
 
     def load_chain_json(self) -> dict:
         '''
