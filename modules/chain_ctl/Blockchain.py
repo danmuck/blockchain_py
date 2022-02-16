@@ -20,11 +20,11 @@ class Blockchain_:
         )
         
         self.chain.update((self.genesis_block.block_dict))
-        try:
-            self.validate_chain()
-        except Exception:
-            self.chain = self.load_chain_json()
-            self.validate_chain()
+        # try:
+        #     self.validate_chain()
+        # except Exception:
+        #     self.chain = self.load_chain_json()
+        self.validate_chain()
         print("\n\nBlockchain_ initialized...\n  TAIL: ", json.dumps(list(self.chain.values())[-4:], indent=2), "\n\n")
     
     def validate_chain(self):
@@ -33,39 +33,43 @@ class Blockchain_:
                 currently validating against chain_data/Chain_state.json
         '''
         chain_ = self.load_chain_json()
+        for i in self.chain.keys():
+            block_key = self.chain.get(i)['previous_hash']
+            prev_block = self.chain.get(block_key)
+            encoded_block = json.dumps(prev_block).encode()
+            hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
+            if block_key == hashed_block:
+                # print(f'Previous block hashed:\t {prev_block["index"]}::{hashed_block}')
+                # print(f'Good Block:\t\t {chain_.get(i)["index"]}::{i}')
+                pass
+            elif i == list(self.chain.keys())[0]:
+                pass
+            else:
+                print(f'\n!!Err Bad block. [{i}] !! \n')
+                raise Exception
+        for j in chain_.keys():
+            block_key = chain_.get(j)['previous_hash']
+            prev_block = chain_.get(block_key)
+            encoded_block = json.dumps(prev_block).encode()
+            hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
+            if block_key == hashed_block:
+                pass
+            elif j == list(chain_.keys())[0]:
+                pass
+            else:
+                print(f'\n!!Err Bad block. [{i}] !! \n')
+                raise Exception
+        
         if self.chain == chain_ or len(chain_) == 1:
-            for i in self.chain.keys():
-                block_key = self.chain.get(i)['previous_hash']
-                prev_block = self.chain.get(block_key)
-                encoded_block = json.dumps(prev_block).encode()
-                hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
-                if block_key == hashed_block:
-                    # print(f'Previous block hashed:\t {prev_block["index"]}::{hashed_block}')
-                    # print(f'Good Block:\t\t {chain_.get(i)["index"]}::{i}')
-                    pass
-                elif i == list(self.chain.keys())[0]:
-                    pass
-                else:
-                    print(f'\n!!Err Bad block. [{i}] !! \n')
-                    raise Exception
-            for j in chain_.keys():
-                block_key = chain_.get(j)['previous_hash']
-                prev_block = chain_.get(block_key)
-                encoded_block = json.dumps(prev_block).encode()
-                hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
-                if block_key == hashed_block:
-                    pass
-                elif j == list(chain_.keys())[0]:
-                    pass
-                else:
-                    print(f'\n!!Err Bad block. [{i}] !! \n')
-                    raise Exception
-            self.update_chain_data_()
-            print("!!Hey [chain validated]  !!")
-            if len(self.chain.keys()) % 100 == 0:
-                print(self.hash_chain_())
+            pass
         else:
-            raise Exception
+            self.chain = self.load_chain_json()
+        self.update_chain_data_()
+        print("!!Hey [chain validated]  !!")
+        if len(self.chain.keys()) % 100 == 0:
+            print(self.hash_chain_())
+        # else:
+        #     raise Exception
 
 
     def load_chain_json(self) -> dict:
@@ -135,9 +139,6 @@ class Blockchain_:
             self.validate_chain()
         else:
             print(f"\n\nErr!! Bad Block on block sig: [{appendage.get('signature')}] !!")
-            print("BLOCK_HEIGHT: ", appendage.get("index"), " | REAL_HEIGHT: ", len(self.chain))
-            print("REAL_PREV_HASH: ", self.get_tallest_block()[1])
-            print("PREV_ON_BLOCK:  ", appendage.get('previous_hash'))
 
     def update_chain_data_(self):
         '''
