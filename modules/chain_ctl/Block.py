@@ -2,6 +2,8 @@ import datetime, json, hashlib
 
 
 class Block_:
+    block_data:dict
+    block_hash:str
     def __init__(self,
         index: int,
         previous_hash: str,
@@ -22,7 +24,7 @@ class Block_:
             'previous_hash': previous_hash
             } 
         self.block_hash = self.hash_block_(self.block)
-        self.block_dict = {self.block_hash: self.block}
+        self.block_data = {self.block_hash: self.block}
         if print_it is True:
             print("\n\nNew Block_ initialized... \nBLOCK: ", json.dumps(self.block, indent=2))
             print("BLOCK_HASH: ", self.block_hash)

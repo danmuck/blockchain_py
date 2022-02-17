@@ -3,8 +3,11 @@ import datetime, hashlib, json, os
 from .Block import Block_
 
 class Blockchain_:
+    chain_id:int
+    chain:dict
+    chain_data:dict
+    genesis_b:dict
     sync_mc = bool
-
     def __init__(self, chain_id:int) -> None:
 
         self.chain_id:int = chain_id
@@ -24,12 +27,13 @@ class Blockchain_:
         # global MASTER_CHAIN
         # MASTER_CHAIN = load_master_chain(self)
         
-        self.chain.update((self.genesis_block.block_dict))
+        self.chain.update((self.genesis_block.block_data))
         # try:
         #     self.validate_chain()
         # except Exception:
         #     self.chain = self.load_chain_json()
         self.validate_chain(True)
+        self.genesis_b = tuple(self.chain.items())[0]
         print("\n\nBlockchain_ initialized...\n  TAIL: ", json.dumps(list(self.chain.values())[-4:], indent=2), "\n\n")
     
     def validate_chain(self, print_it=False) -> bool:
@@ -154,7 +158,7 @@ class Blockchain_:
         appendage = block.block
         self.validate_chain()
         if appendage.get('previous_hash') == self.get_tallest_block()[1] and appendage.get('index') == len(self.chain):
-            self.chain.update(block.block_dict)
+            self.chain.update(block.block_data)
             print("!!Hey [new block success]  !!")
             self.write_chain_json()
             self.validate_chain()
