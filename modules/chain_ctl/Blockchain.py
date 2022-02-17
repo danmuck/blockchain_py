@@ -27,10 +27,10 @@ class Blockchain_:
         #     self.validate_chain()
         # except Exception:
         #     self.chain = self.load_chain_json()
-        self.validate_chain()
+        self.validate_chain(True)
         print("\n\nBlockchain_ initialized...\n  TAIL: ", json.dumps(list(self.chain.values())[-4:], indent=2), "\n\n")
     
-    def validate_chain(self) -> bool:
+    def validate_chain(self, print_it=False) -> bool:
         '''
             Validate the current chain against its canonical master; 
                 currently validating against chain_data/Chain_state.json
@@ -75,10 +75,11 @@ class Blockchain_:
         else:
             self.chain = self.load_chain_json()
 
-        validate_master_chain(chain_)
+        validate_master_chain(chain_, print_it)
 
         self.update_chain_data_()
-        print("!!Hey [chain valid]  !!")
+        if print_it is True:
+            print("!!Hey [chain valid]  !!")
         if len(self.chain.keys()) % 100 == 0:
             print(self.hash_chain_())
 
@@ -182,20 +183,21 @@ def load_master_chain(chk_chain:dict=None) -> dict:
                     chain_ = json.dumps(chk_chain)
                     file.write(chain_)
                     return chk_chain
-                file.write(json.dumps({"oops":"goof"}))
-                print("no chain given to load_master_chain()")
+                file.write(json.dumps({"oops": "goof", "probably": "delete_me"}))
+                print("!!Err No chain given to load_master_chain()  !!")
                 return {}
 
-def update_master_chain(new_master:dict):
+def update_master_chain(new_master:dict, print_it=False):
     '''
         Update Master Blockchain_ state along with its chain_data to JSON files
     '''
     with open(f"{os.getcwd()}/Master_chain.json", "w") as file:
         file.write(json.dumps(new_master, indent=2))
-        print("!!Hey [on master]  !!")
+        if print_it is True:
+            print("!!Hey [on master]  !!")
     pass
 
-def validate_master_chain(new_master:dict=None):
+def validate_master_chain(new_master:dict=None, print_it=False):
     '''
         Validate the canonical Master chain; 
     '''
@@ -211,12 +213,18 @@ def validate_master_chain(new_master:dict=None):
         elif i == list(chain_.keys())[0]:
             pass
         else:
-            print(f'\n!!Err Bad block. [{i}] !! \n')
+            print(f'\n!!Err Bad block on Master. [{i}] !! \n')
             raise Exception
     if new_master != None:
         if new_master.items() == chain_.items() or len(new_master) == len(chain_) + 1:
-            update_master_chain(new_master)
+            if print_it is True:
+                update_master_chain(new_master, print_it=True)
+            else:
+                update_master_chain(new_master)
         else:
+            # if print_it is True:
             print("!!Hey [not on master]  !!")
-    # print("!!Hey [master valid]  !!")
+
+    if print_it is True:
+        print("!!Hey [master valid]  !!")
 
