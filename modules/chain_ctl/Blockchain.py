@@ -237,11 +237,11 @@ class Blockchain_:
                 print("!!Hey [not on master]  !!")
                 if self.sync_mc is True:
                     u_input = input("Sync chain to master? (Y/n) \n: ").casefold()
-                    if u_input in ['y', 'yes']:
+                    if u_input in ['y', 'yes', '']:
                         self.sync_to_master()
                     else:
                         u_input = input("Are you sure you would like to skip master_sync? (Y/n) \n: ").casefold()
-                        if u_input in ['y', 'yes']:
+                        if u_input in ['y', 'yes', '']:
                             self.sync_mc = False
                         else:
                             self.sync_to_master()
