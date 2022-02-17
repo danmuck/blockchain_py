@@ -55,7 +55,7 @@ class Proof_of_Work:
             if len(self.chain_.chain) == 1:
                 self.difficulty = 0
                 check_nonce = True        
-            elif len(self.chain_.chain) < 50:
+            elif len(self.chain_.chain) < 100:
                 self.difficulty = 1
                 if hash_value[:1] == '0':
                     check_nonce = True

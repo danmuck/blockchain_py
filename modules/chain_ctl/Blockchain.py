@@ -3,12 +3,14 @@ import datetime, hashlib, json, os
 from .Block import Block_
 
 class Blockchain_:
+    sync_mc = bool
 
     def __init__(self, chain_id:int) -> None:
 
         self.chain_id:int = chain_id
         self.chain:dict = {}
         self.chain_data:dict = {}
+        self.sync_mc = True
 
         self.genesis_block = Block_(
             index=len(self.chain.keys()),
@@ -75,7 +77,7 @@ class Blockchain_:
         else:
             self.chain = self.load_chain_json()
 
-        validate_master_chain(chain_, print_it)
+        self.validate_master_chain(chain_, print_it)
 
         self.update_chain_data_()
         if print_it is True:
@@ -113,6 +115,12 @@ class Blockchain_:
             file.write(json.dumps(self.chain, indent=2))
         with open(f"{os.getcwd()}/chain_data/Chain_data_{self.chain_id}.json", "w") as file:
             file.write(json.dumps(self.chain_data, indent=2))
+
+    def sync_to_master(self):
+        self.chain = self.load_master_chain()
+        self.update_chain_data_()
+        self.write_chain_json()
+        self.validate_chain()
 
     def get_tallest_block(self):
         '''
@@ -162,69 +170,85 @@ class Blockchain_:
             # print(block)
             self.chain_data.update({block[0]: (block[1]['index'], block[1]['chain_data'])})
 
-def load_master_chain(chk_chain:dict=None) -> dict:
-    '''
-        File handling for the Master Blockchain_ state via JSON
-    '''
-    try:
-        with open(f"{os.getcwd()}/Master_chain.json", "r") as file:
-            chain_ = dict(json.load(file))
-            return chain_
-    except json.JSONDecodeError:
-        print("SCREAM")
-    except FileNotFoundError:
+
+
+
+
+    def load_master_chain(self, chk_chain:dict=None) -> dict:
+        '''
+            File handling for the Master Blockchain_ state via JSON
+        '''
         try:
-            os.mkdir(f"{os.getcwd()}/chain_data/")
-        except FileExistsError:
-            pass
-        finally:
-            with open(f"{os.getcwd()}/Master_chain.json", "x") as file:
-                if chk_chain != None:
-                    chain_ = json.dumps(chk_chain)
-                    file.write(chain_)
-                    return chk_chain
-                file.write(json.dumps({"oops": "goof", "probably": "delete_me"}))
-                print("!!Err No chain given to load_master_chain()  !!")
-                return {}
+            with open(f"{os.getcwd()}/Master_chain.json", "r") as file:
+                chain_ = dict(json.load(file))
+                return chain_
+        except json.JSONDecodeError:
+            print("SCREAM")
+        except FileNotFoundError:
+            try:
+                os.mkdir(f"{os.getcwd()}/chain_data/")
+            except FileExistsError:
+                pass
+            finally:
+                with open(f"{os.getcwd()}/Master_chain.json", "x") as file:
+                    if chk_chain != None:
+                        chain_ = json.dumps(chk_chain)
+                        file.write(chain_)
+                        return chk_chain
+                    file.write(json.dumps({"oops": "goof", "probably": "delete_me"}))
+                    print("!!Err No chain given to load_master_chain()  !!")
+                    return {}
 
-def update_master_chain(new_master:dict, print_it=False):
-    '''
-        Update Master Blockchain_ state along with its chain_data to JSON files
-    '''
-    with open(f"{os.getcwd()}/Master_chain.json", "w") as file:
-        file.write(json.dumps(new_master, indent=2))
-        if print_it is True:
-            print("!!Hey [on master]  !!")
-    pass
-
-def validate_master_chain(new_master:dict=None, print_it=False):
-    '''
-        Validate the canonical Master chain; 
-    '''
-    chain_ = load_master_chain(new_master)
-
-    for i in chain_.keys():
-        block_key = chain_.get(i)['previous_hash']
-        prev_block = chain_.get(block_key)
-        encoded_block = json.dumps(prev_block).encode()
-        hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
-        if block_key == hashed_block:
-            pass
-        elif i == list(chain_.keys())[0]:
-            pass
-        else:
-            print(f'\n!!Err Bad block on Master. [{i}] !! \n')
-            raise Exception
-    if new_master != None:
-        if new_master.items() == chain_.items() or len(new_master) == len(chain_) + 1:
+    def update_master_chain(self, new_master:dict, print_it=False):
+        '''
+            Update Master Blockchain_ state along with its chain_data to JSON files
+        '''
+        with open(f"{os.getcwd()}/Master_chain.json", "w") as file:
+            file.write(json.dumps(new_master, indent=2))
             if print_it is True:
-                update_master_chain(new_master, print_it=True)
+                print("!!Hey [on master]  !!")
+        pass
+
+    def validate_master_chain(self, new_master:dict=None, print_it=False):
+        '''
+            Validate the canonical Master chain; 
+        '''
+        chain_ = self.load_master_chain(new_master)
+        for i in chain_.keys():
+            block_key = chain_.get(i)['previous_hash']
+            prev_block = chain_.get(block_key)
+            encoded_block = json.dumps(prev_block).encode()
+            hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
+            if block_key == hashed_block:
+                pass
+            elif i == list(chain_.keys())[0]:
+                pass
             else:
-                update_master_chain(new_master)
-        else:
-            # if print_it is True:
-            print("!!Hey [not on master]  !!")
+                print(f'\n!!Err Bad block on Master. [{i}] !! \n')
+                raise Exception
+        if new_master != None:
+            if new_master.items() == chain_.items() or len(new_master) == len(chain_) + 1:
+                if print_it is True:
+                    self.update_master_chain(new_master, print_it=True)
+                else:
+                    self.update_master_chain(new_master)
+            else:
+                # if print_it is True:
+                print("!!Hey [not on master]  !!")
+                if self.sync_mc is True:
+                    u_input = input("Sync chain to master? (Y/n) \n: ").casefold()
+                    if u_input in ['y', 'yes']:
+                        self.sync_to_master()
+                    else:
+                        u_input = input("Are you sure you would like to skip master_sync? (Y/n) \n: ").casefold()
+                        if u_input in ['y', 'yes']:
+                            self.sync_mc = False
+                        else:
+                            self.sync_to_master()
 
-    if print_it is True:
-        print("!!Hey [master valid]  !!")
+        if print_it is True:
+            print("!!Hey [master valid]  !!")
 
+
+    # def sync_master(chain_id:int):
+    #     Blockchain_(chain_id).sync_to_master()
