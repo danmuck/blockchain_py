@@ -24,16 +24,12 @@ chain_menu = (
 
 )        
 
-
 '''
     Minter
     Mine One Custom
     Mine empty blocks
     Print data
     Nuke chain
-
-
-
 
 '''
 class Timer:
@@ -47,22 +43,126 @@ class Timer:
 timer = Timer()
 
 
+global CHAIN, CHAIN_ID, PROOF_OF_WORK, MINTER
+CHAIN:Blockchain_
+CHAIN_ID:int
+PROOF_OF_WORK:Proof_of_Work 
+MINTER:Minter_
+
+def chain_info():
+    pass
+
+def minter_init():
+    print("""-- Welcome to the No_fun::Minter
+
+    No_funs are a very basic implementation of NFTs or Non-Fungible Tokens...
+        with every iteration you have the chance to land a No_fun...
+        ... and in turn, mine a block into the current chain!
+        ... No_funs carry traits with a chance to land a rare void state.
+        
+        Currently all No_funs are written into blocks::chain_data with that 
+        expected to change upon the implementation of txns and $DIRT.
+        
+        All Minter_data can be found in the [minter_data] directory once a 
+        minter has been initialized along with your respective Chain_data
+        files in the [chain_data] directory.
+
+                                                    -- Dirt_Ranch_mgmt
+    
+    """)
+    global CHAIN, CHAIN_ID, MINTER
+    u_input_q = input("Single Iteration Lotto..? \n (single iter_, no minter_logs) \n(y/N): ").casefold()
+    if u_input_q in ['Y', 'y', 'yes']:
+        MINTER = Minter_(CHAIN, quick=True)
+        MINTER.generator()
+        chain_init(CHAIN.chain_id)
+    else:
+        u_input_n = str(input("Enter a minter_name.. \n  default: Minter \n: "))
+        u_input_i = input("Enter desired iterations.. \n  default: 16000 \n: ")
+        if u_input_n == '':
+            u_input_n = 'Minter'
+        if u_input_i == '':
+            u_input_i = 16000
+        else:
+            u_input_i = int(u_input_i)
+            if u_input_i == 0:
+                u_input_i = 1
+
+        MINTER = Minter_(CHAIN, u_input_n, u_input_i)
+        MINTER.generator()
+        MINTER.update_history_json()
+        MINTER.history_counts()
+
+        print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(CHAIN.chain, indent=2))
+        print("HEIGHT: ", len(CHAIN.chain))
+
+        chain_init(CHAIN.chain_id)
+    pass
+
+def pow_init():
+    pass
+
+def chain_init(chain_id:int):
+    global CHAIN, CHAIN_ID
+    CHAIN_ID = chain_id 
+    CHAIN = Blockchain_(CHAIN_ID)
+    print("""Where to next?
+        1. Chain Info
+        2. Block Miner
+        3. No_fun Minter
+    """)
+    u_input = int(input(": "))
+    if u_input == 1:
+        pass
+    elif u_input == 2:
+        pow_init(CHAIN)
+    elif u_input == 3:
+        minter_init()
+    pass
+
+def dirt_ranch_welcome():
+    print("-- Welcome to Dirt_Ranch, which wagon you ridin' today?")
+    print('''
+        1. Enter Chain_id
+        2. Default on Master (chain_id=0)
+
+        0. Advanced_Mode_Auto
+    ''')
+    u_input = int(input(": "))
+    if u_input == 1:
+        u_input = input("chain_id: #")
+        chain_init(u_input)
+    elif u_input == 2:
+        chain_init(0)
+
+    elif u_input == 0:
+        # its just setting defaults
+        global CHAIN, CHAIN_ID, MINTER, PROOF_OF_WORK
+        CHAIN_ID = 0
+        CHAIN = Blockchain_(CHAIN_ID)
+        MINTER = Minter_(CHAIN)
+        PROOF_OF_WORK = Proof_of_Work(CHAIN)
+    pass
+
+
+
 
 def main():
-    bc = Blockchain_(99)
-    work = Proof_of_Work(bc)
-    minter = Minter_("Minter", 120000, 0, bc)
-    minter.generator()
-    # minter.check_for_uniques()
-    minter.update_history_json()
-    minter.history_counts()
-    print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(bc.chain, indent=2))
-    print("HEIGHT: ", len(bc.chain))
-    print(bc.hash_chain_())
-    # work.mine_block(txns=["FAKER hehe :)", "8==D"], chain_data={"Im_data": "Liar, he's a my key, IM data... maybe we're both data..."})
+    dirt_ranch_welcome()
+    # bc = Blockchain_(99)
+    # work = Proof_of_Work(bc)
+    # minter = Minter_(bc, iters_=120000)
+    # minter.generator()
+    # # minter.check_for_uniques()
+    # minter.update_history_json()
+    # minter.history_counts()
+    # print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(bc.chain, indent=2))
+    # print("HEIGHT: ", len(bc.chain))
     # print(bc.hash_chain_())
-    test = ez_random().get_()
-    print(test)
+    # # work.mine_block(txns=["FAKER hehe :)", "8==D"], chain_data={"Im_data": "Liar, he's a my key, IM data... maybe we're both data..."})
+    # # print(bc.hash_chain_())
+    # test = ez_random().get_()
+    # print(test)
     # bl = Block_(0,"0xsomestringshehe", 13, [], "stresfd", {})
     # bc.append_block_(bl)
     # timer.start_timer()

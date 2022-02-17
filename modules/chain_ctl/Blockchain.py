@@ -249,6 +249,3 @@ class Blockchain_:
         if print_it is True:
             print("!!Hey [master valid]  !!")
 
-
-    # def sync_master(chain_id:int):
-    #     Blockchain_(chain_id).sync_to_master()

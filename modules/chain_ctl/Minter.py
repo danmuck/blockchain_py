@@ -182,7 +182,9 @@ class Minter_:
     uppers_ = [] # > 999
     common_ = [] # the rest
     master_ = []
-    def __init__(self, name_:str, iters_:int, sleep_time:float, chain:Blockchain_, quick:bool=False) -> None:
+    chain:Blockchain_
+    name_:str
+    def __init__(self, chain:Blockchain_, name_:str="Minter", iters_:int=16000, sleep_time:float=0, quick:bool=False) -> None:
         self.chain = chain
         self.unique_ = [] # uniques in a given session
         self.real_binaries_landed_ = []
