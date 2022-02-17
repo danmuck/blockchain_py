@@ -126,7 +126,7 @@ def dirt_ranch_welcome():
         1. Enter Chain_id
         2. Default on Master (chain_id=0)
 
-        0. Advanced_Mode_Auto
+        0. Advanced_Mode_Autorun
     ''')
     u_input = int(input(": "))
     if u_input == 1:
@@ -136,12 +136,20 @@ def dirt_ranch_welcome():
         chain_init(0)
 
     elif u_input == 0:
-        # its just setting defaults
+        # its just running defaults
         global CHAIN, CHAIN_ID, MINTER, PROOF_OF_WORK
         CHAIN_ID = 0
         CHAIN = Blockchain_(CHAIN_ID)
         MINTER = Minter_(CHAIN)
         PROOF_OF_WORK = Proof_of_Work(CHAIN)
+
+        MINTER.generator()
+        MINTER.update_history_json()
+        MINTER.history_counts()
+
+        print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(CHAIN.chain, indent=2))
+        print("HEIGHT: ", len(CHAIN.chain))
+
     pass
 
 
