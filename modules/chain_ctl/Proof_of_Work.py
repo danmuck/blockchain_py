@@ -160,7 +160,7 @@ class Proof_of_Work:
             txn = self.b_reward_txn(miner_sig, txn_data)
             txns.append(txn)
         else:
-            miner_sig = "fake miner"
+            miner_sig = self.chain_.genesis_b
             txn = self.b_reward_txn(miner_sig, txn_data)
             txns.append(txn)
 

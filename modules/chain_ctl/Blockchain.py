@@ -6,7 +6,7 @@ class Blockchain_:
     chain_id:int
     chain:dict
     chain_data:dict
-    genesis_b:dict
+    genesis_b:str
     sync_mc = bool
     def __init__(self, chain_id:int) -> None:
 
@@ -33,7 +33,7 @@ class Blockchain_:
         # except Exception:
         #     self.chain = self.load_chain_json()
         self.validate_chain(True)
-        self.genesis_b = tuple(self.chain.items())[0]
+        self.genesis_b = str(list(self.chain.keys())[0])
         print("\n\nBlockchain_ initialized...\n  TAIL: ", json.dumps(list(self.chain.values())[-4:], indent=2), "\n\n")
     
     def validate_chain(self, print_it=False) -> bool:
