@@ -2,6 +2,7 @@
 #   fix logs so they do not compound results of multiple runs
 
 from .Proof_of_Work import Proof_of_Work, Blockchain_
+from .Transactions import Wallet_
 # from .No_funs import No_fun
 import math, datetime, os, json, hashlib
 from operator import itemgetter
@@ -184,7 +185,7 @@ class Minter_:
     master_ = []
     chain:Blockchain_
     name_:str
-    def __init__(self, chain:Blockchain_, name_:str="Minter", iters_:int=16000, sleep_time:float=0, quick:bool=False) -> None:
+    def __init__(self, chain:Blockchain_, name_:str="Minter", iters_:int=256000, sleep_time:float=0, quick:bool=False) -> None:
         self.chain = chain
         self.unique_ = [] # uniques in a given session
         self.real_binaries_landed_ = []
@@ -248,7 +249,9 @@ class Minter_:
                 else:
                     block_chain_data = {}
                 proof = Proof_of_Work(self.chain)
-                proof.mine_block(txns=["txn data"], chain_data=block_chain_data)
+                # init no_fun txn
+                # txn = Txn_("to_address", self.chain.get_tallest_block[0], block_chain_data, amount, miner_fee)
+                proof.mine_block(txns=[], txn_data=block_chain_data)
 
                 # logs stuff
                 self.print_minter_Heys(ez_rand.return_)

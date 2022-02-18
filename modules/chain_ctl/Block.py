@@ -11,7 +11,6 @@ class Block_:
         txns: list,
         signature: str,
         chain_data: dict,
-        chain_id:int=0,
         print_it=False
     ) -> None:
         self.block = {

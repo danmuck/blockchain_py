@@ -3,6 +3,7 @@ coin_data/
 sandbox_/
 *minter_data/
 *chain_data/
+*txn_data/
 *secrets
 *user_data/
 Master_chain.json

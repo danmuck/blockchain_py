@@ -174,6 +174,17 @@ class Blockchain_:
             # print(block)
             self.chain_data.update({block[0]: (block[1]['index'], block[1]['chain_data'])})
 
+    def join_data(self):
+        joined_data = {}
+        for block in self.chain.items():
+            # print(block)
+            # self.chain_data.update({block[0]: (block[1]['index'], block[1]['chain_data'])})    
+            joined_data.update(block[1]['chain_data'])
+        return joined_data
+        
+
+        
+
 
 
 
