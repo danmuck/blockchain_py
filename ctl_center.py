@@ -78,15 +78,19 @@ def minter_init():
         chain_init(CHAIN.chain_id)
     else:
         u_input_n = str(input("Enter a minter_name.. \n  default: Minter \n: "))
-        u_input_i = input("Enter desired iterations.. \n  default: 16000 \n: ")
+        u_input_i = input("Enter desired iterations.. \n  default: 160000 \n: ")
         if u_input_n == '':
             u_input_n = 'Minter'
+
         if u_input_i == '':
-            u_input_i = 16000
+            u_input_i = 160000
         else:
-            u_input_i = int(u_input_i)
-            if u_input_i == 0:
-                u_input_i = 1
+            try:
+                u_input_i = int(u_input_i)
+                if u_input_i == 0:
+                    u_input_i = 1
+            except ValueError:
+                u_input_i = 160000
 
         MINTER = Minter_(CHAIN, u_input_n, u_input_i)
         MINTER.generator()
