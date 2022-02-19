@@ -154,6 +154,10 @@ class Wallet_:
         pass
 
     def store_wallet(self):
+        try:
+            os.mkdir(f"{os.getcwd()}/user_data/")
+        except FileExistsError:
+            pass
         with open(f"{os.getcwd()}/user_data/wallet.json", "x") as file:
             wallet_data =  json.dumps(self.gen_wallet(), indent=2)
             file.write(wallet_data)        
