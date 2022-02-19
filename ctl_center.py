@@ -146,7 +146,13 @@ def chain_init(chain_id:int):
     """)
     u_input = int(input(": "))
     if u_input == 1:
-        print(json.dumps(CHAIN.join_data(WALLET.gen_wallet()), indent=2))
+        # print(json.dumps(CHAIN.join_data(WALLET.gen_wallet()), indent=2))
+        chain_datas, all_txns, txn_splits, invent_splits = CHAIN.join_data(WALLET.gen_wallet())
+        print(json.dumps(chain_datas, indent=2))
+        print(json.dumps(all_txns, indent=2))
+        print(json.dumps(txn_splits, indent=2))
+        print(json.dumps(invent_splits, indent=2))
+
     elif u_input == 2:
         pow_init(CHAIN)
     elif u_input == 3:
