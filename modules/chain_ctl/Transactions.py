@@ -1,6 +1,7 @@
 
 import json, hashlib, datetime, os
 from random import randint
+from .Shifter import shifter_
 
 REC_OPTS = [
     "dog", "cat", "bird", "mouse", "leopard", "jaguar", "panther", "cheetah", "bobcat",
@@ -68,7 +69,7 @@ class Wallet_:
         hash_p, pass_ = self.set_signer()
 
         encoded_addr = json.dumps('_'.join([hash_r, hash_p, self.root_b])).encode()
-        hash_ = ''.join(('0x', hashlib.sha256(encoded_addr).hexdigest()))
+        hash_ = shifter_(''.join(('0x', hashlib.sha256(encoded_addr).hexdigest())))
         self.address_ = hash_
         print(f"""
            [ Ready to show password and passphrase for new wallet address:  ]
@@ -153,7 +154,7 @@ class Wallet_:
         encoded_p = json.dumps(pass_).encode()
         hash_p = ''.join(('0x', hashlib.sha512(encoded_p).hexdigest()))        
         encoded_addr = json.dumps('_'.join([hash_r, hash_p, o_chain_g])).encode()
-        w_addr_ = ''.join(('0x', hashlib.sha256(encoded_addr).hexdigest()))
+        w_addr_ = shifter_(''.join(('0x', hashlib.sha256(encoded_addr).hexdigest())))
         self.address_ = w_addr_
         self.balance = 0
         self.txn_hist = [{}]
@@ -249,4 +250,4 @@ class Txn_:
                 convert a string -> bytes and return encrypted hash
         '''    
         encoded_txn = json.dumps(raw_txn).encode()
-        return ''.join(('0x', hashlib.sha256(encoded_txn).hexdigest()))
+        return shifter_(''.join(('0x', hashlib.sha256(encoded_txn).hexdigest())))

@@ -3,6 +3,7 @@
 
 from .Proof_of_Work import Proof_of_Work, Blockchain_
 from .Transactions import Wallet_
+from .Shifter import shifter_
 # from .No_funs import No_fun
 import math, datetime, os, json, hashlib
 from operator import itemgetter
@@ -148,7 +149,7 @@ class No_fun:
 
     def hash_it(self, attrs_:dict) -> str:
         encoded_data = json.dumps(attrs_).encode()
-        return ''.join(('0x', hashlib.sha256(encoded_data).hexdigest()))
+        return shifter_(''.join(('0x', hashlib.sha256(encoded_data).hexdigest())))
 
     def get_float(self) -> str:
         float_ = randint(0, 100000000)

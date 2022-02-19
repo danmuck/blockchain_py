@@ -1,5 +1,5 @@
 import datetime, json, hashlib
-from .Shifter import conv_hash
+from .Shifter import shifter_
 
 class Block_:
     block_data:dict
@@ -35,5 +35,5 @@ class Block_:
                 convert a string -> bytes and return encrypted hash
         '''    
         encoded_block = json.dumps(block).encode()
-        return ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
+        return shifter_(''.join(('0x', hashlib.sha256(encoded_block).hexdigest())))
         

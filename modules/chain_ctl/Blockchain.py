@@ -1,7 +1,7 @@
 import datetime, hashlib, json, os
 
 from .Block import Block_
-
+from .Shifter import shifter_
 class Blockchain_:
     chain_id:int
     chain:dict
@@ -47,7 +47,7 @@ class Blockchain_:
             block_key = self.chain.get(i)['previous_hash']
             prev_block = self.chain.get(block_key)
             encoded_block = json.dumps(prev_block).encode()
-            hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
+            hashed_block = shifter_(''.join(('0x', hashlib.sha256(encoded_block).hexdigest())))
             if block_key == hashed_block:
                 # print(f'Previous block hashed:\t {prev_block["index"]}::{hashed_block}')
                 # print(f'Good Block:\t\t {chain_.get(i)["index"]}::{i}')
@@ -61,7 +61,7 @@ class Blockchain_:
             block_key = chain_.get(j)['previous_hash']
             prev_block = chain_.get(block_key)
             encoded_block = json.dumps(prev_block).encode()
-            hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
+            hashed_block = shifter_(''.join(('0x', hashlib.sha256(encoded_block).hexdigest())))
             if block_key == hashed_block:
                 pass
             elif j == list(chain_.keys())[0]:
@@ -219,7 +219,7 @@ class Blockchain_:
             block_key = chain_.get(i)['previous_hash']
             prev_block = chain_.get(block_key)
             encoded_block = json.dumps(prev_block).encode()
-            hashed_block = ''.join(('0x', hashlib.sha256(encoded_block).hexdigest()))
+            hashed_block = shifter_(''.join(('0x', hashlib.sha256(encoded_block).hexdigest())))
             if block_key == hashed_block:
                 pass
             elif i == list(chain_.keys())[0]:
