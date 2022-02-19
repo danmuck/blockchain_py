@@ -67,14 +67,14 @@ class Wallet_:
             self.recover_hash = rec_hash
             self.signer_hash = sign_hash
             self.txn_hist = txn_hist
-            self.root_b = root_b
+            self.root_b = root_b[:-5]
             self.balance = balance
             self.inv_data = inv_data
         else:
             self.recover_hash = None
             self.signer_hash = None
             self.txn_hist = []
-            self.root_b = root_b
+            self.root_b = root_b[:-5]
             self.balance = balance
             self.inv_data = inv_data
             self.address_ = self.init_wallet()

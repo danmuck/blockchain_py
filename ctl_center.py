@@ -105,19 +105,19 @@ def minter_init():
         chain_init(CHAIN.chain_id)
     else:
         u_input_n = str(input("Enter a minter_name.. \n  default: Minter \n: "))
-        u_input_i = input("Enter desired iterations.. \n  default: 160000 \n: ")
+        u_input_i = input("Enter desired iterations.. \n  default: 16000 \n: ")
         if u_input_n == '':
             u_input_n = 'Minter'
 
         if u_input_i == '':
-            u_input_i = 160000
+            u_input_i = 16000
         else:
             try:
                 u_input_i = int(u_input_i)
                 if u_input_i == 0:
                     u_input_i = 1
             except ValueError:
-                u_input_i = 160000
+                u_input_i = 16000
 
         MINTER = Minter_(CHAIN, WALLET.address_, u_input_n, u_input_i)
         MINTER.generator()
@@ -177,8 +177,9 @@ def dirt_ranch_welcome():
         chain_init(0)
 
     elif u_input == 0:
-        # its just running defaults
-        global CHAIN, CHAIN_ID, MINTER, PROOF_OF_WORK, WALLET
+        wallet_login()
+        # running defaults to genesis
+        global CHAIN, CHAIN_ID, MINTER, PROOF_OF_WORK
         CHAIN_ID = 0
         CHAIN = Blockchain_(CHAIN_ID)
         MINTER = Minter_(CHAIN)

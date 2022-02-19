@@ -194,7 +194,6 @@ class Blockchain_:
             if block[1]['transactions'] != {}:
                 joined_txns_all.update(block[1]['transactions'])
         
-
         for key, value in joined_txns_all.items():
             '''
                 Get Wallet balances
@@ -206,7 +205,6 @@ class Blockchain_:
             
             if txn_data['from'] not in joined_txn_splits.keys():
                 joined_txn_splits.update({txn_data['from']: 0})
-
 
             to_bal = float(joined_txn_splits.get(txn_data["to"]))
             from_bal = float(joined_txn_splits.get(txn_data["from"]))
@@ -263,16 +261,11 @@ class Blockchain_:
                             file.write(json.dumps(wallet_d, indent=2))
                     except FileNotFoundError:
                         pass
-                    
+
         return joined_chain_data, joined_txns_all, joined_txn_splits, joined_invent_splits
         
 
         
-
-
-
-
-
     def load_master_chain(self, chk_chain:dict=None) -> dict:
         '''
             File handling for the Master Blockchain_ state via JSON

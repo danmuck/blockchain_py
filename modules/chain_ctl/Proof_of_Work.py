@@ -26,7 +26,7 @@ class Proof_of_Work:
         
         self.chain_ = chain_
         self.chain_id = self.chain_.chain_id
-        self.b_reward = 0
+        self.b_reward:float = round(len(self.chain_.chain) * .000025, 8)
         self.miner_w = miner_w
         if miner_w == '_' or len(miner_w) != 66:
             self.miner_w = self.chain_.genesis_b
@@ -68,7 +68,7 @@ class Proof_of_Work:
                     new_nonce += 1
             elif len(self.chain_.chain) < 1000:
                 self.difficulty = 2
-                self.b_reward = 2
+                # self.b_reward = 2
                 if hash_value[:2] == '00':
                     check_nonce = True
                 else:
@@ -136,6 +136,7 @@ class Proof_of_Work:
 
     def b_reward_txn(self, miner_w:str, txn_data:dict={}):
         # init block reward txn
+        
         txn = Txn_(miner_w, self.chain_.genesis_b, txn_data, self.b_reward, 0, "reward")
         return txn.final_txn
 

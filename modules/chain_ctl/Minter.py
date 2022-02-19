@@ -73,7 +73,7 @@ class ez_random:
             small_chk = (randint(1, 4096) + randint(0, 1))
             nanos_chk = ((time.time_ns() + small_chk) * math.pi)
             ez_nums = round( ( ((nanos_chk * small_chk) * (small_chk) )) % 1023 * (.000007 + randint(0, 1)), 5)
-            ez_rand = (ez_nums + randint(0, 9999)) # adjust ceiling with this line
+            ez_rand = (ez_nums + randint(0, 9999))
             return round(ez_rand)
 
 class No_fun:
@@ -161,16 +161,13 @@ class No_fun:
             return float_
 
     def get_colors(self) -> str:
-        bg_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple"]
-        border_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple"]
+        bg_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple", "Brown", "Camo", "Gold", "Silver", "Web", "Vertigo", "Horizon"]
+        border_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple", "None"]
     
         return bg_[randint(0,9)], border_[randint(0,9)]
 
     def get_image(self) -> str:
-        '''
-            Not sure about this yet, returning a random char for now...
-        '''
-        img_ = ["*", "$", "+", "!", "?", "#", "@", "&", "~", "%"]
+        img_ = ["*", "$", "+", "!", "?", "#", "@", "&", "~", "%", "?FUD", "$DIRT", "#void", "dirt_ranch^_", "!RTFM", "..fear", "..uncertainty", "..doubt", "the_mound", "the_pit"]
         return img_[randint(0,9)]
 
 
