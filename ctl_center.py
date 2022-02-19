@@ -51,7 +51,7 @@ PROOF_OF_WORK:Proof_of_Work
 MINTER:Minter_
 WALLET:Wallet_
 
-def wallet_login():
+def wallet_login(new_=False):
     global WALLET
     try:
         with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
@@ -70,9 +70,19 @@ def wallet_login():
                 )
     except FileNotFoundError:
         print("New Wallet")
-        WALLET = Wallet_(CHAIN.get_tallest_block()[1], 0, {}, {}, True)
+        WALLET = Wallet_(CHAIN.genesis_b)
         WALLET.store_wallet()
 
+    if new_ is True:
+        print("New Wallet")
+        WALLET = Wallet_(CHAIN.genesis_b)
+        WALLET.store_wallet()        
+
+def wallet_recover():
+    global WALLET
+    WALLET = Wallet_(CHAIN.genesis_b, new_=False)
+    WALLET.recover_wallet(CHAIN.genesis_b)
+    wallet_login()
 
 def chain_info():
     pass
@@ -102,7 +112,6 @@ def minter_init():
     if u_input_q in ['Y', 'y', 'yes']:
         MINTER = Minter_(CHAIN, WALLET.address_, quick=True)
         MINTER.generator()
-        chain_init(CHAIN.chain_id)
     else:
         u_input_n = str(input("Enter a minter_name.. \n  default: Minter \n: "))
         u_input_i = input("Enter desired iterations.. \n  default: 16000 \n: ")
@@ -129,11 +138,25 @@ def minter_init():
         print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(CHAIN.chain, indent=2))
         print("HEIGHT: ", len(CHAIN.chain))
 
-        chain_init(CHAIN.chain_id)
-    pass
 
 def pow_init():
     pass
+
+def wallet_opts():
+    print('''
+        1. Load current wallet.json
+        2. New wallet
+
+        0. Recover wallet on current chain.
+    ''')
+    u_input = int(input(': '))
+    if u_input == 1:
+        wallet_login()
+    if u_input == 2:
+        wallet_login(True)        
+    elif u_input == 0:
+        wallet_recover()
+
 
 def chain_init(chain_id:int):
     global CHAIN, CHAIN_ID
@@ -143,43 +166,46 @@ def chain_init(chain_id:int):
 
     print("""Where to next?
         1. Chain Info
-        2. Block Miner
+        2. Wallet Options
         3. No_fun Minter
+
+        0. Exit
     """)
     u_input = int(input(": "))
     if u_input == 1:
         # print(json.dumps(CHAIN.join_data(WALLET.gen_wallet()), indent=2))
         chain_datas, all_txns, txn_splits, invent_splits = CHAIN.join_data(WALLET.gen_wallet())
         print("======================================================")
-
         print(json.dumps(chain_datas, indent=2))
         print("======================================================")
-
         print(json.dumps(all_txns, indent=2))
         print("======================================================")
-
         print(json.dumps(txn_splits, indent=2))
         print("======================================================")
-
         print(json.dumps(invent_splits, indent=2))
         print("======================================================")
-
+        chain_init(CHAIN_ID)
 
     elif u_input == 2:
-        pow_init(CHAIN)
+        wallet_opts()
+        chain_init(CHAIN_ID)
     elif u_input == 3:
         minter_init()
-
+        chain_init(CHAIN_ID)
+    elif u_input == 0:
+        exit()
     else:
         chain_init(CHAIN_ID)
+
 
 def dirt_ranch_welcome():
     print("-- Welcome to Dirt_Ranch, which wagon you ridin' today?")
     print('''
         1. Enter Chain_id
         2. Default on Master (chain_id=0)
+        3. Advanced_Mode_Autorun
 
-        0. Advanced_Mode_Autorun
+        0. Exit
     ''')
     u_input = int(input(": "))
     if u_input == 1:
@@ -188,7 +214,7 @@ def dirt_ranch_welcome():
     elif u_input == 2:
         chain_init(0)
 
-    elif u_input == 0:
+    elif u_input == 3:
         wallet_login()
         # running defaults to genesis
         global CHAIN, CHAIN_ID, MINTER, PROOF_OF_WORK
@@ -204,6 +230,8 @@ def dirt_ranch_welcome():
         print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(CHAIN.chain, indent=2))
         print("HEIGHT: ", len(CHAIN.chain))
 
+    elif u_input == 0:
+        exit()
     pass
 
 
