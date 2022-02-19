@@ -113,6 +113,8 @@ def minter_init():
             u_input_i = 16000
         else:
             try:
+                u_input_i = u_input_i.lower().replace('k', '000', 1).replace('m', '000000', 1).replace('b', '000000000', 1)
+                u_input_i = str(u_input_i).lower().strip('abcdefghijklmnopqrstuvwxyz')
                 u_input_i = int(u_input_i)
                 if u_input_i == 0:
                     u_input_i = 1
