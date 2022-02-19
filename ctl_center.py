@@ -9,6 +9,7 @@ from modules.chain_ctl.Blockchain import Blockchain_
 from modules.chain_ctl.Block import Block_
 from modules.chain_ctl.Proof_of_Work import Proof_of_Work
 from modules.chain_ctl.Transactions import Wallet_
+from modules.chain_ctl.Miner import Auto_Miner_
 # from modules.chain_ctl.No_funs import No_fun
 
 
@@ -44,10 +45,11 @@ class Timer:
 timer = Timer()
 
 
-global CHAIN, CHAIN_ID, PROOF_OF_WORK, MINTER, WALLET
+global CHAIN, CHAIN_ID, PROOF_OF_WORK, MINER, MINTER, WALLET
 CHAIN:Blockchain_
 CHAIN_ID:int
-PROOF_OF_WORK:Proof_of_Work 
+PROOF_OF_WORK:Proof_of_Work
+MINER:Auto_Miner_ 
 MINTER:Minter_
 WALLET:Wallet_
 
@@ -139,8 +141,45 @@ def minter_init():
         print("HEIGHT: ", len(CHAIN.chain))
 
 
-def pow_init():
-    pass
+def auto_miner_init():
+    print("""-- Welcome to the Auto_Miner
+
+    Auto-Mine a set number of blocks!
+        
+        All Minter_data can be found in the [minter_data] directory once a 
+        minter has been initialized along with your respective Chain_data
+        files in the [chain_data] directory.
+
+                                                    -- dirt_Ranch^_mgmt
+    
+    """)
+    global CHAIN, CHAIN_ID, MINER, WALLET
+    u_input_q = input("Single Block..? \n(y/N): ").casefold()
+    if u_input_q in ['Y', 'y', 'yes']:
+        MINER = Auto_Miner_(CHAIN, WALLET.address_, quick=True)
+        MINER.generator()
+    else:
+        u_input_n = str(input("Enter an Auto_Miner_name.. \n  default: Miner \n: "))
+        u_input_i = input("Enter desired iterations.. \n  default: 16 \n: ")
+        if u_input_n == '':
+            u_input_n = 'Auto_Miner'
+        if u_input_i == '':
+            u_input_i = 16
+        else:
+            try:
+                u_input_i = u_input_i.lower().replace('k', '000', 1).replace('m', '000000', 1).replace('b', '000000000', 1)
+                u_input_i = str(u_input_i).lower().strip('abcdefghijklmnopqrstuvwxyz')
+                u_input_i = int(u_input_i)
+                if u_input_i == 0:
+                    u_input_i = 1
+            except ValueError:
+                u_input_i = 16
+
+        MINER = Auto_Miner_(CHAIN, WALLET.address_, u_input_n, u_input_i)
+        MINER.generator()
+
+        print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(CHAIN.chain, indent=2))
+        print("HEIGHT: ", len(CHAIN.chain))
 
 def wallet_opts():
     print('''
@@ -167,7 +206,8 @@ def chain_init(chain_id:int):
     print("""Where to next?
         1. Chain Info
         2. Wallet Options
-        3. No_fun Minter
+        3. Auto_Miner
+        4. No_fun Minter
 
         0. Exit
     """)
@@ -190,6 +230,9 @@ def chain_init(chain_id:int):
         wallet_opts()
         chain_init(CHAIN_ID)
     elif u_input == 3:
+        auto_miner_init()
+        chain_init(CHAIN_ID)
+    elif u_input == 4:
         minter_init()
         chain_init(CHAIN_ID)
     elif u_input == 0:
