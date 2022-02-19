@@ -38,7 +38,7 @@ dict_ = {
 }
 
 def shifter_(str_:str) -> str:
-    new_hash = 'dp'
+    new_hash = 'dR'
     if len(str_) != 66:
         pass
     else: 
