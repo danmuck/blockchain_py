@@ -2,12 +2,13 @@
 
 
 
-import json, time
+import json, time, os
 from random import randint
 from modules.chain_ctl.Minter import Minter_, ez_random, No_fun
 from modules.chain_ctl.Blockchain import Blockchain_
 from modules.chain_ctl.Block import Block_
 from modules.chain_ctl.Proof_of_Work import Proof_of_Work
+from modules.chain_ctl.Transactions import Wallet_
 # from modules.chain_ctl.No_funs import No_fun
 
 
@@ -43,16 +44,41 @@ class Timer:
 timer = Timer()
 
 
-global CHAIN, CHAIN_ID, PROOF_OF_WORK, MINTER
+global CHAIN, CHAIN_ID, PROOF_OF_WORK, MINTER, WALLET
 CHAIN:Blockchain_
 CHAIN_ID:int
 PROOF_OF_WORK:Proof_of_Work 
 MINTER:Minter_
+WALLET:Wallet_
+
+def wallet_login():
+    global WALLET
+    try:
+        with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
+            wallet = dict(json.load(file))
+            w_keys = [*wallet]
+            WALLET = Wallet_(
+                wallet[w_keys[0]]['root_b'], 
+                wallet[w_keys[0]]['balance'], 
+                False, {},
+                wallet[w_keys[0]]['inv_data'],
+                w_keys[0],
+                wallet[w_keys[0]]['rec_hash'],
+                wallet[w_keys[0]]['sign_hash'],
+                wallet[w_keys[0]]['txn_hist']
+                )
+    except FileNotFoundError:
+        print("New Wallet")
+        WALLET = Wallet_(CHAIN.get_tallest_block()[1], 0, {}, {})
+        WALLET.store_wallet()
+
 
 def chain_info():
     pass
 
 def minter_init():
+
+
     print("""-- Welcome to the No_fun::Minter
 
     No_funs are a very basic implementation of NFTs or Non-Fungible Tokens...
@@ -70,10 +96,10 @@ def minter_init():
                                                     -- Dirt_Ranch_mgmt
     
     """)
-    global CHAIN, CHAIN_ID, MINTER
+    global CHAIN, CHAIN_ID, MINTER, WALLET
     u_input_q = input("Single Iteration Lotto..? \n (single iter_, no minter_logs) \n(y/N): ").casefold()
     if u_input_q in ['Y', 'y', 'yes']:
-        MINTER = Minter_(CHAIN, quick=True)
+        MINTER = Minter_(CHAIN, WALLET.address_, quick=True)
         MINTER.generator()
         chain_init(CHAIN.chain_id)
     else:
@@ -92,7 +118,7 @@ def minter_init():
             except ValueError:
                 u_input_i = 160000
 
-        MINTER = Minter_(CHAIN, u_input_n, u_input_i)
+        MINTER = Minter_(CHAIN, WALLET.address_, u_input_n, u_input_i)
         MINTER.generator()
         MINTER.update_history_json()
         MINTER.history_counts()
@@ -110,6 +136,8 @@ def chain_init(chain_id:int):
     global CHAIN, CHAIN_ID
     CHAIN_ID = chain_id 
     CHAIN = Blockchain_(CHAIN_ID)
+    wallet_login()
+
     print("""Where to next?
         1. Chain Info
         2. Block Miner
@@ -122,7 +150,9 @@ def chain_init(chain_id:int):
         pow_init(CHAIN)
     elif u_input == 3:
         minter_init()
-    pass
+
+    else:
+        chain_init(CHAIN_ID)
 
 def dirt_ranch_welcome():
     print("-- Welcome to Dirt_Ranch, which wagon you ridin' today?")
@@ -141,11 +171,11 @@ def dirt_ranch_welcome():
 
     elif u_input == 0:
         # its just running defaults
-        global CHAIN, CHAIN_ID, MINTER, PROOF_OF_WORK
+        global CHAIN, CHAIN_ID, MINTER, PROOF_OF_WORK, WALLET
         CHAIN_ID = 0
         CHAIN = Blockchain_(CHAIN_ID)
         MINTER = Minter_(CHAIN)
-        PROOF_OF_WORK = Proof_of_Work(CHAIN)
+        PROOF_OF_WORK = Proof_of_Work(CHAIN, '_')
 
         MINTER.generator()
         MINTER.update_history_json()

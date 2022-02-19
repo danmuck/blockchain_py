@@ -185,8 +185,17 @@ class Minter_:
     master_ = []
     chain:Blockchain_
     name_:str
-    def __init__(self, chain:Blockchain_, name_:str="Minter", iters_:int=256000, sleep_time:float=0, quick:bool=False) -> None:
+    wallet_:str
+    def __init__(self, 
+        chain:Blockchain_,
+        wallet:str='_', 
+        name_:str="Minter", 
+        iters_:int=256000, 
+        sleep_time:float=0, 
+        quick:bool=False
+    ) -> None:
         self.chain = chain
+        self.wallet_ = wallet
         self.unique_ = [] # uniques in a given session
         self.real_binaries_landed_ = []
         self.history = {
@@ -248,10 +257,10 @@ class Minter_:
                         self.others_.append("VOID")
                 else:
                     block_chain_data = {}
-                proof = Proof_of_Work(self.chain)
+                proof = Proof_of_Work(self.chain, self.wallet_)
                 # init no_fun txn
                 # txn = Txn_("to_address", self.chain.get_tallest_block[0], block_chain_data, amount, miner_fee)
-                proof.mine_block(txns=[], txn_data=block_chain_data)
+                proof.mine_block(txns={}, txn_data=block_chain_data)
 
                 # logs stuff
                 self.print_minter_Heys(ez_rand.return_)

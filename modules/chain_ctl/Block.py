@@ -8,7 +8,7 @@ class Block_:
         index: int,
         previous_hash: str,
         nonce: int,
-        txns: list,
+        txns: dict,
         signature: str,
         chain_data: dict,
         print_it=False

@@ -1,5 +1,5 @@
 
-import json, hashlib, datetime
+import json, hashlib, datetime, os
 from random import randint
 '''
     to_hash
@@ -54,19 +54,33 @@ class Wallet_:
     def __init__(self,
         root_b:str,
         balance:float,
-        init_txn:dict,
-        inv_data={}
+        new_=True,
+        init_txn:dict={},
+        inv_data={},
+        address=None,
+        rec_hash=None,
+        sign_hash=None,
+        txn_hist=None
     ) -> None:
-        self.root_b = root_b
-        self.balance = balance
-        self.txn_hist = []
+        if new_ is not True:
+            self.address_ = address
+            self.recover_hash = rec_hash
+            self.signer_hash = sign_hash
+            self.txn_hist = txn_hist
+            self.root_b = root_b
+            self.balance = balance
+            self.inv_data = inv_data
+        else:
+            self.recover_hash = None
+            self.signer_hash = None
+            self.txn_hist = []
+            self.root_b = root_b
+            self.balance = balance
+            self.inv_data = inv_data
+            self.address_ = self.init_wallet()
         self.txn_hist.append(init_txn)
-        self.inv_data = inv_data
-        self.recover_hash = None
-        self.signer_hash = None
-        self.wallet_ = dict
 
-        self.address_ = self.init_wallet()
+        self.wallet_ = dict
 
     def init_wallet(self):
         hash_r, list_ = self.gen_recovery()
@@ -140,9 +154,11 @@ class Wallet_:
         pass
 
     def store_wallet(self):
-        pass
+        with open(f"{os.getcwd()}/user_data/wallet.json", "x") as file:
+            wallet_data =  json.dumps(self.gen_wallet(), indent=2)
+            file.write(wallet_data)        
 
-w = Wallet_("0xlaksjd", 23.0, {})
+# w = Wallet_("0xlaksjd", 23.0, {})
 
 
     

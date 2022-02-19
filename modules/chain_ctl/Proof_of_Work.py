@@ -5,7 +5,7 @@ import hashlib, time, os, json, datetime
 from random import randint
 from .Blockchain import Blockchain_, Block_
 from .Miner_Problem import miner_problem_
-from .Transactions import Txn_
+from .Transactions import Txn_, Wallet_
 class Timer:
     def __init__(self) -> None:
         self.start_time = float
@@ -28,6 +28,8 @@ class Proof_of_Work:
         self.chain_id = self.chain_.chain_id
         self.b_reward = 0
         self.miner_w = miner_w
+        if miner_w == '_' or len(miner_w) != 66:
+            self.miner_w = self.chain_.genesis_b
         # self.txns = txns
         # self.chain_data = chain_data
         # self.difficulty = 0
@@ -134,10 +136,10 @@ class Proof_of_Work:
 
     def b_reward_txn(self, miner_w:str, txn_data:dict={}):
         # init block reward txn
-        txn = Txn_(miner_w, self.chain_.get_tallest_block()[1], txn_data, self.b_reward, 0, "reward")
+        txn = Txn_(miner_w, self.chain_.genesis_b, txn_data, self.b_reward, 0, "reward")
         return txn.final_txn
 
-    def mine_block(self, txns:list=[], txn_data:dict={}, chain_data:dict={}) -> dict:
+    def mine_block(self, txns:dict={}, txn_data:dict={}, chain_data:dict={}) -> dict:
         wallet_address = self.miner_w
 
         previous_block = self.chain_.get_tallest_block()[0]
@@ -147,7 +149,7 @@ class Proof_of_Work:
             previous_hash = "",
             nonce = previous_nonce * 3,
             signature = f"MOCK_BLOCK_{randint(0, 69420)}",
-            txns = [],
+            txns = {},
             chain_data = [],
             )
         previous_hash = mock.hash_block_(previous_block)
@@ -158,11 +160,11 @@ class Proof_of_Work:
         if wallet_address is not None:
             miner_sig = wallet_address
             txn = self.b_reward_txn(miner_sig, txn_data)
-            txns.append(txn)
+            txns.update(txn)
         else:
             miner_sig = self.chain_.genesis_b
             txn = self.b_reward_txn(miner_sig, txn_data)
-            txns.append(txn)
+            txns.update(txn)
 
         block = Block_(
             index = index,
@@ -173,6 +175,7 @@ class Proof_of_Work:
             chain_data = chain_data,
             print_it = True
             )
+
         self.chain_.append_block_(block)
         return block
 
