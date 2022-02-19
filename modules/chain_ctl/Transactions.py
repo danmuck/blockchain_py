@@ -93,12 +93,12 @@ class Wallet_:
     def gen_wallet(self):
         wallet_ = {
             self.address_: {
-                "root_b": self.root_b,
-                "balance": self.balance,
-                "txn_hist": self.txn_hist,
+                "sign_hash": self.signer_hash,
+                "$DIRT": self.balance,
                 "inv_data": self.inv_data,
+                "txn_hist": self.txn_hist,
                 "rec_hash": self.recover_hash,
-                "sign_hash": self.signer_hash
+                "root_b": self.root_b,
             }
         }
         self.wallet_ = wallet_

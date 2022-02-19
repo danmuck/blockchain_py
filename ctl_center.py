@@ -61,7 +61,7 @@ def wallet_login(new_=False):
             w_keys = [*wallet]
             WALLET = Wallet_(
                 wallet[w_keys[0]]['root_b'], 
-                wallet[w_keys[0]]['balance'], 
+                wallet[w_keys[0]]['$DIRT'], 
                 {},
                 wallet[w_keys[0]]['inv_data'],
                 w_keys[0],
@@ -188,8 +188,12 @@ def wallet_opts():
 
         0. Recover wallet on current chain.
     ''')
-    u_input = int(input(': '))
-    if u_input == 1:
+    u_input = input(": ")
+    try:
+        u_input = int(u_input)
+    except Exception:
+        pass
+    if u_input == 1 or u_input == '':
         wallet_login()
     if u_input == 2:
         wallet_login(True)        
@@ -207,11 +211,15 @@ def chain_init(chain_id:int):
         1. Chain Info
         2. Wallet Options
         3. Auto_Miner
-        4. No_fun Minter
+        4. No_fun Minter (default)
 
         0. Exit
     """)
-    u_input = int(input(": "))
+    u_input = input(": ")
+    try:
+        u_input = int(u_input)
+    except Exception:
+        pass
     if u_input == 1:
         # print(json.dumps(CHAIN.join_data(WALLET.gen_wallet()), indent=2))
         chain_datas, all_txns, txn_splits, invent_splits = CHAIN.join_data(WALLET.gen_wallet())
@@ -232,7 +240,7 @@ def chain_init(chain_id:int):
     elif u_input == 3:
         auto_miner_init()
         chain_init(CHAIN_ID)
-    elif u_input == 4:
+    elif u_input == 4 or u_input == '':
         minter_init()
         chain_init(CHAIN_ID)
     elif u_input == 0:
@@ -245,16 +253,20 @@ def dirt_ranch_welcome():
     print("-- Welcome to dirt_Ranch^_, which wagon you ridin' today?")
     print('''
         1. Enter Chain_id
-        2. Default on Master (chain_id=0)
+        2. Default on Master::chain_id=0 (default)
         3. Advanced_Mode_Autorun
 
         0. Exit
     ''')
-    u_input = int(input(": "))
+    u_input = input(": ")
+    try:
+        u_input = int(u_input)
+    except Exception:
+        pass
     if u_input == 1:
         u_input = input("chain_id: #")
         chain_init(u_input)
-    elif u_input == 2:
+    elif u_input == 2 or u_input == '':
         chain_init(0)
 
     elif u_input == 3:

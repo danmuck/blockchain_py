@@ -280,7 +280,7 @@ class Blockchain_:
                     try:
                         with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
                             wallet = dict(json.load(file))
-                            wallet[key]['balance'] = txn_splits[key]
+                            wallet[key]['$DIRT'] = txn_splits[key]
                             wallet[key]['inv_data'] = inv_splits[key]
                             wallet_d = wallet
                         with open(f"{os.getcwd()}/user_data/wallet.json", "w") as file:
@@ -332,7 +332,7 @@ class Blockchain_:
                     try:
                         with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
                             wallet = dict(json.load(file))
-                            wallet[key]['balance'] = joined_txn_splits[key]
+                            wallet[key]['$DIRT'] = joined_txn_splits[key]
                             # wallet[key]['data'] = 
                             wallet_d = wallet
                         with open(f"{os.getcwd()}/user_data/wallet.json", "w") as file:
