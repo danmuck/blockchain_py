@@ -249,53 +249,21 @@ class Blockchain_:
                 # joined_invent_splits.update({txn_data['to']: value['data']})
                 joined_invent_splits[txn_data['to']].update(value['data'])
 
-                pass
-
-        #     for block in joined_txns_all.items():
-        #         # print(block) 
-        #         # block[0] is hash, block[1] is dict
-        #         try:
-        #             if block[1]['transactions'][key]['data'] != {}:  
-        #                 list_.append((block[1]['transactions'][key]['to'], block[1]['transactions'][key]['from'], block[1]['transactions'][key]['data']))
-        #         except KeyError:
-        #             # print("key error")
-        #             pass
-                
-        #     txn_data = dict(value)
-
-
-        #     for tup in list_:
-        #         joined_invent_splits[txn_data['to']].update(tup[2])
-        #         # if tup[2] in joined_invent_splits[txn_data['from']]:
-        #         #     # joined_invent_splits[txn_data['from']].popitem(tup[2])
-        #         #     pass
-
-        #     # joined_invent_splits.update({txn_data['to']: txn_data['data']})
-        #     # joined_invent_splits[txn_data['to']].update(txn_data['data'])
-
-        #     try:
-        #         lost_ = joined_invent_splits[f"{txn_data['from']}"]
-        #         lost_.pop(txn_data['data'])
-        #     except KeyError:
-        #         pass
-        
-        # if wallet_ is not None:
-        #     wallet_keys = [*wallet_]
-        #     wallet_d = dict
-        #     for key in wallet_keys:
-        #         if key in joined_invent_splits.keys():
-        #             try:
-        #                 with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
-        #                     wallet = dict(json.load(file))
-        #                     wallet[key]['balance'] = joined_invent_splits[key]
-        #                     # wallet[key]['data'] = 
-        #                     wallet_d = wallet
-        #                 with open(f"{os.getcwd()}/user_data/wallet.json", "w") as file:
-        #                     file.write(json.dumps(wallet_d, indent=2))
-        #             except FileNotFoundError:
-        #                 pass
-                
-
+        if wallet_ is not None:
+            wallet_keys = [*wallet_]
+            wallet_d = dict
+            for key in wallet_keys:
+                if key in joined_txn_splits.keys():
+                    try:
+                        with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
+                            wallet = dict(json.load(file))
+                            wallet[key]['inv_data'] = joined_invent_splits[key]
+                            wallet_d = wallet
+                        with open(f"{os.getcwd()}/user_data/wallet.json", "w") as file:
+                            file.write(json.dumps(wallet_d, indent=2))
+                    except FileNotFoundError:
+                        pass
+                    
         return joined_chain_data, joined_txns_all, joined_txn_splits, joined_invent_splits
         
 
