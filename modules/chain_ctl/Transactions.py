@@ -1,42 +1,23 @@
 
 import json, hashlib, datetime, os
 from random import randint
-'''
-    to_hash
-    from_hash
-    txn_data
-    amount
-    miner_fee
-    timestamp
 
-'''
-REC_OPTS =[
-            "monos", "dis", "tris", "tetras", "pentas", "hexas", "heptas", "octos", "enneas", "decas",
-            "monot", "dit", "trit", "tetrat", "pentat", "hexat", "heptat", "octot", "enneat", "decat",
-            "monou", "diu", "triu", "tetrau", "pentau", "hexau", "heptau", "octou", "enneau", "decau",
-            "monov", "div", "triv", "tetrav", "pentav", "hexav", "heptav", "octov", "enneav", "decav",
-            "monow", "diw", "triw", "tetraw", "pentaw", "hexaw", "heptaw", "octow", "enneaw", "decaw",
-            "monox", "dix", "trix", "tetrax", "pentax", "hexax", "heptax", "octox", "enneax", "decax",
-            "monoy", "diy", "triy", "tetray", "pentay", "hexay", "heptay", "octoy", "enneay", "decay",
-            "monoz", "diz", "triz", "tetraz", "pentaz", "hexaz", "heptaz", "octoz", "enneaz", "decaz",
-            "monoa", "dia", "tria", "tetraa", "pentaa", "hexaa", "heptaa", "octoa", "enneaa", "decaa",
-            "monob", "dib", "trib", "tetrab", "pentab", "hexab", "heptab", "octob", "enneab", "decab",
-            "monoc", "dic", "tric", "tetrac", "pentac", "hexac", "heptac", "octoc", "enneac", "decac",
-            "monod", "did", "trid", "tetrad", "pentad", "hexad", "heptad", "octod", "ennead", "decad",
-            "monoe", "die", "trie", "tetrae", "pentae", "hexae", "heptae", "octoe", "enneae", "decae",
-            "monof", "dif", "trif", "tetraf", "pentaf", "hexaf", "heptaf", "octof", "enneaf", "decaf",
-            "monog", "dig", "trig", "tetrag", "pentag", "hexag", "heptag", "octog", "enneag", "decag",
-            "monoh", "dih", "trih", "tetrah", "pentah", "hexah", "heptah", "octoh", "enneah", "decah",
-            "monoi", "dii", "trii", "tetrai", "pentai", "hexai", "heptai", "octoi", "enneai", "decai",
-            "monoj", "dij", "trij", "tetraj", "pentaj", "hexaj", "heptaj", "octoj", "enneaj", "decaj",
-            "monok", "dik", "trik", "tetrak", "pentak", "hexak", "heptak", "octok", "enneak", "decak",
-            "monol", "dil", "tril", "tetral", "pental", "hexal", "heptal", "octol", "enneal", "decal",
-            "monom", "dim", "trim", "tetram", "pentam", "hexam", "heptam", "octom", "enneam", "decam",
-            "monon", "din", "trin", "tetran", "pentan", "hexan", "heptan", "octon", "ennean", "decan",
-            "monoo", "dio", "trio", "tetrao", "pentao", "hexao", "heptao", "octoo", "enneao", "decao",
-            "monop", "dip", "trip", "tetrap", "pentap", "hexap", "heptap", "octop", "enneap", "decap",
-        ]
+REC_OPTS = [
+    "dog", "cat", "bird", "mouse", "leopard", "jaguar", "panther", "cheetah", "bobcat",
+    "tomcat", "lion", "tiger", "liger", "bengal", "tabby", "fox", "fenix", "bear", "polarbear",
+    "grizzly", "panda", "koala", "klondike", "scarecrow", "tinman", "dorothy", "munchkin",
+    "todo", "emerald", "ruby", "diamond", "sapphire", "topaz", "amethyst", "malachite",
+    "parrot", "songbird", "cardinal", "bluejay", "jay", "hawk", "eagle", "robyn", "snake",
+    "boa", "constrictor", "python", "rattlesnake", "kingsnake", "viper", "canine", "retriever",
+    "sloth", "oppossum", "raccoon", "squirrel", "groundhog", "beaver", "dirtpig", "pig",
+    "cow", "horse", "hen", "chicken", "chick", "rooster", "llama", "camel", "alpaca", "farm",
+    "city", "state", "country", "usa", "canada", "england", "spain", "germany", "france", 
+    "sweden", "norway", "iceland", "greenland", "mexico", "argentina", "panama", "japan",
+    "korea", "china", "ukraine", "russia", "australia", "newzealand", "malasia", "egypt",
+    "madagascar", "africa", "israel", "turkey", "mono", "di", "tri", "tetra", "penta", "hexa", 
+    "hepta", "octo", "ennea", "deca", "monkey", "gorilla", "baboon", "book", "page", "leather"
 
+]
 
 class Wallet_:
     address_:str
