@@ -2,7 +2,7 @@
 
 
 
-from modules.Menus_ import Menu_
+from .Menus_ import Menu_
 
 menu = Menu_(
         main_menu = (
