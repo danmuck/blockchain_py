@@ -18,7 +18,8 @@ TIMER = Timer()
 class Proof_of_Work:
     def __init__(self,
         chain_:Blockchain_,
-        miner_w:str=None
+        miner_w:str=None,
+        pay_c:str=''
         # txns=[],
         # chain_data={}
 
@@ -27,6 +28,7 @@ class Proof_of_Work:
         self.chain_ = chain_
         self.chain_id = self.chain_.chain_id
         self.b_reward:float = 0
+        self.pay_c = pay_c
         self.miner_w = miner_w
         if miner_w == '_' or len(miner_w) != 66:
             self.miner_w = self.chain_.genesis_b
@@ -150,7 +152,10 @@ class Proof_of_Work:
 
     def b_reward_txn(self, miner_w:str, txn_data:dict={}):
         # init block reward txn
-        self.b_reward = self.float_to_str(self.b_reward + (len(self.chain_.chain) * .0000016))
+        if self.pay_c == '10000000':
+            self.b_reward = self.float_to_str((self.b_reward * 1.16) + (len(self.chain_.chain) * .0000016))
+        else:
+            self.b_reward = self.float_to_str(self.b_reward + (len(self.chain_.chain) * .0000016))
         txn = Txn_(miner_w, self.chain_.genesis_b, txn_data, self.b_reward, 0, "reward")
         return txn.final_txn
 
