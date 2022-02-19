@@ -9,7 +9,7 @@ REC_OPTS = [
     "todo", "emerald", "ruby", "diamond", "sapphire", "topaz", "amethyst", "malachite",
     "parrot", "songbird", "cardinal", "bluejay", "jay", "hawk", "eagle", "robyn", "snake",
     "boa", "constrictor", "python", "rattlesnake", "kingsnake", "viper", "canine", "retriever",
-    "sloth", "oppossum", "raccoon", "squirrel", "groundhog", "beaver", "dirtpig", "pig",
+    "sloth", "opossum", "raccoon", "squirrel", "groundhog", "beaver", "dirtpig", "pig",
     "cow", "horse", "hen", "chicken", "chick", "rooster", "llama", "camel", "alpaca", "farm",
     "city", "state", "country", "usa", "canada", "england", "spain", "germany", "france", 
     "sweden", "norway", "iceland", "greenland", "mexico", "argentina", "panama", "japan",
@@ -119,7 +119,7 @@ class Wallet_:
         hash_ = ''.join(('0x', hashlib.sha512(encoded_opts).hexdigest()))
         if self.recover_hash is None:
             self.recover_hash = hash_
-        print(self.recover_hash, your_opts)
+        # print(self.recover_hash, your_opts)
         return hash_, tuple(your_opts)
 
     def set_signer(self):
@@ -128,7 +128,7 @@ class Wallet_:
         hash_ = ''.join(('0x', hashlib.sha512(encoded_pass).hexdigest()))
         if self.signer_hash is None:
             self.signer_hash = hash_
-        print(password, hash_)
+        # print(password, hash_)
         return hash_, password
 
     def print_wallet(self):
