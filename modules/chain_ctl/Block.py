@@ -1,5 +1,5 @@
 import datetime, json, hashlib
-
+from .Shifter import conv_hash
 
 class Block_:
     block_data:dict

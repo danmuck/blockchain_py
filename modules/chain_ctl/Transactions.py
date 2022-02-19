@@ -225,6 +225,7 @@ class Txn_:
             }
         self.txn_finalize()
         
+        
     def txn_in_validator(self):
         pass
 
@@ -234,6 +235,8 @@ class Txn_:
     def txn_finalize(self):
         self.txn_hash = self.hash_txn_(self.raw_txn)
         self.final_txn = {self.txn_hash: self.raw_txn}
+        if self.type_ not in ['reward']:
+            return {}
         return self.final_txn
 
     def txn_compression(self):
