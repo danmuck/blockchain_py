@@ -60,7 +60,7 @@ class Wallet_:
         address=None,
         rec_hash=None,
         sign_hash=None,
-        txn_hist=None
+        txn_hist=[]
     ) -> None:
         if new_ is not True:
             self.address_ = address
