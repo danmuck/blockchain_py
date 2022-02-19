@@ -26,7 +26,7 @@ class Proof_of_Work:
         
         self.chain_ = chain_
         self.chain_id = self.chain_.chain_id
-        self.b_reward:float = round(len(self.chain_.chain) * .000025, 8)
+        self.b_reward:float = 0
         self.miner_w = miner_w
         if miner_w == '_' or len(miner_w) != 66:
             self.miner_w = self.chain_.genesis_b
@@ -61,35 +61,35 @@ class Proof_of_Work:
                 check_nonce = True        
             elif len(self.chain_.chain) < 100:
                 self.difficulty = 1
-                self.b_reward = 1
+                self.b_reward = 0
                 if hash_value[:1] == '0':
                     check_nonce = True
                 else:
                     new_nonce += 1
             elif len(self.chain_.chain) < 1000:
                 self.difficulty = 2
-                # self.b_reward = 2
+                self.b_reward = 1
                 if hash_value[:2] == '00':
                     check_nonce = True
                 else:
                     new_nonce += 1
             elif len(self.chain_.chain) < 2500:
                 self.difficulty = 3
-                self.b_reward = 4
+                self.b_reward = 2
                 if hash_value[:3] == '000':
                     check_nonce = True
                 else:
                     new_nonce += 1
             elif len(self.chain_.chain) < 5000:
                 self.difficulty = 4
-                self.b_reward = 8
+                self.b_reward = 4
                 if hash_value[:4] == '0000':
                     check_nonce = True
                 else:
                     new_nonce += 1                
             elif len(self.chain_.chain) < 15000:
                 self.difficulty = 5
-                self.b_reward = 16
+                self.b_reward = 8
                 if hash_value[:5] == '00001':
                     check_nonce = True
                 else:
@@ -103,21 +103,21 @@ class Proof_of_Work:
                     new_nonce += 1
             elif len(self.chain_.chain) < 60000:
                 self.difficulty = 7
-                self.b_reward = 16
+                self.b_reward = 32
                 if hash_value[:7] == '0000133':
                     check_nonce = True
                 else:
                     new_nonce += 1
             elif len(self.chain_.chain) < 120000:
                 self.difficulty = 8
-                self.b_reward = 16
+                self.b_reward = 64
                 if hash_value[:8] == '00001337':
                     check_nonce = True
                 else:
                     new_nonce += 1
             else:
                 self.difficulty = 9
-                self.b_reward = 32
+                self.b_reward = 96
                 if 'hellofromdanmuck' in hash_value[:]:
                     check_nonce = True
                 else:
@@ -134,9 +134,23 @@ class Proof_of_Work:
 
         return new_nonce
 
+    def float_to_str(self, f):
+        float_string = repr(f)
+        if 'e' in float_string:  # detect scientific notation
+            digits, exp = float_string.split('e')
+            digits = digits.replace('.', '').replace('-', '')
+            exp = int(exp)
+            zero_padding = '0' * (abs(int(exp)) - 1)  # minus 1 for decimal point in the sci notation
+            sign = '-' if f < 0 else ''
+            if exp > 0:
+                float_string = '{}{}{}.0'.format(sign, digits, zero_padding)
+            else:
+                float_string = '{}0.{}{}'.format(sign, zero_padding, digits)
+        return float_string
+
     def b_reward_txn(self, miner_w:str, txn_data:dict={}):
         # init block reward txn
-        
+        self.b_reward = self.float_to_str(self.b_reward + (len(self.chain_.chain) * .0000016))
         txn = Txn_(miner_w, self.chain_.genesis_b, txn_data, self.b_reward, 0, "reward")
         return txn.final_txn
 

@@ -209,7 +209,7 @@ class Blockchain_:
             to_bal = float(joined_txn_splits.get(txn_data["to"]))
             from_bal = float(joined_txn_splits.get(txn_data["from"]))
             joined_txn_splits.update({txn_data['to']: sum([to_bal, float(txn_data['amt'])])})
-            joined_txn_splits.update({txn_data['from']: sum([from_bal, float(- txn_data['amt'])])})
+            joined_txn_splits.update({txn_data['from']: sum([from_bal, -float(txn_data['amt'])])})
         
         if wallet_ is not None:
             wallet_keys = [*wallet_]
