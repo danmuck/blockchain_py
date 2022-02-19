@@ -54,13 +54,13 @@ class Wallet_:
     def __init__(self,
         root_b:str,
         balance:float,
-        new_=True,
         init_txn:dict={},
         inv_data={},
         address=None,
         rec_hash=None,
         sign_hash=None,
-        txn_hist=[]
+        txn_hist=[],
+        new_=True,
     ) -> None:
         if new_ is not True:
             self.address_ = address

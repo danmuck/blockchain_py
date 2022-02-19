@@ -60,16 +60,17 @@ def wallet_login():
             WALLET = Wallet_(
                 wallet[w_keys[0]]['root_b'], 
                 wallet[w_keys[0]]['balance'], 
-                False, {},
+                {},
                 wallet[w_keys[0]]['inv_data'],
                 w_keys[0],
                 wallet[w_keys[0]]['rec_hash'],
                 wallet[w_keys[0]]['sign_hash'],
-                wallet[w_keys[0]]['txn_hist']
+                wallet[w_keys[0]]['txn_hist'],
+                False
                 )
     except FileNotFoundError:
         print("New Wallet")
-        WALLET = Wallet_(CHAIN.get_tallest_block()[1], 0, {}, {})
+        WALLET = Wallet_(CHAIN.get_tallest_block()[1], 0, {}, {}, True)
         WALLET.store_wallet()
 
 
