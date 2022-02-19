@@ -168,7 +168,7 @@ class No_fun:
         return bg_[randint(0, len(bg_)-1)], border_[randint(0, len(border_)-1)]
 
     def get_image(self) -> str:
-        img_ = ["[*]", "[$]", "[+]", "[!]", "[?]", "[#]", "[@]", "[&]", "[~]", "[%]", "[?FUD]", "[$DIRT]", "[#void]", "[dirt_ranch^_]", "[!RTFM]", "[..fear]", "[..uncertainty]", "[..doubt]", "[the_mound]", "[the_pit]"]
+        img_ = ["[*]", "[$]", "[+]", "[!]", "[?]", "[#]", "[@]", "[&]", "[~]", "[%]", "[?FUD]", "[$DIRT]", "[#void]", "[dirt_Ranch^_]", "[!RTFM]", "[..fear]", "[..uncertainty]", "[..doubt]", "[the_mound]", "[the_pit]"]
         return img_[randint(0, len(img_)-1)]
 
 

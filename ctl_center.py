@@ -104,7 +104,7 @@ def minter_init():
         minter has been initialized along with your respective Chain_data
         files in the [chain_data] directory.
 
-                                                    -- Dirt_Ranch_mgmt
+                                                    -- dirt_Ranch^_mgmt
     
     """)
     global CHAIN, CHAIN_ID, MINTER, WALLET
@@ -199,7 +199,7 @@ def chain_init(chain_id:int):
 
 
 def dirt_ranch_welcome():
-    print("-- Welcome to Dirt_Ranch, which wagon you ridin' today?")
+    print("-- Welcome to dirt_Ranch^_, which wagon you ridin' today?")
     print('''
         1. Enter Chain_id
         2. Default on Master (chain_id=0)
