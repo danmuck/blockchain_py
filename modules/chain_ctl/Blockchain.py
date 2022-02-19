@@ -214,14 +214,16 @@ class Blockchain_:
         
         if wallet_ is not None:
             wallet_keys = [*wallet_]
-            # wallet_k = wallet_keys[0]
+            wallet_d = dict
             for key in wallet_keys:
                 if key in joined_txn_splits.keys():
                     try:
-                        with open(f"{os.getcwd()}/user_data/wallet.json", "r+") as file:
+                        with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
                             wallet = dict(json.load(file))
                             wallet[key]['balance'] = joined_txn_splits[key]
-                            file.write(json.dumps(wallet, indent=2))
+                            wallet_d = wallet
+                        with open(f"{os.getcwd()}/user_data/wallet.json", "w") as file:
+                            file.write(json.dumps(wallet_d, indent=2))
                     except FileNotFoundError:
                         pass
 
