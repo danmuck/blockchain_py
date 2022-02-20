@@ -164,11 +164,21 @@ class No_fun:
     def get_colors(self) -> str:
         bg_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple", "Brown", "Camo", "Gold", "Silver", "Web", "Vertigo", "Horizon"]
         border_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple", "None"]
-    
+        none_value = 8
+        i =0
+        while i < none_value:
+            bg_.append('Grey')
+            border_.append('White')
+            i+=1
         return bg_[randint(0, len(bg_)-1)], border_[randint(0, len(border_)-1)]
 
     def get_image(self) -> str:
-        img_ = ["[*]", "[$]", "[+]", "[!]", "[?]", "[#]", "[@]", "[&]", "[~]", "[%]", "[?FUD]", "[$DIRT]", "[#void]", "[dirt_Ranch^_]", "[!RTFM]", "[..fear]", "[..uncertainty]", "[..doubt]", "[the_mound]", "[the_pit]"]
+        img_ = ["[*]", "[$]", "[+]", "[!]", "[?]", "[#]", "[@]", "[&]", "[~]", "[%]", "[?FUD]", "[$DIRT]", "[#void]", "[dirt_Ranch^_]", "[!RTFM]", "[..fear]", "[..uncertainty]", "[..doubt]", "[RATFM!]", "[the_mound]", "[the_pit]"]
+        none_value = 16
+        i =0
+        while i < none_value:
+            img_.append('    ')
+            i+=1
         return img_[randint(0, len(img_)-1)]
 
 
