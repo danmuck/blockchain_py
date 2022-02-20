@@ -108,7 +108,7 @@ def chain_info():
 def minter_init():
 
 
-    print("""-- Welcome to the No_fun::Minter
+    print("""-- Welcome to the Crafting Bench::[No_funs]
 
     No_funs are a very basic implementation of NFTs or Non-Fungible Tokens...
         with every iteration you have the chance to land a No_fun...
@@ -158,7 +158,7 @@ def minter_init():
 
 
 def auto_miner_init():
-    print("""-- Welcome to the Auto_Miner
+    print("""-- Welcome to the Workshop::[Auto_Miner]
 
     Auto-Mine a set number of blocks!
         
@@ -224,11 +224,11 @@ def chain_init(chain_id:int):
     wallet_login()
 
     print("""Where to next?
-        1. Chain Info
-        2. Wallet Options
-        3. Auto_Miner
-        4. No_fun Minter (default)
+        1. Office [print_chain data for now]
+        2. Workshop [Miner]
+        3. Crafting Bench [Minter] (default)
 
+        9. Wallet Options
         0. Exit
     """)
     u_input = input(": ")
@@ -251,13 +251,13 @@ def chain_init(chain_id:int):
         chain_init(CHAIN_ID)
 
     elif u_input == 2:
-        wallet_opts()
-        chain_init(CHAIN_ID)
-    elif u_input == 3:
         auto_miner_init()
         chain_init(CHAIN_ID)
-    elif u_input == 4 or u_input == '':
+    elif u_input == 3 or u_input == '':
         minter_init()
+        chain_init(CHAIN_ID)
+    elif u_input == 9:
+        wallet_opts()
         chain_init(CHAIN_ID)
     elif u_input == 0:
         exit()
@@ -266,7 +266,7 @@ def chain_init(chain_id:int):
 
 
 def dirt_ranch_welcome():
-    print("-- Welcome to dirt_Ranch^_, which wagon you ridin' today?")
+    print("\n-- Welcome to dirt_Ranch^_ ..! Which wagon you ridin' today?")
     print('''
         1. Enter Chain_id
         2. Master::chain_id=0 (default)
