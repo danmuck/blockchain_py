@@ -1,4 +1,4 @@
-import datetime, hashlib, json, os
+import datetime, hashlib, json, os, time
 
 from .Block import Block_
 from .Shifter import shifter_
@@ -43,6 +43,9 @@ class Blockchain_:
                 currently validating against chain_data/Chain_state.json
         '''
         chain_ = self.load_chain_json()
+        if chain_ is None:
+            time.sleep(1)
+            self.load_chain_json()
         for i in self.chain.keys():
             block_key = self.chain.get(i)['previous_hash']
             prev_block = self.chain.get(block_key)
@@ -101,6 +104,8 @@ class Blockchain_:
                 return chain_
         except json.JSONDecodeError:
             print("SCREAM")
+            time.sleep(1)
+            self.load_chain_json()
         except FileNotFoundError:
             try:
                 os.mkdir(f"{os.getcwd()}/chain_data/")
@@ -185,6 +190,8 @@ class Blockchain_:
                 return chain_
         except json.JSONDecodeError:
             print("SCREAM")
+            time.sleep(1)
+            self.load_master_chain(chk_chain)
         except FileNotFoundError:
             try:
                 os.mkdir(f"{os.getcwd()}/chain_data/")
@@ -215,6 +222,9 @@ class Blockchain_:
             Validate the canonical Master chain; 
         '''
         chain_ = self.load_master_chain(new_master)
+        if chain_ is None:
+            time.sleep(1)
+            self.load_master_chain(new_master)
         for i in chain_.keys():
             block_key = chain_.get(i)['previous_hash']
             prev_block = chain_.get(block_key)
