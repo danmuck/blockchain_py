@@ -112,7 +112,7 @@ class Blockchain_:
                 return chain_
         except json.JSONDecodeError:
             print("\n\n\n\n\n\nSCREAM")
-            time.sleep(.25 * randint(0, 1))
+            time.sleep(.25 * randint(4, 16))
             self.load_chain_json()
         except FileNotFoundError:
             try:
