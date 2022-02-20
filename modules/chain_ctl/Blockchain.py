@@ -251,11 +251,6 @@ class Blockchain_:
             print("!!Hey [master valid]  !!")
 
 
-
-
-
-
-
     def chain_data_all(self):
         pass
 
@@ -296,19 +291,6 @@ class Blockchain_:
                         file.write(json.dumps(wallets_master, indent=2))
                 except FileNotFoundError:
                     pass
-        print(f'''
-            ===============================
-            +++++++++++++++++++++++++++++++
-            ===============================
-
-            Printing the wallets_master...
-
-            {wallets_master}
-
-            ===============================
-            +++++++++++++++++++++++++++++++
-            ===============================
-        ''')
 
     def join_data(self, wallet_:dict=None):
         joined_chain_data = {} #chain_data
@@ -316,13 +298,10 @@ class Blockchain_:
         joined_txn_splits = {}
         joined_invent_splits = {"":{}}
         for block in self.chain.items():
-            # print(block) 
-            # block[0] is hash, block[1] is dict
             self.chain_data.update({block[0]: (block[1]['index'], block[1]['chain_data'])})
             if block[1]['chain_data'] != []:    
                 joined_chain_data.update(block[1]['chain_data'])
         for block in self.chain.items():
-            # print(block[1]['transactions'])
             # block[0] is hash
             # block[1] is data
             if block[1]['transactions'] != {}:
@@ -345,22 +324,6 @@ class Blockchain_:
             joined_txn_splits.update({txn_data['to']: sum([to_bal, float(txn_data['amt'])])})
             joined_txn_splits.update({txn_data['from']: sum([from_bal, -float(txn_data['amt'])])})
 
-        # if wallet_ is not None:
-        #     wallet_keys = [*wallet_]
-        #     wallet_d = dict
-        #     wallet_dk = wallet_keys[0]
-        #     for key in wallet_keys:
-        #         if key in joined_txn_splits.keys():
-        #             try:
-        #                 with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
-        #                     wallet = dict(json.load(file))
-        #                     wallet[key]['$DIRT'] = joined_txn_splits[key]
-        #                     wallet_d = wallet
-        #                 with open(f"{os.getcwd()}/user_data/wallet.json", "w") as file:
-        #                     file.write(json.dumps(wallet_d, indent=2))
-        #             except FileNotFoundError:
-        #                 pass
-
         for key, value in joined_txns_all.items():
             '''
                 Get Wallet inventory
@@ -373,30 +336,8 @@ class Blockchain_:
             if txn_data['from'] not in joined_invent_splits.keys():
                 joined_invent_splits.update({txn_data['from']: {}})
 
-            # if txn_data['to'] == wallet_dk:
-            #     print(txn_data['to'])
-            #     print(value['data'])
             joined_invent_splits[txn_data['to']].update(value['data'])
-            
-            # else:
-            #     joined_invent_splits[txn_data['to']].update(value['data'])
 
-
-        # if wallet_ is not None:
-        #     wallet_keys = [*wallet_]
-        #     wallet_d = dict
-        #     wallet_dk = wallet_keys[0]
-        #     for key in wallet_keys:
-        #         if key in joined_invent_splits.keys():
-        #             try:
-        #                 with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
-        #                     wallet = dict(json.load(file))
-        #                     wallet[key]['inv_data'] = joined_invent_splits[key]
-        #                     wallet_d = wallet
-        #                 with open(f"{os.getcwd()}/user_data/wallet.json", "w") as file:
-        #                     file.write(json.dumps(wallet_d, indent=2))
-        #             except FileNotFoundError:
-        #                 pass
         self.update_user(joined_txn_splits, joined_invent_splits)
         return joined_chain_data, joined_txns_all, joined_txn_splits, joined_invent_splits
    

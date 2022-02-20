@@ -270,7 +270,7 @@ def dirt_ranch_welcome():
     print("-- Welcome to dirt_Ranch^_, which wagon you ridin' today?")
     print('''
         1. Enter Chain_id
-        2. Default on Master::chain_id=0 (default)
+        2. Master::chain_id=0 (default)
         3. Advanced_Mode_Autorun
         
         0. Exit
