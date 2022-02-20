@@ -167,7 +167,7 @@ class No_fun:
     def get_colors(self) -> str:
         bg_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple", "Brown", "Camo", "Gold", "Silver", "None"]
         border_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple", "None"]
-        bg_t_ = ["Camo", "Web", "Vertigo", "Horizon"]
+        bg_t_ = ["Camo", "Web", "Vertigo", "Horizon", "Slash", "Broke", "Rich"]
         none_value = 8
         roll_t = randint(0, 1024)
         i =0
