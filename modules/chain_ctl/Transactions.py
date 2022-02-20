@@ -133,8 +133,13 @@ class Wallet_:
         # print(password, hash_)
         return hash_, password
 
-    def print_wallet(self):
-        pass
+    def print_wallets(self, print_=True) -> list:
+        with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
+            wallet = dict(json.load(file))
+            w_keys = [*wallet]
+        if print_ is True:
+            print(w_keys)
+        return w_keys
     
     def recover_wallet(self, o_chain_g:str):
         print(""""
@@ -166,6 +171,7 @@ class Wallet_:
         return (wallet_, hash_r, hash_p, w_addr_)
 
     def store_wallet(self):
+        all_wall = {}
         try:
             os.mkdir(f"{os.getcwd()}/user_data/")
         except FileExistsError:
@@ -175,12 +181,20 @@ class Wallet_:
                 wallet_data =  json.dumps(self.gen_wallet(), indent=2)
                 file.write(wallet_data)        
         except FileExistsError:
-            u_input = input("Delete wallet.json file and store the new wallet? (Y/n) \n: ")
-            if u_input in ['y', 'yes', '']:
+            try:
+                with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
+                    wallets_ = dict(json.load(file))
+                    items_ = [wallets_.items()]
+                    for item in items_:
+                        all_wall.update(item)
                 with open(f"{os.getcwd()}/user_data/wallet.json", "w") as file:
-                    wallet_data =  json.dumps(self.gen_wallet(), indent=2)
+                    new_wallet_ = self.gen_wallet()
+                    all_wall.update(new_wallet_)
+                    wallet_data = json.dumps(all_wall, indent=2)
                     file.write(wallet_data) 
-            pass
+            except FileNotFoundError:
+                pass
+
 
 # w = Wallet_("0xlaksjd", 23.0, {})
 

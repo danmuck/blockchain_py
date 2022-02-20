@@ -53,21 +53,21 @@ MINER:Auto_Miner_
 MINTER:Minter_
 WALLET:Wallet_
 
-def wallet_login(new_=False):
+def wallet_quick_login(new_=False, w_index:int=0):
     global WALLET
     try:
         with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
             wallet = dict(json.load(file))
             w_keys = [*wallet]
             WALLET = Wallet_(
-                wallet[w_keys[0]]['root_b'], 
-                wallet[w_keys[0]]['$DIRT'], 
+                wallet[w_keys[w_index]]['root_b'], 
+                wallet[w_keys[w_index]]['$DIRT'], 
                 {},
-                wallet[w_keys[0]]['inv_data'],
-                w_keys[0],
-                wallet[w_keys[0]]['rec_hash'],
-                wallet[w_keys[0]]['sign_hash'],
-                wallet[w_keys[0]]['txn_hist'],
+                wallet[w_keys[w_index]]['inv_data'],
+                w_keys[w_index],
+                wallet[w_keys[w_index]]['rec_hash'],
+                wallet[w_keys[w_index]]['sign_hash'],
+                wallet[w_keys[w_index]]['txn_hist'],
                 False
                 )
     except FileNotFoundError:
@@ -78,13 +78,30 @@ def wallet_login(new_=False):
     if new_ is True:
         print("New Wallet")
         WALLET = Wallet_(CHAIN.genesis_b)
-        WALLET.store_wallet()        
+        WALLET.store_wallet()
+        wallet_quick_login(w_index=len(WALLET.print_wallets(False))-1)        
+
+def wallet_login():
+    global WALLET
+    wallet_quick_login()
+    print('Which wallet would you like to login with?')
+    i = 0
+    for wallet in WALLET.print_wallets(False):
+        print(f'{i}. {wallet}')
+        i+=1
+    u_input = int(input(': '))
+    try:
+        u_input = int(u_input)
+    except Exception:
+        print('Integer value required, using default. (0)')
+        wallet_quick_login()
+    wallet_quick_login(False, u_input)
 
 def wallet_recover():
     global WALLET
     WALLET = Wallet_(CHAIN.genesis_b, new_=False)
     WALLET.recover_wallet(CHAIN.genesis_b)
-    wallet_login()
+    wallet_quick_login(w_index=len(WALLET.print_wallets(False))-1)
 
 def chain_info():
     pass
@@ -196,7 +213,7 @@ def wallet_opts():
     if u_input == 1 or u_input == '':
         wallet_login()
     if u_input == 2:
-        wallet_login(True)        
+        wallet_quick_login(True)        
     elif u_input == 0:
         wallet_recover()
 
@@ -255,8 +272,10 @@ def dirt_ranch_welcome():
         1. Enter Chain_id
         2. Default on Master::chain_id=0 (default)
         3. Advanced_Mode_Autorun
-
+        
         0. Exit
+
+        99. TEST
     ''')
     u_input = input(": ")
     try:
@@ -270,7 +289,7 @@ def dirt_ranch_welcome():
         chain_init(0)
 
     elif u_input == 3:
-        wallet_login()
+        wallet_quick_login()
         # running defaults to genesis
         global CHAIN, CHAIN_ID, MINTER, PROOF_OF_WORK
         CHAIN_ID = 0
@@ -287,6 +306,10 @@ def dirt_ranch_welcome():
 
     elif u_input == 0:
         exit()
+    
+    elif u_input == 99:
+        wallet_quick_login()
+        WALLET.print_wallets()
     pass
 
 
