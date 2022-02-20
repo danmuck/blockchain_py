@@ -43,35 +43,42 @@ class Blockchain_:
                 currently validating against chain_data/Chain_state.json
         '''
         chain_ = self.load_chain_json()
-        if chain_ is None:
+        if type(chain_) != dict or type(self.chain) != dict:
             time.sleep(1)
             self.load_chain_json()
-        for i in self.chain.keys():
-            block_key = self.chain.get(i)['previous_hash']
-            prev_block = self.chain.get(block_key)
-            encoded_block = json.dumps(prev_block).encode()
-            hashed_block = shifter_(''.join(('0x', hashlib.sha256(encoded_block).hexdigest())))
-            if block_key == hashed_block:
-                # print(f'Previous block hashed:\t {prev_block["index"]}::{hashed_block}')
-                # print(f'Good Block:\t\t {chain_.get(i)["index"]}::{i}')
-                pass
-            elif i == list(self.chain.keys())[0]:
-                pass
-            else:
-                print(f'\n!!Err Bad block. [{i}] !! \n')
-                raise Exception
-        for j in chain_.keys():
-            block_key = chain_.get(j)['previous_hash']
-            prev_block = chain_.get(block_key)
-            encoded_block = json.dumps(prev_block).encode()
-            hashed_block = shifter_(''.join(('0x', hashlib.sha256(encoded_block).hexdigest())))
-            if block_key == hashed_block:
-                pass
-            elif j == list(chain_.keys())[0]:
-                pass
-            else:
-                print(f'\n!!Err Bad block. [{i}] !! \n')
-                raise Exception
+        try:
+            for i in self.chain.keys():
+                block_key = self.chain.get(i)['previous_hash']
+                prev_block = self.chain.get(block_key)
+                encoded_block = json.dumps(prev_block).encode()
+                hashed_block = shifter_(''.join(('0x', hashlib.sha256(encoded_block).hexdigest())))
+                if block_key == hashed_block:
+                    # print(f'Previous block hashed:\t {prev_block["index"]}::{hashed_block}')
+                    # print(f'Good Block:\t\t {chain_.get(i)["index"]}::{i}')
+                    pass
+                elif i == list(self.chain.keys())[0]:
+                    pass
+                else:
+                    print(f'\n!!Err Bad block. [{i}] !! \n')
+                    raise Exception
+        except AttributeError:
+            self.validate_chain()
+
+        try:
+            for j in chain_.keys():
+                block_key = chain_.get(j)['previous_hash']
+                prev_block = chain_.get(block_key)
+                encoded_block = json.dumps(prev_block).encode()
+                hashed_block = shifter_(''.join(('0x', hashlib.sha256(encoded_block).hexdigest())))
+                if block_key == hashed_block:
+                    pass
+                elif j == list(chain_.keys())[0]:
+                    pass
+                else:
+                    print(f'\n!!Err Bad block. [{i}] !! \n')
+                    raise Exception
+        except AttributeError:
+            self.validate_chain()
 
         if list(self.chain.keys()) in list(chain_.keys()) and len(chain_) >= len(self.chain) or len(chain_) == 1:
             if self.chain == chain_:
@@ -103,7 +110,7 @@ class Blockchain_:
                 chain_ = dict(json.load(file))
                 return chain_
         except json.JSONDecodeError:
-            print("SCREAM")
+            print("\n\n\n\n\n\nSCREAM")
             time.sleep(1)
             self.load_chain_json()
         except FileNotFoundError:
@@ -189,7 +196,7 @@ class Blockchain_:
                 chain_ = dict(json.load(file))
                 return chain_
         except json.JSONDecodeError:
-            print("SCREAM")
+            print("\n\n\n\n\n\nSCREAM")
             time.sleep(1)
             self.load_master_chain(chk_chain)
         except FileNotFoundError:
@@ -221,42 +228,50 @@ class Blockchain_:
         '''
             Validate the canonical Master chain; 
         '''
-        chain_ = self.load_master_chain(new_master)
-        if chain_ is None:
-            time.sleep(1)
-            self.load_master_chain(new_master)
-        for i in chain_.keys():
-            block_key = chain_.get(i)['previous_hash']
-            prev_block = chain_.get(block_key)
-            encoded_block = json.dumps(prev_block).encode()
-            hashed_block = shifter_(''.join(('0x', hashlib.sha256(encoded_block).hexdigest())))
-            if block_key == hashed_block:
-                pass
-            elif i == list(chain_.keys())[0]:
-                pass
-            else:
-                print(f'\n!!Err Bad block on Master. [{i}] !! \n')
-                raise Exception
-        if new_master != None:
-            if new_master.items() == chain_.items() or len(new_master) == len(chain_) + 1:
-                if print_it is True:
-                    self.update_master_chain(new_master, print_it=True)
-                else:
-                    self.update_master_chain(new_master)
-            else:
-                # if print_it is True:
-                print("!!Hey [not on master]  !!")
-                if self.sync_mc is True:
-                    u_input = input("Sync chain to master? (Y/n) \n: ").casefold()
-                    if u_input in ['y', 'yes', '']:
-                        self.sync_to_master()
+        if new_master is not None:
+            chain_ = self.load_master_chain(new_master)
+            if type(chain_) != dict:
+                time.sleep(1)
+                self.load_master_chain(new_master)
+            try:
+                for i in chain_.keys():
+                    block_key = chain_.get(i)['previous_hash']
+                    prev_block = chain_.get(block_key)
+                    encoded_block = json.dumps(prev_block).encode()
+                    hashed_block = shifter_(''.join(('0x', hashlib.sha256(encoded_block).hexdigest())))
+                    if block_key == hashed_block:
+                        pass
+                    elif i == list(chain_.keys())[0]:
+                        pass
                     else:
-                        u_input = input("Are you sure you would like to skip master_sync? (Y/n) \n: ").casefold()
-                        if u_input in ['y', 'yes', '']:
-                            self.sync_mc = False
-                        else:
-                            self.sync_to_master()
+                        print(f'\n!!Err Bad block on Master. [{i}] !! \n')
+                        raise Exception
+            except AttributeError:
+                self.validate_chain()
 
+            try:
+                if new_master.items() == chain_.items() or len(new_master) == len(chain_) + 1:
+                    if print_it is True:
+                        self.update_master_chain(new_master, print_it=True)
+                    else:
+                        self.update_master_chain(new_master)
+                else:
+                    # if print_it is True:
+                    print("!!Hey [not on master]  !!")
+                    if self.sync_mc is True:
+                        u_input = input("Sync chain to master? (Y/n) \n: ").casefold()
+                        if u_input in ['y', 'yes', '']:
+                            self.sync_to_master()
+                        else:
+                            u_input = input("Are you sure you would like to skip master_sync? (Y/n) \n: ").casefold()
+                            if u_input in ['y', 'yes', '']:
+                                self.sync_mc = False
+                            else:
+                                self.sync_to_master()
+            except AttributeError:
+                self.validate_chain()
+        else:
+            self.validate_chain()
         if print_it is True:
             print("!!Hey [master valid]  !!")
 
