@@ -163,7 +163,7 @@ class Blockchain_:
         '''
         chain_ = self.chain
         encoded_chain = json.dumps(chain_).encode()
-        return ''.join(('0x', hashlib.sha512(encoded_chain).hexdigest()))
+        return shifter_(''.join(('0x', hashlib.sha256(encoded_chain).hexdigest())))
         
     def append_block_(self, block:Block_):
         '''

@@ -118,7 +118,7 @@ class Wallet_:
                 print(i, new_opt)
                 i+=1
         encoded_opts = json.dumps(your_opts).encode()
-        hash_ = ''.join(('0x', hashlib.sha512(encoded_opts).hexdigest()))
+        hash_ = shifter_(''.join(('0x', hashlib.sha256(encoded_opts).hexdigest())))
         if self.recover_hash is None:
             self.recover_hash = hash_
         # print(self.recover_hash, your_opts)
@@ -127,7 +127,7 @@ class Wallet_:
     def set_signer(self):
         password = input("Enter a sign_pass: ")
         encoded_pass = json.dumps(password).encode()
-        hash_ = ''.join(('0x', hashlib.sha512(encoded_pass).hexdigest()))
+        hash_ = shifter_(''.join(('0x', hashlib.sha256(encoded_pass).hexdigest())))
         if self.signer_hash is None:
             self.signer_hash = hash_
         # print(password, hash_)
@@ -155,9 +155,9 @@ class Wallet_:
         for i in [one_, two_, three_, four_, five_, six_, sev_, eight_, nine_, ten_, elev_, twel_]:
             hash_list.append(i)
         encoded_r = json.dumps(hash_list).encode()
-        hash_r = ''.join(('0x', hashlib.sha512(encoded_r).hexdigest()))
+        hash_r = shifter_(''.join(('0x', hashlib.sha256(encoded_r).hexdigest())))
         encoded_p = json.dumps(pass_).encode()
-        hash_p = ''.join(('0x', hashlib.sha512(encoded_p).hexdigest()))        
+        hash_p = shifter_(''.join(('0x', hashlib.sha256(encoded_p).hexdigest())))        
         encoded_addr = json.dumps('_'.join([hash_r, hash_p, o_chain_g])).encode()
         w_addr_ = shifter_(''.join(('0x', hashlib.sha256(encoded_addr).hexdigest())))
         self.address_ = w_addr_
