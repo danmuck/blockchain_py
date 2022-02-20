@@ -45,7 +45,7 @@ class Blockchain_:
         '''
         chain_ = self.load_chain_json()
         if type(chain_) != dict or type(self.chain) != dict:
-            time.sleep(.15 * randint(16, 32))
+            time.sleep(.1513 * randint(24, 64))
             self.load_chain_json()
         try:
             for i in self.chain.keys():
@@ -112,7 +112,7 @@ class Blockchain_:
                 return chain_
         except json.JSONDecodeError:
             print("\n\n\n\n\n\nSCREAM")
-            time.sleep(.15 * randint(16, 32))
+            time.sleep(.1513 * randint(24, 64))
             self.load_chain_json()
         except FileNotFoundError:
             try:
@@ -201,7 +201,7 @@ class Blockchain_:
                 return chain_
         except json.JSONDecodeError:
             print("\n\n\n\n\n\nSCREAM")
-            time.sleep(.15 * randint(16, 32))
+            time.sleep(.1513 * randint(24, 64))
             self.load_master_chain()
         except FileNotFoundError:
             try:
@@ -235,7 +235,7 @@ class Blockchain_:
         if new_master is not None:
             chain_ = self.load_master_chain(new_master)
             if type(chain_) != dict:
-                time.sleep(.15 * randint(16, 32))
+                time.sleep(.1513 * randint(24, 64))
                 self.load_master_chain(new_master)
             try:
                 for i in chain_.keys():
