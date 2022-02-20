@@ -234,8 +234,9 @@ def chain_init(chain_id:int):
         3. Crafting Bench \t(default)
         4. Throw $DIRT \t\t(N/A)
         5. Trading Post \t(N/A)
-        6. The Mound \t\t(N/A)
-        7. The Pit \t\t(N/A)
+        6. Message Board \t(N/A)
+        7. The Mound \t\t(N/A)
+        8. The Pit \t\t(N/A)
 
         9. Wallet Options
         0. Exit

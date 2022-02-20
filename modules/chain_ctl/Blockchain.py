@@ -112,7 +112,7 @@ class Blockchain_:
                 return chain_
         except json.JSONDecodeError:
             print("\n\n\n\n\n\nSCREAM")
-            time.sleep(.25 * randint(4, 16))
+            time.sleep(.15 * randint(16, 32))
             self.load_chain_json()
         except FileNotFoundError:
             try:
@@ -120,9 +120,12 @@ class Blockchain_:
             except FileExistsError:
                 pass
             finally:
-                with open(f"{os.getcwd()}/chain_data/Chain_state_{self.chain_id}.json", "x") as file:
-                    chain_ = json.dumps(self.chain)
-                    file.write(chain_)
+                try:
+                    with open(f"{os.getcwd()}/chain_data/Chain_state_{self.chain_id}.json", "x") as file:
+                        chain_ = json.dumps(self.chain)
+                        file.write(chain_)
+                        return self.chain
+                except FileExistsError:
                     return self.chain
 
     def write_chain_json(self):
