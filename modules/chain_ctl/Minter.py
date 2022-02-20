@@ -82,6 +82,7 @@ class No_fun:
         self.ez_num = ez_num.return_
         self.attrs = {}
         self.hash_ = str
+        self.time_ = str(datetime.datetime.now())
         if self.ez_num > 1234:
             self.void = True
         else:
@@ -89,11 +90,11 @@ class No_fun:
 
     def get_attrs(self) -> dict:
         ez_num_ = self.ez_num
-        time_ = str(datetime.datetime.now())
         float_ = self.get_float()
         color_ =  str
         border_ = str
         img_ = str
+        spec_ = str
         trait_ = str
         if self.void is True:
             color_ = "black"
@@ -102,7 +103,7 @@ class No_fun:
             img_ = "[    ]"
             print("(((V/O/I/D/V/O/I/D/V/O/I/D)))")
         else:
-            color_, border_ = self.get_colors()
+            color_, border_, spec_ = self.get_colors()
             img_ = self.get_image()
             void_ = "    "
 
@@ -138,7 +139,7 @@ class No_fun:
                 "color": str(color_),
                 "border": str(border_),
                 "img": str(img_),
-                "time": str(time_),
+                "special": str(spec_),
                 "void": str(void_),
             }
         void_hash:str = self.hash_it(void_attrs)
@@ -148,7 +149,9 @@ class No_fun:
         return final_void
 
     def hash_it(self, attrs_:dict) -> str:
-        encoded_data = json.dumps(attrs_).encode()
+        attrs_t = {"time": self.time_}
+        attrs_t.update(attrs_)
+        encoded_data = json.dumps(attrs_t).encode()
         return shifter_(''.join(('0x', hashlib.sha256(encoded_data).hexdigest())))
 
     def get_float(self) -> str:
@@ -162,15 +165,22 @@ class No_fun:
             return float_
 
     def get_colors(self) -> str:
-        bg_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple", "Brown", "Camo", "Gold", "Silver", "Web", "Vertigo", "Horizon"]
+        bg_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple", "Brown", "Camo", "Gold", "Silver", "None"]
         border_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple", "None"]
+        bg_t_ = ["Camo", "Web", "Vertigo", "Horizon"]
         none_value = 8
+        roll_t = randint(0, 1024)
         i =0
         while i < none_value:
             bg_.append('Grey')
             border_.append('White')
             i+=1
-        return bg_[randint(0, len(bg_)-1)], border_[randint(0, len(border_)-1)]
+        def get_spec() -> str:
+            if roll_t <= len(bg_t_)-1:
+                return bg_t_[roll_t]
+            else:
+                return "    "
+        return bg_[randint(0, len(bg_)-1)], border_[randint(0, len(border_)-1)], get_spec()
 
     def get_image(self) -> str:
         img_ = ["[*]", "[$]", "[+]", "[!]", "[?]", "[#]", "[@]", "[&]", "[~]", "[%]", "[?FUD]", "[$DIRT]", "[#void]", "[dirt_Ranch^_]", "[!RTFM]", "[..fear]", "[..uncertainty]", "[..doubt]", "[RATFM!]", "[the_mound]", "[the_pit]"]
