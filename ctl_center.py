@@ -108,12 +108,13 @@ def chain_info():
 def minter_init():
 
 
-    print("""-- Welcome to the Crafting Bench::[No_funs]
+    print("""
+    -- Welcome to the Crafting Bench::[No_funs]
 
-    No_funs are a very basic implementation of NFTs or Non-Fungible Tokens...
-        with every iteration you have the chance to land a No_fun...
-        ... and in turn, mine a block into the current chain!
-        ... No_funs carry traits with a chance to land a rare void state.
+        No_funs are a very basic implementation of NFTs or Non-Fungible Tokens...
+            with every iteration you have the chance to land a No_fun...
+            ... and in turn, mine a block into the current chain!
+            ... No_funs carry traits with a chance to land a rare void state.
         
         Currently all No_funs are written into blocks::chain_data with that 
         expected to change upon the implementation of txns and $DIRT.
@@ -158,13 +159,15 @@ def minter_init():
 
 
 def auto_miner_init():
-    print("""-- Welcome to the Workshop::[Auto_Miner]
+    print("""
+    -- Workshop::[Auto_Miner]
 
-    Auto-Mine a set number of blocks!
+        Auto-Mine a set number of blocks!
         
-        All Minter_data can be found in the [minter_data] directory once a 
-        minter has been initialized along with your respective Chain_data
-        files in the [chain_data] directory.
+        In the chain_data directory you will find your important Chain Data..
+            -Chain_state::CHAIN (for viewing)
+            -Chain_data::CHAIN::chain_data (for viewing)
+            -Block_times keep record of block mine times in relation to difficulty.
 
                                                     -- dirt_Ranch^_mgmt
     
@@ -223,10 +226,12 @@ def chain_init(chain_id:int):
     CHAIN = Blockchain_(CHAIN_ID)
     wallet_login()
 
-    print("""Where to next?
-        1. Office [print_chain data for now]
-        2. Workshop [Miner]
-        3. Crafting Bench [Minter] (default)
+    print("""
+        Where to next?
+
+        1. Office
+        2. Workshop
+        3. Crafting Bench (default)
 
         9. Wallet Options
         0. Exit
@@ -266,8 +271,10 @@ def chain_init(chain_id:int):
 
 
 def dirt_ranch_welcome():
-    print("\n-- Welcome to dirt_Ranch^_ ..! Which wagon you ridin' today?")
+    print("\n")
     print('''
+    -- Welcome to dirt_Ranch^_ ..! Which wagon you ridin' today?
+
         1. Enter Chain_id
         2. Master::chain_id=0 (default)
         3. Advanced_Mode_Autorun

@@ -30,7 +30,7 @@ class Proof_of_Work:
         self.b_reward:float = 0
         self.pay_c = pay_c
         self.miner_w = miner_w
-        if miner_w == '_' or len(miner_w) != 66:
+        if miner_w == '_' or len(miner_w) != 66 or miner_w is None:
             self.miner_w = self.chain_.genesis_b
         # self.txns = txns
         # self.chain_data = chain_data
