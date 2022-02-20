@@ -89,13 +89,12 @@ def wallet_login():
     for wallet in WALLET.print_wallets(False):
         print(f'{i}. {wallet}')
         i+=1
-    u_input = int(input(': '))
+    u_input = input(': ')
     try:
-        u_input = int(u_input)
-    except Exception:
+        wallet_quick_login(False, int(u_input))
+    except ValueError:
         print('Integer value required, using default. (0)')
         wallet_quick_login()
-    wallet_quick_login(False, u_input)
 
 def wallet_recover():
     global WALLET
