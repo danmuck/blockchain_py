@@ -1,4 +1,5 @@
 import datetime, hashlib, json, os, time
+from random import randint
 
 from .Block import Block_
 from .Shifter import shifter_
@@ -44,7 +45,7 @@ class Blockchain_:
         '''
         chain_ = self.load_chain_json()
         if type(chain_) != dict or type(self.chain) != dict:
-            time.sleep(1)
+            time.sleep(.25 * randint(0, 1))
             self.load_chain_json()
         try:
             for i in self.chain.keys():
@@ -77,20 +78,20 @@ class Blockchain_:
                 else:
                     print(f'\n!!Err Bad block. [{i}] !! \n')
                     raise Exception
+            if list(self.chain.keys()) in list(chain_.keys()) and len(chain_) >= len(self.chain) or len(chain_) == 1:
+                if self.chain == chain_:
+                    pass
+                self.load_chain_json()
+            elif len(self.chain) > len(chain_) and list(chain_.keys()) in list(self.chain.keys()):
+                # prepare to diverge
+                self.chain_id+=1
+                print(f"!Err Chain height surpassed master::Diverging to chain_id: {self.chain_id}...  !!")
+                self.validate_chain()
+            else:
+                self.chain = self.load_chain_json()
         except AttributeError:
             self.validate_chain()
-
-        if list(self.chain.keys()) in list(chain_.keys()) and len(chain_) >= len(self.chain) or len(chain_) == 1:
-            if self.chain == chain_:
-                pass
-            self.load_chain_json()
-        elif len(self.chain) > len(chain_) and list(chain_.keys()) in list(self.chain.keys()):
-            # prepare to diverge
-            self.chain_id+=1
-            print(f"!Err Chain height surpassed master::Diverging to chain_id: {self.chain_id}...  !!")
-            self.validate_chain()
-        else:
-            self.chain = self.load_chain_json()
+        
 
         self.validate_master_chain(chain_, print_it)
 
@@ -111,7 +112,7 @@ class Blockchain_:
                 return chain_
         except json.JSONDecodeError:
             print("\n\n\n\n\n\nSCREAM")
-            time.sleep(1)
+            time.sleep(.25 * randint(0, 1))
             self.load_chain_json()
         except FileNotFoundError:
             try:
@@ -197,8 +198,8 @@ class Blockchain_:
                 return chain_
         except json.JSONDecodeError:
             print("\n\n\n\n\n\nSCREAM")
-            time.sleep(1)
-            self.load_master_chain(chk_chain)
+            time.sleep(.25 * randint(0, 1))
+            self.load_master_chain()
         except FileNotFoundError:
             try:
                 os.mkdir(f"{os.getcwd()}/chain_data/")
@@ -231,7 +232,7 @@ class Blockchain_:
         if new_master is not None:
             chain_ = self.load_master_chain(new_master)
             if type(chain_) != dict:
-                time.sleep(1)
+                time.sleep(.25 * randint(0, 1))
                 self.load_master_chain(new_master)
             try:
                 for i in chain_.keys():
