@@ -30,10 +30,7 @@ class Blockchain_:
         # MASTER_CHAIN = load_master_chain(self)
         
         self.chain.update((self.genesis_block.block_data))
-        # try:
-        #     self.validate_chain()
-        # except Exception:
-        #     self.chain = self.load_chain_json()
+
         self.validate_chain(True)
         self.genesis_b = str(list(self.chain.keys())[0])
         print("\n\nBlockchain_ initialized...\n  TAIL: ", json.dumps(list(self.chain.values())[-4:], indent=2), "\n\n")
@@ -126,7 +123,7 @@ class Blockchain_:
                         file.write(chain_)
                         return self.chain
                 except FileExistsError:
-                    return self.chain
+                    self.load_chain_json()
 
     def write_chain_json(self):
         '''
