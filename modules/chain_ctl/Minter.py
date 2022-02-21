@@ -271,11 +271,11 @@ class No_fun:
         return bg_[randint(0, len(bg_)-1)], border_[randint(0, len(border_)-1)], get_spec()
 
     def get_image(self) -> str:
-        img_ = ["[*]", "[$]", "[+]", "[!]", "[?]", "[#]", "[@]", "[&]", "[~]", "[%]", "[?FUD]", "[$DIRT]", "[#void]", "[dirt_Ranch^_]", "[!RTFM]", "[..fear]", "[..uncertainty]", "[..doubt]", "[RATFM!]", "[the_mound]", "[the_pit]"]
+        img_ = ["[*void*]", "[$void$]", "[+void+]", "[!void!]", "[?void?]", "[#void#]", "[@void@]", "[&void&]", "[~void~]", "[%void%]", "[$DIRT]", "[#VOIDS]", "[dirt_Ranch^_]", "[!RTFM]", "[?FUD]", "[..fear]", "[..uncertainty]", "[..doubt]", "[RATFM!]", "[the_mound]", "[the_pit]"]
         none_value = 16
         i =0
         while i < none_value:
-            img_.append('    ')
+            img_.append('None')
             i+=1
         return img_[randint(0, len(img_)-1)]
 
