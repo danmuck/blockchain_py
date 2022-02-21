@@ -3,6 +3,7 @@ from random import randint
 
 from .Block import Block_
 from .Shifter import shifter_
+
 class Blockchain_:
     chain_id:int
     chain:dict
@@ -26,8 +27,8 @@ class Blockchain_:
             chain_data = {},
             print_it=False
         )
-        # global MASTER_CHAIN
-        # MASTER_CHAIN = load_master_chain(self)
+        global MASTER_CHAIN
+        MASTER_CHAIN = self.load_master_chain()
         
         self.chain.update((self.genesis_block.block_data))
 
@@ -192,9 +193,11 @@ class Blockchain_:
         '''
             File handling for the Master Blockchain_ state via JSON
         '''
+        global MASTER_CHAIN
         try:
             with open(f"{os.getcwd()}/Master_chain.json", "r") as file:
                 chain_ = dict(json.load(file))
+                MASTER_CHAIN = chain_
                 return chain_
         except json.JSONDecodeError:
             print("\n\n\n\n\n\nSCREAM")
@@ -206,19 +209,22 @@ class Blockchain_:
             except FileExistsError:
                 pass
             finally:
-                with open(f"{os.getcwd()}/Master_chain.json", "x") as file:
-                    if chk_chain != None:
-                        chain_ = json.dumps(chk_chain)
+                if chk_chain != None:
+                    chain_ = json.dumps(chk_chain)
+                    with open(f"{os.getcwd()}/Master_chain.json", "x") as file:
                         file.write(chain_)
-                        return chk_chain
-                    file.write(json.dumps({"oops": "goof", "probably": "delete_me"}))
+                        return MASTER_CHAIN
+                else:
                     print("!!Err No chain given to load_master_chain()  !!")
                     return {}
+
 
     def update_master_chain(self, new_master:dict, print_it=False):
         '''
             Update Master Blockchain_ state along with its chain_data to JSON files
         '''
+        global MASTER_CHAIN
+        MASTER_CHAIN = new_master
         with open(f"{os.getcwd()}/Master_chain.json", "w") as file:
             file.write(json.dumps(new_master, indent=2))
             if print_it is True:
@@ -276,6 +282,26 @@ class Blockchain_:
         if print_it is True:
             print("!!Hey [master valid]  !!")
 
+    def user_journal_update(self):
+        try:
+            os.mkdir(f"{os.getcwd()}/user_data/")
+        except FileExistsError:
+            pass
+        try:
+            os.mkdir(f"{os.getcwd()}/user_data/journal/")
+        except FileExistsError:
+            pass
+        try:
+            with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "x") as file:
+                master_chain =  json.dumps(self.load_master_chain(), indent=2)
+                file.write(master_chain)        
+        except FileExistsError:
+            try:
+                with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "w") as file:
+                    master_chain =  json.dumps(self.load_master_chain(), indent=2)
+                    file.write(master_chain)  
+            except FileNotFoundError:
+                pass
 
     def chain_data_all(self):
         pass
