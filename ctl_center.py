@@ -249,15 +249,22 @@ def chain_init(chain_id:int):
     if u_input == 1:
         # print(json.dumps(CHAIN.join_data(WALLET.gen_wallet()), indent=2))
         chain_datas, all_txns, txn_splits, invent_splits = CHAIN.join_data(WALLET.gen_wallet())
-        print("======================================================")
-        print(json.dumps(chain_datas, indent=2))
-        print("======================================================")
+        print("============================= =============================")
         print(json.dumps(all_txns, indent=2))
-        print("======================================================")
-        print(json.dumps(txn_splits, indent=2))
-        print("======================================================")
+        print("==================   All Transactions    ==================")
+        print(json.dumps(chain_datas, indent=2))
+        print("==================    All Chain Data     ==================")
         print(json.dumps(invent_splits, indent=2))
-        print("======================================================")
+        print("================== Wallet Inventory List ==================")
+        print(json.dumps(txn_splits, indent=2))
+        print("==================   Balances::Ledger    ==================")
+        print("""
+            -- The file cabinet fell over... sections are labeled from the bottom...
+                I tried my best to put the most important stuff last... 
+                ... let's hope it stayed that way...
+        
+        """)
+        print("============================= =============================")
         chain_init(CHAIN_ID)
 
     elif u_input == 2:
