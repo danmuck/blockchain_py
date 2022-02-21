@@ -195,10 +195,6 @@ class Wallet_:
             except FileNotFoundError:
                 pass
 
-
-# w = Wallet_("0xlaksjd", 23.0, {})
-
-
     
 class Txn_:
     to_addr:str

@@ -134,6 +134,7 @@ class Blockchain_:
             file.write(json.dumps(self.chain, indent=2))
         with open(f"{os.getcwd()}/chain_data/Chain_data_{self.chain_id}.json", "w") as file:
             file.write(json.dumps(self.chain_data, indent=2))
+        self.user_journal_update()
 
     def sync_to_master(self):
         self.chain = self.load_master_chain()
@@ -202,7 +203,11 @@ class Blockchain_:
         except json.JSONDecodeError:
             print("\n\n\n\n\n\nSCREAM")
             time.sleep(.1513 * randint(24, 64))
-            self.load_master_chain()
+            # self.load_master_chain()
+            with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "r") as file:
+                chain_ = dict(json.load(file))
+                MASTER_CHAIN = chain_
+                return chain_            
         except FileNotFoundError:
             try:
                 os.mkdir(f"{os.getcwd()}/chain_data/")
