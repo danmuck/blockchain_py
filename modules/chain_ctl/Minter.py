@@ -96,16 +96,104 @@ class No_fun:
         img_ = str
         spec_ = str
         trait_ = str
-        if self.void is True:
+        if self.void is True and ez_num_ > 15:
             color_ = "black"
             border_ = "black"
             void_ = "(V/O/I/D)"
             img_ = "[    ]"
             print("(((V/O/I/D/V/O/I/D/V/O/I/D)))")
+        elif ez_num_ <= 15:
+            if ez_num_ == 0:
+                color_ = 'white'
+                border_ = 'white'
+                spec_ = 'cue'
+                img_ = self.get_image()
+            elif ez_num_ == 1:
+                color_ = 'yellow'
+                border_ = 'yellow'
+                spec_ = 'solid'
+                img_ = self.get_image()   
+            elif ez_num_ == 2:
+                color_ = 'blue'
+                border_ = 'blue'
+                spec_ = 'solid'
+                img_ = self.get_image()   
+            elif ez_num_ == 3:
+                color_ = 'red'
+                border_ = 'red'
+                spec_ = 'solid'
+                img_ = self.get_image()
+            elif ez_num_ == 4:
+                color_ = 'violet'
+                border_ = 'violet'
+                spec_ = 'solid'
+                img_ = self.get_image()
+            elif ez_num_ == 5:
+                color_ = 'orange'
+                border_ = 'orange'
+                spec_ = 'solid'
+                img_ = self.get_image()
+            elif ez_num_ == 6:
+                color_ = 'green'
+                border_ = 'green'
+                spec_ = 'solid'
+                img_ = self.get_image()
+            elif ez_num_ == 7:
+                color_ = 'cyan'
+                border_ = 'cyan'
+                spec_ = 'solid'
+                img_ = self.get_image()
+            elif ez_num_ == 8:
+                color_ = 'black'
+                border_ = 'black'
+                spec_ = 'eight'
+                img_ = self.get_image()
+            elif ez_num_ == 9:
+                color_ = 'yellow'
+                border_ = 'yellow'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+            elif ez_num_ == 10:
+                color_ = 'blue'
+                border_ = 'blue'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+            elif ez_num_ == 11:
+                color_ = 'red'
+                border_ = 'red'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+            elif ez_num_ == 12:
+                color_ = 'violet'
+                border_ = 'violet'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+            elif ez_num_ == 13:
+                color_ = 'orange'
+                border_ = 'orange'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+            elif ez_num_ == 14:
+                color_ = 'green'
+                border_ = 'green'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+            else:
+                color_ = 'cyan'
+                border_ = 'cyan'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+
+            if self.void is True:
+                void_ = "(V/O/I/D)"
+                img_ = "[    ]"
+            else:
+                void_ = "(        )"
+
         else:
             color_, border_, spec_ = self.get_colors()
             img_ = self.get_image()
-            void_ = "    "
+            void_ = "(        )"
 
         if ez_num_ in UBINRS_LIST:
             ez_num_ = UNR_16_MAP[ez_num_]
@@ -156,7 +244,7 @@ class No_fun:
 
     def get_float(self) -> str:
         float_ = randint(0, 100000000)
-        if float_ >= 99999992:
+        if float_ >= 99999985 or float_ <= 15:
             float_ = "VOID"
             self.void = True
             return float_
@@ -165,9 +253,9 @@ class No_fun:
             return float_
 
     def get_colors(self) -> str:
-        bg_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple", "Brown", "Camo", "Gold", "Silver", "None"]
-        border_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Purple", "None"]
-        bg_t_ = ["Camo", "Web", "Vertigo", "Horizon", "Slash", "Broke", "Rich"]
+        bg_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Violet", "Cyan", "Gold", "Silver", "None"]
+        border_ = ["Black", "White", "Grey", "Red", "Blue", "Green", "Yellow", "Orange", "Violet", "Cyan", "Gold", "Silver", "None"]
+        spec_ = ["Camo", "Web", "Vertigo", "Horizon", "Slash", "Broke", "Rich", "Stripe", "Solid"]
         none_value = 8
         roll_t = randint(0, 1024)
         i =0
@@ -176,10 +264,10 @@ class No_fun:
             border_.append('White')
             i+=1
         def get_spec() -> str:
-            if roll_t <= len(bg_t_)-1:
-                return bg_t_[roll_t]
+            if roll_t <= len(spec_)-1:
+                return spec_[roll_t]
             else:
-                return "    "
+                return "None"
         return bg_[randint(0, len(bg_)-1)], border_[randint(0, len(border_)-1)], get_spec()
 
     def get_image(self) -> str:
