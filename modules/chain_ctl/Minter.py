@@ -102,7 +102,9 @@ class No_fun:
             void_ = "(V/O/I/D)"
             img_ = "[    ]"
             print("(((V/O/I/D/V/O/I/D/V/O/I/D)))")
-        elif ez_num_ <= 15:
+        else:
+            pass
+        if ez_num_ <= 15:
             if ez_num_ == 0:
                 color_ = 'white'
                 border_ = 'white'
@@ -178,18 +180,18 @@ class No_fun:
                 border_ = 'green'
                 spec_ = 'stripe'
                 img_ = self.get_image()
-            else:
+            elif ez_num_ == 15:
                 color_ = 'cyan'
                 border_ = 'cyan'
                 spec_ = 'stripe'
                 img_ = self.get_image()
-
+            
             if self.void is True:
                 void_ = "(V/O/I/D)"
                 img_ = "[    ]"
             else:
                 void_ = "(        )"
-
+                
         else:
             color_, border_, spec_ = self.get_colors()
             img_ = self.get_image()
