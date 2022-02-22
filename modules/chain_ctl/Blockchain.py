@@ -1,8 +1,6 @@
 import datetime, hashlib, json, os, time
 from random import randint
 
-from simplejson import JSONDecodeError
-
 from .Block import Block_
 from .Shifter import shifter_
 
