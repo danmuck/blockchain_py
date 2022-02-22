@@ -213,7 +213,7 @@ class Blockchain_:
         '''
             File handling for the Master Blockchain_ state via JSON
         '''
-        global MASTER_CHAIN
+        global MASTER_CHAIN     
         try:
             with open(f"{os.getcwd()}/Master_chain.json", "r") as file:
                 MASTER_CHAIN = dict(json.load(file))
@@ -222,10 +222,6 @@ class Blockchain_:
             print("\n\n\n\n\n\nSCREAM::master")
             time.sleep(.1513 * randint(8, 16))
             self.load_master_backup()
-            # with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "r") as file:
-            #     chain_ = dict(json.load(file))
-            #     MASTER_CHAIN = chain_
-            #     return chain_            
         except FileNotFoundError:
             try:
                 os.mkdir(f"{os.getcwd()}/chain_data/")
@@ -242,9 +238,6 @@ class Blockchain_:
                     return {}
 
     def load_master_backup(self) -> dict:
-        '''
-            File handling for the Master Blockchain_ backup via JSON
-        '''
         global MASTER_CHAIN
         try:
             with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "r") as file:

@@ -96,110 +96,110 @@ class No_fun:
         img_ = str
         spec_ = str
         trait_ = str
+        void_ = str
         if self.void is True and ez_num_ > 15:
             color_ = "black"
             border_ = "black"
             void_ = "(V/O/I/D)"
             img_ = "[    ]"
-            print("(((V/O/I/D/V/O/I/D/V/O/I/D)))")
-        else:
-            pass
-        if ez_num_ <= 15:
-            if ez_num_ == 0:
-                color_ = 'white'
-                border_ = 'white'
-                spec_ = 'cue'
-                img_ = self.get_image()
-            elif ez_num_ == 1:
-                color_ = 'yellow'
-                border_ = 'yellow'
-                spec_ = 'solid'
-                img_ = self.get_image()   
-            elif ez_num_ == 2:
-                color_ = 'blue'
-                border_ = 'blue'
-                spec_ = 'solid'
-                img_ = self.get_image()   
-            elif ez_num_ == 3:
-                color_ = 'red'
-                border_ = 'red'
-                spec_ = 'solid'
-                img_ = self.get_image()
-            elif ez_num_ == 4:
-                color_ = 'violet'
-                border_ = 'violet'
-                spec_ = 'solid'
-                img_ = self.get_image()
-            elif ez_num_ == 5:
-                color_ = 'orange'
-                border_ = 'orange'
-                spec_ = 'solid'
-                img_ = self.get_image()
-            elif ez_num_ == 6:
-                color_ = 'green'
-                border_ = 'green'
-                spec_ = 'solid'
-                img_ = self.get_image()
-            elif ez_num_ == 7:
-                color_ = 'cyan'
-                border_ = 'cyan'
-                spec_ = 'solid'
-                img_ = self.get_image()
-            elif ez_num_ == 8:
-                color_ = 'black'
-                border_ = 'black'
-                spec_ = 'eight'
-                img_ = self.get_image()
-            elif ez_num_ == 9:
-                color_ = 'yellow'
-                border_ = 'yellow'
-                spec_ = 'stripe'
-                img_ = self.get_image()
-            elif ez_num_ == 10:
-                color_ = 'blue'
-                border_ = 'blue'
-                spec_ = 'stripe'
-                img_ = self.get_image()
-            elif ez_num_ == 11:
-                color_ = 'red'
-                border_ = 'red'
-                spec_ = 'stripe'
-                img_ = self.get_image()
-            elif ez_num_ == 12:
-                color_ = 'violet'
-                border_ = 'violet'
-                spec_ = 'stripe'
-                img_ = self.get_image()
-            elif ez_num_ == 13:
-                color_ = 'orange'
-                border_ = 'orange'
-                spec_ = 'stripe'
-                img_ = self.get_image()
-            elif ez_num_ == 14:
-                color_ = 'green'
-                border_ = 'green'
-                spec_ = 'stripe'
-                img_ = self.get_image()
-            elif ez_num_ == 15:
-                color_ = 'cyan'
-                border_ = 'cyan'
-                spec_ = 'stripe'
-                img_ = self.get_image()
-            
-            if self.void is True:
-                void_ = "(V/O/I/D)"
-                img_ = "[    ]"
-            else:
-                void_ = "(        )"
-                
-        else:
+            spec_ = self.get_colors()
+        elif ez_num_ not in UBINRS_LIST:
             color_, border_, spec_ = self.get_colors()
             img_ = self.get_image()
+            if self.void is not True:
+                void_ = "(        )"
+        else:
             void_ = "(        )"
 
         if ez_num_ in UBINRS_LIST:
             ez_num_ = UNR_16_MAP[ez_num_]
-            trait_ = ".::Unr_16::."
+            trait_ = ".::$Bills::."
+            if ez_num_ == '0000':
+                color_ = 'white'
+                border_ = 'white'
+                spec_ = 'cue'
+                img_ = self.get_image()
+            elif ez_num_ == '0001':
+                color_ = 'yellow'
+                border_ = 'yellow'
+                spec_ = 'solid'
+                img_ = self.get_image()   
+            elif ez_num_ == '0010':
+                color_ = 'blue'
+                border_ = 'blue'
+                spec_ = 'solid'
+                img_ = self.get_image()   
+            elif ez_num_ == '0011':
+                color_ = 'red'
+                border_ = 'red'
+                spec_ = 'solid'
+                img_ = self.get_image()
+            elif ez_num_ == '0100':
+                color_ = 'violet'
+                border_ = 'violet'
+                spec_ = 'solid'
+                img_ = self.get_image()
+            elif ez_num_ == '0101':
+                color_ = 'orange'
+                border_ = 'orange'
+                spec_ = 'solid'
+                img_ = self.get_image()
+            elif ez_num_ == '0110':
+                color_ = 'green'
+                border_ = 'green'
+                spec_ = 'solid'
+                img_ = self.get_image()
+            elif ez_num_ == '0111':
+                color_ = 'cyan'
+                border_ = 'cyan'
+                spec_ = 'solid'
+                img_ = self.get_image()
+            elif ez_num_ == '1000':
+                color_ = 'black'
+                border_ = 'black'
+                spec_ = 'eight'
+                img_ = self.get_image()
+            elif ez_num_ == '1001':
+                color_ = 'yellow'
+                border_ = 'yellow'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+            elif ez_num_ == '1010':
+                color_ = 'blue'
+                border_ = 'blue'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+            elif ez_num_ == '1011':
+                color_ = 'red'
+                border_ = 'red'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+            elif ez_num_ == '1100':
+                color_ = 'violet'
+                border_ = 'violet'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+            elif ez_num_ == '1101':
+                color_ = 'orange'
+                border_ = 'orange'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+            elif ez_num_ == '1110':
+                color_ = 'green'
+                border_ = 'green'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+            elif ez_num_ == '1111':
+                color_ = 'cyan'
+                border_ = 'cyan'
+                spec_ = 'stripe'
+                img_ = self.get_image()
+            else:
+                color_ = 'borked'
+                border_ = 'borked'
+                spec_ = 'borked'
+                img_ = f'[{ez_num_}]'
+                               
         elif ez_num_ in OTHERS_LIST:
             ez_num_ = str(ez_num_)
             trait_ = ".:Rare:."
@@ -221,6 +221,7 @@ class No_fun:
         else:
             ez_num_ = str(ez_num_)
             trait_ = "Common"
+
 
         void_attrs:dict = {
                 "num": str(ez_num_),
@@ -246,7 +247,7 @@ class No_fun:
 
     def get_float(self) -> str:
         float_ = randint(0, 100000000)
-        if float_ >= 99999985 or float_ <= 15:
+        if float_ >= 99999985 or float_ <= 15 or self.void is True:
             float_ = "VOID"
             self.void = True
             return float_

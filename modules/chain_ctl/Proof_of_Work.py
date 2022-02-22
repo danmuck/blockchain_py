@@ -61,7 +61,7 @@ class Proof_of_Work:
                 self.difficulty = 0
                 self.b_reward = 0
                 check_nonce = True        
-            elif len(self.chain_.chain) < 100:
+            elif len(self.chain_.chain) < 900:
                 self.difficulty = 1
                 self.b_reward = 0
                 if hash_value[:1] == '0':
