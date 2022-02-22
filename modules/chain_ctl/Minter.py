@@ -199,28 +199,28 @@ class No_fun:
                 border_ = 'borked'
                 spec_ = 'borked'
                 img_ = f'[{ez_num_}]'
-                               
+
         elif ez_num_ in OTHERS_LIST:
             ez_num_ = str(ez_num_)
             trait_ = ".:Rare:."
         elif ez_num_ in UDBBLS_LIST:
             ez_num_ = str(ez_num_)
-            trait_ = ".::Dubbs::."
+            trait_ = ".:Dubbs:."
         elif ez_num_ in UTRIPS_LIST:
             ez_num_ = str(ez_num_)
-            trait_ = ".::Trippps::."
+            trait_ = ".:Trippps:."
         elif ez_num_ > 999 and ez_num_ <= 1234:
             ez_num_ = str(ez_num_)
-            trait_ = ".Upper."
+            trait_ = ".UComm."
         elif ez_num_ > 1234:
             ez_num_ = str(ez_num_)
             if trait_ != "":
                 trait_ = ''.join(["(V/O/", trait_, "/I/D)"])
             else:
-                trait_ = "::::(V/O/I/D)::::"
+                trait_ = "::(V/O/I/D)::"
         else:
             ez_num_ = str(ez_num_)
-            trait_ = "Common"
+            trait_ = "Comm"
 
 
         void_attrs:dict = {
