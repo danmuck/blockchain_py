@@ -1,6 +1,8 @@
 import datetime, hashlib, json, os, time
 from random import randint
 
+from simplejson import JSONDecodeError
+
 from .Block import Block_
 from .Shifter import shifter_
 
@@ -104,18 +106,15 @@ class Blockchain_:
         '''
             File handling for the Blockchain_ state via JSON
         '''
+        global MASTER_CHAIN
         try:
             with open(f"{os.getcwd()}/chain_data/Chain_state_{self.chain_id}.json", "r") as file:
                 chain_ = dict(json.load(file))
                 return chain_
         except json.JSONDecodeError:
-            print("\n\n\n\n\n\nSCREAM")
-            time.sleep(.1513 * randint(24, 64))
-            self.load_chain_json()
-            with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "r") as file:
-                chain_ = dict(json.load(file))
-                MASTER_CHAIN = chain_
-                return chain_              
+            print("\n\n\n\n\n\nSCREAM::chain")
+            time.sleep(.1513 * randint(8, 16))
+            self.load_chain_backup()           
         except FileNotFoundError:
             try:
                 os.mkdir(f"{os.getcwd()}/chain_data/")
@@ -130,6 +129,22 @@ class Blockchain_:
                 except FileExistsError:
                     self.load_chain_json()
 
+    def load_chain_backup(self) -> dict:
+        '''
+            File handling for the Blockchain_ state via JSON
+        '''
+        global MASTER_CHAIN
+        try:
+            with open(f"{os.getcwd()}/user_data/journal/Chain_{self.chain_id}_backup.json", "r") as file:
+                chain_ = dict(json.load(file))
+                return chain_
+        except json.JSONDecodeError:
+            print("\n\n\n\n\n\nSCREAM::chain backup")
+            time.sleep(.1513 * randint(8, 16))
+            self.load_chain_json()
+        except FileNotFoundError:
+            self.load_chain_json()
+
     def write_chain_json(self):
         '''
             Update Blockchain_ state along with its chain_data to JSON files
@@ -138,13 +153,15 @@ class Blockchain_:
             file.write(json.dumps(self.chain, indent=2))
         with open(f"{os.getcwd()}/chain_data/Chain_data_{self.chain_id}.json", "w") as file:
             file.write(json.dumps(self.chain_data, indent=2))
-        self.user_journal_update()
+        if len(self.chain) % 10 == 0:
+            self.user_journal_update()
 
     def sync_to_master(self):
         self.chain = self.load_master_chain()
         self.update_chain_data_()
         self.write_chain_json()
         self.validate_chain()
+        self.user_journal_update()
 
     def get_tallest_block(self):
         '''
@@ -201,17 +218,16 @@ class Blockchain_:
         global MASTER_CHAIN
         try:
             with open(f"{os.getcwd()}/Master_chain.json", "r") as file:
-                chain_ = dict(json.load(file))
-                MASTER_CHAIN = chain_
-                return chain_
+                MASTER_CHAIN = dict(json.load(file))
+                return MASTER_CHAIN
         except json.JSONDecodeError:
-            print("\n\n\n\n\n\nSCREAM")
-            time.sleep(.1513 * randint(24, 64))
-            # self.load_master_chain()
-            with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "r") as file:
-                chain_ = dict(json.load(file))
-                MASTER_CHAIN = chain_
-                return chain_            
+            print("\n\n\n\n\n\nSCREAM::master")
+            time.sleep(.1513 * randint(8, 16))
+            self.load_master_backup()
+            # with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "r") as file:
+            #     chain_ = dict(json.load(file))
+            #     MASTER_CHAIN = chain_
+            #     return chain_            
         except FileNotFoundError:
             try:
                 os.mkdir(f"{os.getcwd()}/chain_data/")
@@ -226,6 +242,22 @@ class Blockchain_:
                 else:
                     print("!!Err No chain given to load_master_chain()  !!")
                     return {}
+
+    def load_master_backup(self) -> dict:
+        '''
+            File handling for the Master Blockchain_ backup via JSON
+        '''
+        global MASTER_CHAIN
+        try:
+            with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "r") as file:
+                MASTER_CHAIN = dict(json.load(file))
+                return MASTER_CHAIN
+        except json.JSONDecodeError:
+            print("\n\n\n\n\n\nSCREAM::master backup")
+            time.sleep(.1513 * randint(8, 16))
+            self.load_master_chain()    
+        except FileNotFoundError:
+            self.load_master_chain()
 
 
     def update_master_chain(self, new_master:dict, print_it=False):
@@ -302,27 +334,32 @@ class Blockchain_:
         except FileExistsError:
             pass
         try:
-            with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "x") as file:
-                master_chain =  json.dumps(self.load_master_chain(), indent=2)
-                file.write(master_chain)        
-        except FileExistsError:
             try:
-                with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "w") as file:
+                with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "x") as file:
                     master_chain =  json.dumps(self.load_master_chain(), indent=2)
-                    file.write(master_chain)  
-            except FileNotFoundError:
-                pass
-        try:
-            with open(f"{os.getcwd()}/user_data/journal/Chain_{self.chain_id}_backup.json", "x") as file:
-                current_chain =  json.dumps(self.load_chain_json(), indent=2)
-                file.write(current_chain)        
-        except FileExistsError:
+                    file.write(master_chain)        
+            except FileExistsError:
+                try:
+                    with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "w") as file:
+                        master_chain =  json.dumps(self.load_master_chain(), indent=2)
+                        file.write(master_chain)  
+                except FileNotFoundError:
+                    pass
             try:
-                with open(f"{os.getcwd()}/user_data/journal/Chain_{self.chain_id}_backup.json", "w") as file:
+                with open(f"{os.getcwd()}/user_data/journal/Chain_{self.chain_id}_backup.json", "x") as file:
                     current_chain =  json.dumps(self.load_chain_json(), indent=2)
-                    file.write(current_chain)  
-            except FileNotFoundError:
-                pass            
+                    file.write(current_chain)        
+            except FileExistsError:
+                try:
+                    with open(f"{os.getcwd()}/user_data/journal/Chain_{self.chain_id}_backup.json", "w") as file:
+                        current_chain =  json.dumps(self.load_chain_json(), indent=2)
+                        file.write(current_chain)  
+                except FileNotFoundError:
+                    pass
+        except JSONDecodeError:
+            print("\n\n\n\n\n\nSCREAM::journal")
+            time.sleep(.1513 * randint(24, 64))
+            self.user_journal_update()            
 
     def chain_data_all(self):
         pass
