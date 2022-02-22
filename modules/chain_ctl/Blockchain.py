@@ -354,7 +354,7 @@ class Blockchain_:
                         file.write(current_chain)  
                 except FileNotFoundError:
                     pass
-        except JSONDecodeError:
+        except json.JSONDecodeError:
             print("\n\n\n\n\n\nSCREAM::journal")
             time.sleep(.1513 * randint(24, 64))
             self.user_journal_update()            
