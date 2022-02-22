@@ -211,7 +211,7 @@ class No_fun:
             trait_ = ".:Trippps:."
         elif ez_num_ > 999 and ez_num_ <= 1234:
             ez_num_ = str(ez_num_)
-            trait_ = ".UComm."
+            trait_ = ".unCommon."
         elif ez_num_ > 1234:
             ez_num_ = str(ez_num_)
             if trait_ != "":
@@ -220,7 +220,7 @@ class No_fun:
                 trait_ = "::(V/O/I/D)::"
         else:
             ez_num_ = str(ez_num_)
-            trait_ = "Comm"
+            trait_ = "Common"
 
 
         void_attrs:dict = {
