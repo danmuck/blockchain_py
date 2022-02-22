@@ -112,6 +112,10 @@ class Blockchain_:
             print("\n\n\n\n\n\nSCREAM")
             time.sleep(.1513 * randint(24, 64))
             self.load_chain_json()
+            with open(f"{os.getcwd()}/user_data/journal/Master_backup.json", "r") as file:
+                chain_ = dict(json.load(file))
+                MASTER_CHAIN = chain_
+                return chain_              
         except FileNotFoundError:
             try:
                 os.mkdir(f"{os.getcwd()}/chain_data/")
@@ -286,6 +290,7 @@ class Blockchain_:
             self.validate_chain()
         if print_it is True:
             print("!!Hey [master valid]  !!")
+        MASTER_CHAIN
 
     def user_journal_update(self):
         try:
@@ -307,6 +312,17 @@ class Blockchain_:
                     file.write(master_chain)  
             except FileNotFoundError:
                 pass
+        try:
+            with open(f"{os.getcwd()}/user_data/journal/Chain_{self.chain_id}_backup.json", "x") as file:
+                current_chain =  json.dumps(self.load_chain_json(), indent=2)
+                file.write(current_chain)        
+        except FileExistsError:
+            try:
+                with open(f"{os.getcwd()}/user_data/journal/Chain_{self.chain_id}_backup.json", "w") as file:
+                    current_chain =  json.dumps(self.load_chain_json(), indent=2)
+                    file.write(current_chain)  
+            except FileNotFoundError:
+                pass            
 
     def chain_data_all(self):
         pass
