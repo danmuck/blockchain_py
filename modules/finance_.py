@@ -37,3 +37,5 @@ def calculate_monthly_gains() -> Decimal:
         print(f"\nInitial Investment: ${round(starting_cash, 2)} \nTotal interest gained over {j} months: ${round(total_interest_gain, 2)} \n")
     
         return round(investment, 2)
+
+calculate_monthly_gains()

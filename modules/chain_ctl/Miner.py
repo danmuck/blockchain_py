@@ -31,7 +31,7 @@ class Auto_Miner_:
         i, j = 1, self.iters_ # i is always magical
         while i <= j:
             i+=1
-            proof = Proof_of_Work(self.chain, self.wallet_, '10000000')
+            proof = Proof_of_Work(self.chain, self.wallet_, '0001')
             proof.mine_block(txns={}, txn_data={})
             print(f"iter_count: {i}")
 

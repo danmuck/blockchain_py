@@ -7,6 +7,9 @@ from .Blockchain import Blockchain_, Block_
 from .Miner_Problem import miner_problem_
 from .Transactions import Txn_, Wallet_
 class Timer:
+    '''
+        Timer for testing
+    '''
     def __init__(self) -> None:
         self.start_time = float
     def start_timer(self):
@@ -41,7 +44,9 @@ class Proof_of_Work:
         index: int, 
         data: str,
     ) -> int:
-        
+        '''
+            Define the difficulty of the chain 
+        '''
         new_nonce=1
         check_nonce=False
         TIMER.start_timer()
@@ -61,7 +66,7 @@ class Proof_of_Work:
                 self.difficulty = 0
                 self.b_reward = 0
                 check_nonce = True        
-            elif len(self.chain_.chain) < 900:
+            elif len(self.chain_.chain) < 500:
                 self.difficulty = 1
                 self.b_reward = 0
                 if hash_value[:1] == '0':
@@ -75,21 +80,21 @@ class Proof_of_Work:
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 2500:
+            elif len(self.chain_.chain) < 1500:
                 self.difficulty = 3
                 self.b_reward = 2
                 if hash_value[:3] == '000':
                     check_nonce = True
                 else:
                     new_nonce += 1
-            elif len(self.chain_.chain) < 5000:
+            elif len(self.chain_.chain) < 2000:
                 self.difficulty = 4
                 self.b_reward = 4
                 if hash_value[:4] == '0000':
                     check_nonce = True
                 else:
                     new_nonce += 1                
-            elif len(self.chain_.chain) < 15000:
+            elif len(self.chain_.chain) < 2500:
                 self.difficulty = 5
                 self.b_reward = 8
                 if hash_value[:5] == '00001':
@@ -137,6 +142,9 @@ class Proof_of_Work:
         return new_nonce
 
     def float_to_str(self, f):
+        '''
+            Convert floats to strings to avoid exponential notation when possible
+        '''
         float_string = repr(f)
         if 'e' in float_string:  # detect scientific notation
             digits, exp = float_string.split('e')
@@ -151,15 +159,24 @@ class Proof_of_Work:
         return float_string
 
     def b_reward_txn(self, miner_w:str, txn_data:dict={}):
-        # init block reward txn
-        if self.pay_c == '10000000':
-            self.b_reward = self.float_to_str((self.b_reward * 1.16) + (len(self.chain_.chain) * .0000016))
+        '''
+            Define the block reward and apply any pay code modifiers
+        '''
+        if self.pay_c == '0001':
+            self.b_reward = (self.b_reward * 1.25) # miner     
+        elif self.pay_c == '0010':
+            self.b_reward = (self.b_reward * .85) # minter
         else:
-            self.b_reward = self.float_to_str(self.b_reward + (len(self.chain_.chain) * .0000016))
+            self.b_reward = self.float_to_str(self.b_reward )
+        self.b_reward = self.float_to_str(self.b_reward + (len(self.chain_.chain) * .0000016))
         txn = Txn_(miner_w, self.chain_.genesis_b, txn_data, self.b_reward, 0, "reward")
         return txn.final_txn
 
     def mine_block(self, txns:dict={}, txn_data:dict={}, chain_data:dict={}) -> dict:
+        '''
+            Define the block itself and prepare it for appendage
+                the mock block is irrelevant to the chain itself.
+        '''
         wallet_address = self.miner_w
 
         previous_block = self.chain_.get_tallest_block()[0]

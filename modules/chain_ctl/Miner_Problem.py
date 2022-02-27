@@ -59,15 +59,15 @@ def arb_tasks_testing(switch:int):
 def start_work() -> str:
     with Pool() as p:
         try:
-            process_map = p.map(arb_tasks, [0, 1, 2, 3, 4, 5, 6, 7])
-            process_map_2 = p.map(arb_tasks_testing, [0, 1, 0 , 1])
+            process_map = p.map(arb_tasks, [0, 1, 2, 3])
+            process_map_2 = p.map(arb_tasks_testing, [0, 1, 0, 1])
             # encode_it = ''.join(process_map)
             maps_ = []
             maps_.extend(process_map)
             maps_.extend(process_map_2)
             encode_it = ''.join(maps_)
             return encode_it
-        except:
+        except Exception:
             p.close()
             p.terminate()
         finally:
@@ -75,9 +75,11 @@ def start_work() -> str:
             p.terminate()   
 
 def start_single_work() -> str:
-    task_1 = arb_tasks(99)
-    task_2 = arb_tasks_testing(99)
-    encode_it = ''.join([task_1, task_2])
+    task_1 = arb_tasks_testing(1)
+    task_2 = arb_tasks_testing(0)
+    task_3 = arb_tasks_testing(1)
+    task_4 = arb_tasks_testing(0)
+    encode_it = ''.join([task_1, task_2, task_3, task_4])
     return encode_it
 
 def miner_problem_(new_nonce: int, previous_nonce: int, index: str, data: str) -> bytes:

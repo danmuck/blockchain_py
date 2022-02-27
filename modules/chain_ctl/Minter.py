@@ -261,7 +261,7 @@ class No_fun:
         spec_ = ["Camo", "Web", "Vertigo", "Horizon", "Slash", "Broke", "Rich", "Stripe", "Solid"]
         none_value = 8
         roll_t = randint(0, 1024)
-        i =0
+        i = 0
         while i < none_value:
             bg_.append('Grey')
             border_.append('White')
@@ -366,7 +366,7 @@ class Minter_:
                         self.others_.append("VOID")
                 else:
                     block_chain_data = {}
-                proof = Proof_of_Work(self.chain, self.wallet_)
+                proof = Proof_of_Work(self.chain, self.wallet_, '0010')
                 # init no_fun txn
                 # txn = Txn_("to_address", self.chain.get_tallest_block[0], block_chain_data, amount, miner_fee)
                 proof.mine_block(txns={}, txn_data=block_chain_data)
