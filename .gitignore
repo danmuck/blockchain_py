@@ -7,3 +7,4 @@ sandbox_/
 *secrets
 *user_data/
 Master_chain.json
+*.vscode

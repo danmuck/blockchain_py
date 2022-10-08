@@ -134,10 +134,10 @@ class Proof_of_Work:
         print("MINE_DIFF: lvl" ,self.difficulty)
         try:
             with open(f'{os.getcwd()}/chain_data/Block_times_{self.chain_id}.txt', 'x') as file:
-                file.write(f"{str(TIMER.end_timer())}s\t\t: {self.difficulty}\n")               
+                file.write(f"{str(TIMER.end_timer())}s\t\t: {self.difficulty} :: {self.b_reward} \n")               
         except FileExistsError:
             with open(f'{os.getcwd()}/chain_data/Block_times_{self.chain_id}.txt', 'a+') as file:
-                file.write(f"{str(TIMER.end_timer())}s\t\t: {self.difficulty}\n")
+                file.write(f"{str(TIMER.end_timer())}s\t\t: {self.difficulty} :: {self.b_reward} \n")
 
         return new_nonce
 
@@ -163,9 +163,9 @@ class Proof_of_Work:
             Define the block reward and apply any pay code modifiers
         '''
         if self.pay_c == '0001':
-            self.b_reward = (self.b_reward * 1.25) # miner     
+            self.b_reward = (self.b_reward * 1.18) # miner     
         elif self.pay_c == '0010':
-            self.b_reward = (self.b_reward * .85) # minter
+            self.b_reward = (self.b_reward * .75) # minter
         else:
             self.b_reward = self.float_to_str(self.b_reward )
         self.b_reward = self.float_to_str(self.b_reward + (len(self.chain_.chain) * .0000016))

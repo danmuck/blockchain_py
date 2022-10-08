@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-
-
-
 import json, time, os
 from random import randint
 from modules.chain_ctl.Minter import Minter_, ez_random, No_fun
@@ -11,6 +8,7 @@ from modules.chain_ctl.Proof_of_Work import Proof_of_Work
 from modules.chain_ctl.Transactions import Wallet_
 from modules.chain_ctl.Miner import Auto_Miner_
 # from modules.chain_ctl.No_funs import No_fun
+
 
 
 
@@ -331,6 +329,9 @@ def dirt_ranch_welcome():
         WALLET.print_wallets()
     pass
 
+
+
 def main():
     dirt_ranch_welcome()
+    pass
 main()

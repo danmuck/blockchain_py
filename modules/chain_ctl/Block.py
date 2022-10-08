@@ -27,7 +27,7 @@ class Block_:
         if print_it is True:
             print("\n\nNew Block_ initialized... \nBLOCK: ", json.dumps(self.block, indent=2))
             print("BLOCK_HASH: ", self.block_hash)
-            print("PREV_HASH:  ",self.block['previous_hash'])
+            print("PREV_HASH:  ", self.block['previous_hash'])
 
     def hash_block_(self, block:dict) -> str:
         '''

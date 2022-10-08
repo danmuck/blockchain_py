@@ -1,6 +1,6 @@
 from .finance_ import calculate_monthly_gains
-from .chain_ctl.Blockchain import Blockchain_, Block_
-from .chain_ctl.Minter import Minter_, Proof_of_Work
+from ..chain_ctl.Blockchain import Blockchain_, Block_
+from ..chain_ctl.Minter import Minter_, Proof_of_Work
 import os, json, datetime, sys
 
 class Menu_:
