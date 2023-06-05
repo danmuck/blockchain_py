@@ -7,7 +7,7 @@ from random import randint
 from .Block import Block_
 from .Shifter import shifter_
 
-MASTER_CHAIN = None
+MASTER_CHAIN = {}
 
 
 def validate_keys(chain: dict):
@@ -299,7 +299,7 @@ class Blockchain_:
                 pass
             finally:
                 if chk_chain is None:
-                    chain_ = json.dumps(chk_chain)
+                    chain_ = json.dumps({})
                     with open(f"{os.getcwd()}/Master_chain.json", "x") as file:
                         file.write(chain_)
                         return MASTER_CHAIN

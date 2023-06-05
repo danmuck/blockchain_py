@@ -227,7 +227,7 @@ def wallet_opts():
         wallet_recover()
 
 
-def chain_init(chain_id:int):
+def chain_init(chain_id: int):
     global CHAIN, CHAIN_ID
     CHAIN_ID = chain_id 
     CHAIN = Blockchain_(CHAIN_ID)
