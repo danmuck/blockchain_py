@@ -4,17 +4,19 @@
 from .Proof_of_Work import Proof_of_Work, Blockchain_
 import time
 
-class Auto_Miner_:
 
-    chain:Blockchain_
-    name_:str
-    wallet_:str
-    def __init__(self, 
-        chain:Blockchain_,
-        wallet:str='_', 
-        name_:str="Auto_Miner", 
-        iters_:int=256, 
-        quick:bool=False
+class Auto_Miner_:
+    chain: Blockchain_
+    name_: str
+    wallet_: str
+
+    def __init__(
+        self,
+        chain: Blockchain_,
+        wallet: str = "_",
+        name_: str = "Auto_Miner",
+        iters_: int = 256,
+        quick: bool = False,
     ) -> None:
         self.chain = chain
         self.wallet_ = wallet
@@ -28,10 +30,10 @@ class Auto_Miner_:
     def generator(self):
         # print(self.unique_)
         self.run_timer()
-        i, j = 1, self.iters_ # i is always magical
+        i, j = 1, self.iters_  # i is always magical
         while i <= j:
-            i+=1
-            proof = Proof_of_Work(self.chain, self.wallet_, '0001')
+            i += 1
+            proof = Proof_of_Work(self.chain, self.wallet_, "0001")
             proof.mine_block(txns={}, txn_data={})
             print(f"iter_count: {i}")
 
@@ -43,4 +45,3 @@ class Auto_Miner_:
 
     def end_timer(self):
         return round(time.time() - self.start_time, 2)
-

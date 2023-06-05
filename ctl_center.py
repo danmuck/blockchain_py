@@ -10,8 +10,6 @@ from modules.chain_ctl.Miner import Auto_Miner_
 # from modules.chain_ctl.No_funs import No_fun
 
 
-
-
 chain_menu = (
     "[Mine a Block]",
     "[Print Chain]",
@@ -32,26 +30,32 @@ chain_menu = (
     Nuke chain
 
 '''
+
+
 class Timer:
     def __init__(self) -> None:
         self.start_time = float
+
     def start_timer(self):
         self.start_time = time.time()
         return self.start_time
+
     def end_timer(self):
         return round(time.time() - self.start_time, 2)
+
+
 timer = Timer()
 
-
 global CHAIN, CHAIN_ID, PROOF_OF_WORK, MINER, MINTER, WALLET
-CHAIN:Blockchain_
-CHAIN_ID:int
-PROOF_OF_WORK:Proof_of_Work
-MINER:Auto_Miner_ 
-MINTER:Minter_
-WALLET:Wallet_
+CHAIN: Blockchain_
+CHAIN_ID: int
+PROOF_OF_WORK: Proof_of_Work
+MINER: Auto_Miner_
+MINTER: Minter_
+WALLET: Wallet_
 
-def wallet_quick_login(new_=False, w_index:int=0):
+
+def wallet_quick_login(new_=False, w_index: int = 0):
     global WALLET
     try:
         with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
@@ -79,6 +83,7 @@ def wallet_quick_login(new_=False, w_index:int=0):
         WALLET.store_wallet()
         wallet_quick_login(w_index=len(WALLET.print_wallets(False))-1)        
 
+
 def wallet_login():
     global WALLET
     wallet_quick_login()
@@ -94,18 +99,35 @@ def wallet_login():
         print('Integer value required, using default. (0)')
         wallet_quick_login()
 
+
 def wallet_recover():
     global WALLET
     WALLET = Wallet_(CHAIN.genesis_b, new_=False)
     WALLET.recover_wallet(CHAIN.genesis_b)
     wallet_quick_login(w_index=len(WALLET.print_wallets(False))-1)
 
+
 def chain_info():
     pass
 
+
+def replace_shorthands(u_input: str, auto_minter: bool) -> int:
+    try:
+        u_input = u_input.lower().replace('k', '000', 1).replace('m', '000000', 1).replace('b', '000000000', 1)
+        u_input = str(u_input).lower().strip('abcdefghijklmnopqrstuvwxyz')
+        u_input = int(u_input)
+        if u_input == 0:
+            u_input = 1
+    except ValueError:
+        if auto_minter:
+            u_input = 16
+        else:
+            u_input = 16000
+
+    return u_input
+
+
 def minter_init():
-
-
     print("""
     -- Welcome to the Crafting Bench::[No_funs]
 
@@ -138,21 +160,14 @@ def minter_init():
         if u_input_i == '':
             u_input_i = 16000
         else:
-            try:
-                u_input_i = u_input_i.lower().replace('k', '000', 1).replace('m', '000000', 1).replace('b', '000000000', 1)
-                u_input_i = str(u_input_i).lower().strip('abcdefghijklmnopqrstuvwxyz')
-                u_input_i = int(u_input_i)
-                if u_input_i == 0:
-                    u_input_i = 1
-            except ValueError:
-                u_input_i = 16000
+            u_input_i = replace_shorthands(u_input_i, False)
 
         MINTER = Minter_(CHAIN, WALLET.address_, u_input_n, u_input_i)
         MINTER.generator()
         MINTER.update_history_json()
         MINTER.history_counts()
 
-        print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(CHAIN.chain, indent=2))
+        print("\n\n-- [end] --\n\nCHAIN: ", json.dumps(CHAIN.chain, indent=2))
         print("HEIGHT: ", len(CHAIN.chain))
 
 
@@ -183,20 +198,14 @@ def auto_miner_init():
         if u_input_i == '':
             u_input_i = 16
         else:
-            try:
-                u_input_i = u_input_i.lower().replace('k', '000', 1).replace('m', '000000', 1).replace('b', '000000000', 1)
-                u_input_i = str(u_input_i).lower().strip('abcdefghijklmnopqrstuvwxyz')
-                u_input_i = int(u_input_i)
-                if u_input_i == 0:
-                    u_input_i = 1
-            except ValueError:
-                u_input_i = 16
+            u_input_i = replace_shorthands(u_input_i, True)
 
         MINER = Auto_Miner_(CHAIN, WALLET.address_, u_input_n, u_input_i)
         MINER.generator()
 
-        print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(CHAIN.chain, indent=2))
+        print("\n\n-- [end] --\n\nCHAIN: ", json.dumps(CHAIN.chain, indent=2))
         print("HEIGHT: ", len(CHAIN.chain))
+
 
 def wallet_opts():
     print('''
@@ -208,7 +217,7 @@ def wallet_opts():
     u_input = input(": ")
     try:
         u_input = int(u_input)
-    except Exception:
+    except ValueError:
         pass
     if u_input == 1 or u_input == '':
         wallet_login()
@@ -242,7 +251,7 @@ def chain_init(chain_id:int):
     u_input = input(": ")
     try:
         u_input = int(u_input)
-    except Exception:
+    except ValueError:
         pass
     if u_input == 1:
         # print(json.dumps(CHAIN.join_data(WALLET.gen_wallet()), indent=2))
@@ -318,7 +327,7 @@ def dirt_ranch_welcome():
         MINTER.update_history_json()
         MINTER.history_counts()
 
-        print("\n\n-- [end] --\n\nCHAIN: " ,json.dumps(CHAIN.chain, indent=2))
+        print("\n\n-- [end] --\n\nCHAIN: ", json.dumps(CHAIN.chain, indent=2))
         print("HEIGHT: ", len(CHAIN.chain))
 
     elif u_input == 0:
@@ -330,8 +339,9 @@ def dirt_ranch_welcome():
     pass
 
 
-
 def main():
     dirt_ranch_welcome()
     pass
+
+
 main()

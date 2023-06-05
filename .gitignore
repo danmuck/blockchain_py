@@ -8,3 +8,4 @@ sandbox_/
 *user_data/
 Master_chain.json
 *.vscode
+/venv_chain/
