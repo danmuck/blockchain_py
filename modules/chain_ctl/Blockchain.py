@@ -76,7 +76,7 @@ class Blockchain_:
     sync_mc = bool
     txns_: dict
 
-    def __init__(self, chain_id: int) -> None:
+    def __init__(self, chain_id: int, print_it: bool = True) -> None:
         self.chain_id: int = chain_id
         self.chain: dict = {}
         self.chain_data: dict = {}
@@ -96,61 +96,14 @@ class Blockchain_:
 
         self.chain.update(self.genesis_block.block_data)
 
-        self.validate_chain(True)
+        self.validate_chain(print_it)
         self.genesis_b = str(list(self.chain.keys())[0])
-        print(
-            "\n\nBlockchain_ initialized...\n  TAIL: ",
-            json.dumps(list(self.chain.values())[-4:], indent=2),
-            "\n\n",
-        )
-
-    def validate_chain(self, print_it=False) -> bool:
-        """
-        Validate the current chain against its canonical master;
-            currently validating against chain_data/Chain_state.json
-        """
-        chain_ = self.load_chain_json()
-        if type(chain_) != dict or type(self.chain) != dict:
-            time.sleep(0.1513 * randint(24, 64))
-            self.load_chain_json()
-        try:
-            validate_keys(self.chain)
-        except AttributeError:
-            self.validate_chain()
-
-        try:
-            validate_keys(chain_)
-            if (
-                list(self.chain.keys()) in list(chain_.keys())
-                and len(chain_) >= len(self.chain)
-                or len(chain_) == 1
-            ):
-                if self.chain == chain_:
-                    pass
-                self.load_chain_json()
-            elif len(self.chain) > len(chain_) and list(chain_.keys()) in list(
-                self.chain.keys()
-            ):
-                # prepare to diverge
-                self.chain_id += 1
-                print(
-                    f"!Err Chain height surpassed master::Diverging to chain_id: {self.chain_id}...  !!"
-                )
-                self.validate_chain()
-            else:
-                self.chain = self.load_chain_json()
-        except AttributeError:
-            self.validate_chain()
-
-        self.validate_master_chain(chain_, print_it)
-
-        self.update_chain_data_()
-        if print_it is True:
-            print("!!Hey [chain valid]  !!")
-        if len(self.chain.keys()) % 100 == 0:
-            print(self.hash_chain_())
-
-        return True
+        if print_it:
+            print(
+                "\n\nBlockchain_ initialized...\n  TAIL: ",
+                json.dumps(list(self.chain.values())[-4:], indent=2),
+                "\n\n",
+            )
 
     def load_chain_json(self) -> dict:
         """
@@ -202,6 +155,54 @@ class Blockchain_:
             self.load_chain_json()
         except FileNotFoundError:
             self.load_chain_json()
+
+    def validate_chain(self, print_it=False) -> bool:
+        """
+        Validate the current chain against its canonical master;
+            currently validating against chain_data/Chain_state.json
+        """
+        chain_ = self.load_chain_json()
+        if type(chain_) != dict or type(self.chain) != dict:
+            time.sleep(0.1513 * randint(24, 64))
+            self.load_chain_json()
+        try:
+            validate_keys(self.chain)
+        except AttributeError:
+            self.validate_chain()
+
+        try:
+            validate_keys(chain_)
+            if (
+                list(self.chain.keys()) in list(chain_.keys())
+                and len(chain_) >= len(self.chain)
+                or len(chain_) == 1
+            ):
+                if self.chain == chain_:
+                    pass
+                self.load_chain_json()
+            elif len(self.chain) > len(chain_) and list(chain_.keys()) in list(
+                self.chain.keys()
+            ):
+                # prepare to diverge
+                self.chain_id += 1
+                print(
+                    f"!Err Chain height surpassed master::Diverging to chain_id: {self.chain_id}...  !!"
+                )
+                self.validate_chain()
+            else:
+                self.chain = self.load_chain_json()
+        except AttributeError:
+            self.validate_chain()
+
+        self.validate_master_chain(chain_, print_it)
+
+        self.update_chain_data_()
+        if print_it is True:
+            print("!!Hey [chain valid]  !!")
+        if len(self.chain.keys()) % 100 == 0:
+            print(self.hash_chain_())
+
+        return True
 
     def write_chain_json(self):
         """
@@ -369,6 +370,9 @@ class Blockchain_:
         # MASTER_CHAIN
 
     def user_journal_update(self):
+        """
+        Create/Update [/user_data/journal] files; backup files
+        """
         try:
             os.mkdir(f"{os.getcwd()}/user_data/")
         except FileExistsError:
@@ -436,6 +440,9 @@ class Blockchain_:
         joined_txn_splits = {}
         joined_invent_splits = {"": {}}
         for block in self.chain.items():
+            """
+            Get Chain data
+            """
             self.chain_data.update(
                 {block[0]: (block[1]["index"], block[1]["chain_data"])}
             )

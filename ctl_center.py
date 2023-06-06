@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-import json, time, os
-from random import randint
-from modules.chain_ctl.Minter import Minter_, ez_random, No_fun
+import json
+import os
+import time
+
 from modules.chain_ctl.Blockchain import Blockchain_
-from modules.chain_ctl.Block import Block_
+from modules.chain_ctl.Miner import Auto_Miner_
+from modules.chain_ctl.Minter import Minter_
 from modules.chain_ctl.Proof_of_Work import Proof_of_Work
 from modules.chain_ctl.Transactions import Wallet_
-from modules.chain_ctl.Miner import Auto_Miner_
+
 # from modules.chain_ctl.No_funs import No_fun
 
 
@@ -34,7 +36,7 @@ chain_menu = (
 
 class Timer:
     def __init__(self) -> None:
-        self.start_time = float
+        self.start_time = time.time()
 
     def start_timer(self):
         self.start_time = time.time()
@@ -81,7 +83,9 @@ def wallet_quick_login(new_=False, w_index: int = 0):
         print("New Wallet")
         WALLET = Wallet_(CHAIN.genesis_b)
         WALLET.store_wallet()
-        wallet_quick_login(w_index=len(WALLET.print_wallets(False))-1)        
+        wallet_quick_login(w_index=len(WALLET.print_wallets(False))-1)
+
+    return WALLET
 
 
 def wallet_login():
@@ -91,7 +95,7 @@ def wallet_login():
     i = 0
     for wallet in WALLET.print_wallets(False):
         print(f'{i}. {wallet}')
-        i+=1
+        i += 1
     u_input = input(': ')
     try:
         wallet_quick_login(False, int(u_input))
@@ -344,4 +348,5 @@ def main():
     pass
 
 
-main()
+if __name__ == "__main__":
+    main()
