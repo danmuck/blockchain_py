@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
 
+import json
 import tkinter as tk
 from tkinter import ttk
+
 from ttkbootstrap import Style
 
-import json, time, os
-from random import randint
-
 from ctl_center import wallet_quick_login
-from modules.chain_ctl.Minter import Minter_, ez_random, No_fun
 from modules.chain_ctl.Blockchain import Blockchain_
-from modules.chain_ctl.Block import Block_
+from modules.chain_ctl.Miner import Auto_Miner_
+from modules.chain_ctl.Minter import Minter_
 from modules.chain_ctl.Proof_of_Work import Proof_of_Work
 from modules.chain_ctl.Transactions import Wallet_
-from modules.chain_ctl.Miner import Auto_Miner_
 
 global CHAIN, CHAIN_ID, PROOF_OF_WORK, MINER, MINTER, WALLET
 CHAIN: Blockchain_
@@ -22,21 +20,6 @@ PROOF_OF_WORK: Proof_of_Work
 MINER: Auto_Miner_
 MINTER: Minter_
 WALLET: Wallet_
-
-
-# def wallet_login(wallet_choice: int):
-#     global WALLET
-#     wallet_quick_login()
-#     print('Which wallet would you like to use?')
-#     i = 0
-#     for wallet in WALLET.print_wallets(False):
-#         print(f'{i}. {wallet}')
-#         i += 1
-#     try:
-#         wallet_quick_login(False, wallet_choice)
-#     except ValueError:
-#         print('Integer value required, using default. (0)')
-#         wallet_quick_login()
 
 
 def chain_init(chain_id: int = 0):
@@ -57,19 +40,64 @@ def center_tkscreen(root, width, height) -> str:
 
 
 def create_layout(frame, menu_widgets: dict):
-    frame.columnconfigure(0, weight=1, uniform="a")
+    frame.columnconfigure(0, weight=1, uniform="base", minsize=25)
+    frame.columnconfigure(1, weight=2, uniform="a")
+    frame.columnconfigure(2, weight=1, uniform="base", minsize=25)
     frame.rowconfigure(0, weight=1, uniform="a")
 
     for i, key in enumerate(menu_widgets.keys()):
-        menu_widgets[key].grid(row=i + 1, column=0, sticky="nsew")
+        if type(menu_widgets[key]) == ttk.Label:
+            menu_widgets[key].grid(row=0, column=0, sticky="nsew", columnspan=3)
+        else:
+            menu_widgets[key].grid(row=i + 1, column=1, sticky="ew", columnspan=1)
+
+
+class Office(ttk.Frame):
+    def __init__(self, parent, switch):
+        super().__init__(parent, relief="solid", padding=5)
+        self.grid(row=1, column=1, sticky="nsew")
+        self.switch = switch
+
+        global WALLET
+        WALLET = wallet_quick_login()
+        chain_datas, all_txns, txn_splits, invent_splits = CHAIN.join_data(WALLET.gen_wallet())
+        CHAIN.user_journal_update()
+        out_data = {
+            "TRANSACTIONS": all_txns,
+            "CHAIN_DATA": chain_datas,
+            "INVENTORY": invent_splits,
+            "BALANCES": txn_splits
+        }
+        block_frame = tk.Text(self, width=80)
+        block_frame.grid(row=1, column=0, sticky="nsew")
+
+        scroll = tk.Scrollbar(self, command=block_frame.yview)
+        scroll.grid(row=1, column=1, sticky="ns")
+
+        block_frame.configure(yscrollcommand=scroll.set)
+        for key, value in out_data.items():
+            block_frame.insert("end", f"\n\n---------------->\n{key}\n")
+            block_frame.insert("end", json.dumps(value, indent=4))
+
+        close_btn = ttk.Button(self, text="X", command=self.close_frame)
+        close_btn.grid(row=1, sticky="nw")
+
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid(row=1, column=1, columnspan=1)
+
+    def close_frame(self):
+        self.switch(Menu)
+        self.destroy()
 
 
 class DirtRanch_Welcome(ttk.Frame):
     def __init__(self, parent, switch):
-        super().__init__(parent)
-        self.place(anchor="center", relx=0.5, rely=0.5, relwidth=0.3)
-        create_layout(self, self.create_widgets())
+        super().__init__(parent, relief="solid", padding=10)
         self.switch = switch
+        self.grid(row=1, column=1, sticky="nsew")
+        create_layout(self, self.create_widgets())
+        print(self.switch)
 
     def create_widgets(self) -> dict:
         menu_heading = ttk.Label(
@@ -120,19 +148,22 @@ class DirtRanch_Welcome(ttk.Frame):
 
 class Menu(ttk.Frame):
     def __init__(self, parent, switch):
-        super().__init__(parent)
+        super().__init__(parent, relief="solid", padding=5)
+        self.switch = switch
         self.place(anchor="center", relx=0.5, rely=0.5, relwidth=0.3)
         create_layout(self, self.create_widgets())
-        self.switch = switch
+        print(self.switch)
 
     def create_widgets(self) -> dict:
         menu_heading = ttk.Label(
             self, text="Where to next?", font="Calibri 22", padding=2
         )
         menu_button_1 = ttk.Button(
-            self, text="Office", command=lambda: Office(self)
+            self, text="Office", command=self.to_office
         )
-        menu_button_2 = ttk.Button(self, text="Workshop")
+        menu_button_2 = ttk.Button(
+            self, text="Workshop"
+        )
         menu_button_3 = ttk.Button(self, text="Crafting Bench")
         menu_button_4 = ttk.Button(self, text="Throw $DIRT")
         menu_button_5 = ttk.Button(self, text="Trading Post")
@@ -158,10 +189,13 @@ class Menu(ttk.Frame):
 
         return menu_widgets
 
+    def to_office(self):
+        self.switch(Office)
+
 
 class Single_Block(ttk.Frame):
     def __init__(self, parent, chain_id: int = 0):
-        super().__init__(parent)
+        super().__init__(parent, relief="solid", padding=5)
         close_btn = ttk.Button(self, text="X", command=self.close_frame)
         close_btn.grid(row=0, sticky="nw")
         self.grid(row=1, column=0)
@@ -179,46 +213,13 @@ class Single_Block(ttk.Frame):
         self.destroy()
 
 
-class Office(ttk.Frame):
-    def __init__(self, parent):
-        super().__init__(parent)
-        close_btn = ttk.Button(self, text="X", command=self.close_frame)
-        close_btn.grid(row=0, sticky="nw")
-        self.grid(row=1, column=0)
-
-        global WALLET
-        WALLET = wallet_quick_login()
-        chain_datas, all_txns, txn_splits, invent_splits = CHAIN.join_data(WALLET.gen_wallet())
-        CHAIN.user_journal_update()
-        out_data = {
-            "txns": all_txns,
-            "data": chain_datas,
-            "inv": invent_splits,
-            "bal": txn_splits
-        }
-        block_frame = tk.Text(self, width=120, height=25)
-        block_frame.grid(row=1, column=0, sticky="nsew")
-
-        scroll = tk.Scrollbar(self, command=block_frame.yview)
-        scroll.grid(row=1, column=1, sticky="ns")
-
-        block_frame.configure(yscrollcommand=scroll.set)
-        block_frame.insert(1.0, json.dumps(out_data, indent=4))
-
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_columnconfigure(0, weight=1)
-
-    def close_frame(self):
-        self.destroy()
-
-
 class App(tk.Tk):
     def __init__(self):
         # init
         super().__init__()
         Style(theme="darkly")
         self.title("Blockchain.py")
-        geo = center_tkscreen(self, 640, 500)
+        geo = center_tkscreen(self, 800, 600)
         self.geometry(geo)
 
         # widgets
@@ -231,7 +232,15 @@ class App(tk.Tk):
         if self.current_frame is not None:
             self.current_frame.destroy()
 
-        new_frame.pack(expand=True)
+        new_frame.grid(row=1, column=1, sticky="nsew")
+        border_size = 25
+        self.grid_rowconfigure(0, weight=1, minsize=border_size)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=1, minsize=border_size)
+        self.grid_columnconfigure(0, weight=1, minsize=border_size)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=1, minsize=border_size)
+
         self.current_frame = new_frame
 
 
