@@ -112,7 +112,7 @@ class TabWidget(QWidget):
         self.setLayout(layout)
 
         self.chain_tab.main_button.clicked.connect(lambda: self.print_chain())
-        self.wallet_tab.main_button.clicked.connect(lambda: self.print_joined())
+        self.wallet_tab.main_button.clicked.connect(lambda: self.print_wallet())
 
     # Slots
     def print_chain(self):

@@ -5,8 +5,7 @@ from PySide6.QtWidgets import (
     QApplication,
 )
 
-from modules.chain_ctl.Blockchain import Blockchain_
-from modules.gui_ctl.menus.main_menu import MainMenu
+from modules.gui_ctl.menus.main_menu_stack import MainMenuStack
 from modules.gui_ctl.menus.wallet_menu import WalletMenu
 from modules.gui_ctl.menus.welcome_menu import WelcomeMenu
 
@@ -20,7 +19,7 @@ class MenuStack(QWidget):
 
         # Menus
         self.welcome_menu = WelcomeMenu()
-        self.main_menu = MainMenu()
+        self.main_menu = MainMenuStack(self.stacked_widget)
         self.wallet_menu = WalletMenu()
 
         # Add Menus and set initial
@@ -36,7 +35,6 @@ class MenuStack(QWidget):
 
         # handle connections
         self.handle_welcome_menu_slots()
-        self.handle_main_menu_slots()
         self.handle_wallet_menu_slots()
 
     def handle_welcome_menu_slots(self):
@@ -47,17 +45,6 @@ class MenuStack(QWidget):
             lambda: self.stacked_widget.setCurrentWidget(self.wallet_menu)
         )
         self.welcome_menu.buttons["goodbye"].clicked.connect(QApplication.quit)
-
-    def handle_main_menu_slots(self):
-        # self.main_menu.buttons["office"].clicked.connect(
-        #     lambda: self.stacked_widget.setCurrentWidget(self.welcome_menu)
-        # )
-        self.main_menu.buttons["wallet"].clicked.connect(
-            lambda: self.stacked_widget.setCurrentWidget(self.wallet_menu)
-        )
-        self.main_menu.buttons["goodbye"].clicked.connect(
-            lambda: self.stacked_widget.setCurrentWidget(self.wallet_menu)
-        )
 
     def handle_wallet_menu_slots(self):
         for k, v in self.wallet_menu.wallets.items():

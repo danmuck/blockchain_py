@@ -72,6 +72,7 @@ def wallet_quick_login(new_=False, w_index: int = 0):
                 wallet[w_keys[w_index]]['rec_hash'],
                 wallet[w_keys[w_index]]['sign_hash'],
                 wallet[w_keys[w_index]]['txn_hist'],
+                wallet[w_keys[w_index]]["chains"],
                 False
                 )
     except FileNotFoundError:
