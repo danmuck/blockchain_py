@@ -17,7 +17,7 @@ from modules.chain_ctl.Miner import Auto_Miner_
 from modules.chain_ctl.Minter import Minter_
 from modules.chain_ctl.Transactions import Wallet_
 
-from modules.gui_ctl.menus.stacked_menu import MenuStack
+from modules.gui_ctl.menus.root_menu_stack import MenuStack
 from modules.gui_ctl.tab_widget import TabWidget
 
 CHAIN: Blockchain_

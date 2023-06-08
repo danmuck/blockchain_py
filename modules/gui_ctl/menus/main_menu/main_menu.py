@@ -1,13 +1,4 @@
-from PySide6.QtWidgets import (
-    QWidget,
-    QStackedWidget,
-    QVBoxLayout,
-    QPushButton,
-    QLabel,
-    QSizePolicy,
-    QGridLayout,
-    QApplication,
-)
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QSizePolicy, QGridLayout
 
 
 class MainMenu(QWidget):
@@ -44,7 +35,6 @@ class MainMenu(QWidget):
         for key, item in self.buttons.items():
             self.button_layout.addWidget(item)
             item.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-            self.handle_button_clicks(key)
             item.setMinimumSize(52, 36)
 
         layout = QGridLayout()
@@ -54,35 +44,3 @@ class MainMenu(QWidget):
         layout.addWidget(text_label, 0, 0)
         layout.addLayout(self.button_layout, 1, 0)
         self.setLayout(layout)
-
-    def handle_button_clicks(self, key):
-        match key:
-            case "office":
-                pass
-
-            case "workshop":
-                pass
-
-            case "craft":
-                pass
-
-            case "throw":
-                pass
-
-            case "trade":
-                pass
-
-            case "message":
-                pass
-
-            case "mound":
-                pass
-
-            case "pit":
-                pass
-
-            case "wallet":
-                pass
-
-            case "goodbye":
-                self.buttons["throw"].clicked.connect(QApplication.quit)
