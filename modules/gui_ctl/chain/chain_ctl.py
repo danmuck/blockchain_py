@@ -16,7 +16,7 @@ MINTER: Minter_
 WALLET: Wallet_
 
 
-def chain_init(chain_id: int, print_it: bool = True):
+def chain_init(chain_id: int, print_it: bool = False):
     global CHAIN, CHAIN_ID
     CHAIN_ID = chain_id
     CHAIN = Blockchain_(CHAIN_ID, print_it)

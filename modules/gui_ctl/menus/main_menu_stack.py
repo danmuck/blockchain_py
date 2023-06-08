@@ -1,11 +1,20 @@
+from functools import partial
+
 from PySide6.QtWidgets import (
     QWidget,
     QStackedWidget,
     QVBoxLayout,
 )
 
+from modules.gui_ctl.menus.main_menu.crafting_bench import CraftingBenchMenu
 from modules.gui_ctl.menus.main_menu.main_menu import MainMenu
+from modules.gui_ctl.menus.main_menu.message_board import MessageBoardMenu
 from modules.gui_ctl.menus.main_menu.office import OfficeMenu
+from modules.gui_ctl.menus.main_menu.the_mound import MoundMenu
+from modules.gui_ctl.menus.main_menu.the_pit import PitMenu
+from modules.gui_ctl.menus.main_menu.throw_dirt import ThrowDirtMenu
+from modules.gui_ctl.menus.main_menu.trading_post import TradingPostMenu
+from modules.gui_ctl.menus.main_menu.workshop import WorkshopMenu
 from modules.gui_ctl.tab_widget import TabWidget
 
 
@@ -20,7 +29,14 @@ class MainMenuStack(QWidget):
         # Menus
         self.menus = {
             "main": MainMenu(),
-            "office": OfficeMenu()
+            "office": OfficeMenu(),
+            "workshop": WorkshopMenu(),
+            "craft": CraftingBenchMenu(),
+            "throw": ThrowDirtMenu(),
+            "trade": TradingPostMenu(),
+            "message": MessageBoardMenu(),
+            "mound": MoundMenu(),
+            "pit": PitMenu(),
         }
 
         # Add Menus and set initial
@@ -37,9 +53,13 @@ class MainMenuStack(QWidget):
 
     def handle_main_menu(self):
         for key, button in self.menus["main"].buttons.items():
+            print(key)
             match key:
                 case "office":
-                    pass
+                    button.clicked.connect(
+                        partial(self.stacked_widget.setCurrentWidget, self.menus[key])
+                    )
+                    self.handle_office_menu()
 
                 case "workshop":
                     pass
@@ -71,4 +91,15 @@ class MainMenuStack(QWidget):
                     button.clicked.connect(lambda: print())
                     button.clicked.connect(
                         lambda: self.parent.setCurrentWidget(self.parent.widget(2))
+                    )
+
+                case _:
+                    pass
+
+    def handle_office_menu(self):
+        for key, button in self.menus["office"].buttons.items():
+            match key:
+                case "goodbye":
+                    button.clicked.connect(
+                        lambda: self.stacked_widget.setCurrentWidget(self.menus["main"])
                     )

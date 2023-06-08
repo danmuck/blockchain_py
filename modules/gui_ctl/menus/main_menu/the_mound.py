@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QSizePolicy, QGridLayout
 
 
-class CraftingBenchMenu(QWidget):
+class MoundMenu(QWidget):
     def __init__(self):
         super().__init__()
         self.button_layout = QVBoxLayout()

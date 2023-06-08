@@ -8,7 +8,7 @@ class OfficeMenu(QWidget):
         self.buttons = {}
 
         # Items
-        text_label = QLabel("    -- Where to next?")
+        text_label = QLabel("HEADER FILLER")
 
         self.buttons = {
             "goodbye": QPushButton("Back"),

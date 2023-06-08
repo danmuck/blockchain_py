@@ -58,9 +58,6 @@ class MainWindow(QMainWindow):
         menu_layout = QVBoxLayout()
         content_layout = QVBoxLayout()
 
-        self.tab_widget = TabWidget()
-        self.menu_stack = MenuStack(self.tab_widget)
-
         menu_layout.addWidget(self.menu_stack)
         content_layout.addWidget(self.tab_widget)
 
