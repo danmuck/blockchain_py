@@ -19,7 +19,7 @@ from modules.gui_ctl.chain.chain_ctl import (
 class TextEdit(QWidget):
     def __init__(self, with_buttons: bool = False):
         super().__init__()
-        self.setWindowTitle("QTextEdit")
+        # self.setWindowTitle("QTextEdit")
         self.main_button = QPushButton("Refresh Data")
 
         self.text_edit = QTextEdit()
@@ -92,9 +92,8 @@ class TextEdit(QWidget):
 class TabWidget(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("QTabWidget")
-
-        tab_widget = QTabWidget(self)
+        # self.setWindowTitle("QTabWidget")
+        self.tab_widget = QTabWidget(self)
 
         # Initialize Tabs
         self.chain_tab = TextEdit()
@@ -102,12 +101,12 @@ class TabWidget(QWidget):
         self.wallet_tab = TextEdit()
 
         # Add Tabs
-        tab_widget.addTab(self.chain_tab, "Chain")
-        tab_widget.addTab(self.wallet_tab, "Wallet")
-        tab_widget.addTab(self.notes_tab, "Notes")
+        self.tab_widget.addTab(self.chain_tab, "Chain")
+        self.tab_widget.addTab(self.wallet_tab, "Wallet")
+        self.tab_widget.addTab(self.notes_tab, "Notes")
 
         layout = QVBoxLayout()
-        layout.addWidget(tab_widget)
+        layout.addWidget(self.tab_widget)
 
         self.setLayout(layout)
 

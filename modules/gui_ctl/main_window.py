@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (
     QToolBar,
     QGridLayout,
     QVBoxLayout,
-    QWidget,
+    QWidget, QApplication,
 )
 
 from modules.chain_ctl import Proof_of_Work
@@ -33,7 +33,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.app = app
         self.setWindowTitle("Blockchain.py")
-        self.resize(800, 600)
+        self.resize(1600, 900)
 
         # Bars
         self.set_menu_bar()
@@ -41,8 +41,8 @@ class MainWindow(QMainWindow):
         self.set_status_bar()
 
         # Compartments
-        self.stack_menu = MenuStack(self)
         self.tab_widget = TabWidget()
+        self.menu_stack = MenuStack(self.tab_widget)
         main_layout = self.set_main_layout()
 
         central_widget = QWidget(self)
@@ -58,15 +58,15 @@ class MainWindow(QMainWindow):
         menu_layout = QVBoxLayout()
         content_layout = QVBoxLayout()
 
-        self.stack_menu = MenuStack(self)
         self.tab_widget = TabWidget()
+        self.menu_stack = MenuStack(self.tab_widget)
 
-        menu_layout.addWidget(self.stack_menu)
+        menu_layout.addWidget(self.menu_stack)
         content_layout.addWidget(self.tab_widget)
 
         grid_layout = QGridLayout()
         grid_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
-        # grid_layout.setColumnMinimumWidth(0, 560)
+        grid_layout.setColumnMinimumWidth(1, 800)
         grid_layout.setColumnStretch(0, 4)
         grid_layout.setColumnStretch(1, 6)
 
