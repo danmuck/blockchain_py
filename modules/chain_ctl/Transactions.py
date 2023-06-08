@@ -144,6 +144,7 @@ class Wallet_:
         rec_hash=None,
         sign_hash=None,
         txn_hist=[],
+        chains=[],
         new_=True,
     ) -> None:
         if new_ is not True:
@@ -154,6 +155,7 @@ class Wallet_:
             self.root_b = root_b
             self.balance = balance
             self.inv_data = inv_data
+            self.chains = chains
         else:
             self.recover_hash = None
             self.signer_hash = None
@@ -161,6 +163,7 @@ class Wallet_:
             self.root_b = root_b
             self.balance = balance
             self.inv_data = inv_data
+            self.chains = chains
             self.address_ = self.init_wallet()
         self.txn_hist.append(init_txn)
 
@@ -203,6 +206,7 @@ class Wallet_:
                 "txn_hist": self.txn_hist,
                 "rec_hash": self.recover_hash,
                 "root_b": self.root_b,
+                "chains": [self.root_b],
             }
         }
         self.wallet_ = wallet_
@@ -298,6 +302,7 @@ class Wallet_:
             twel_,
         ]:
             hash_list.append(i)
+
         encoded_r = json.dumps(hash_list).encode()
         hash_r = shifter_("".join(("0x", hashlib.sha256(encoded_r).hexdigest())))
         encoded_p = json.dumps(pass_).encode()

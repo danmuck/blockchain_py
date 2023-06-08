@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
     QApplication,
 )
 
-from modules.gui_ctl.chain.chain_ctl import wallet_quick_login
+from modules.gui_ctl.chain.chain_ctl import wallet_quick_login, chain_init
 
 
 class WalletMenu(QWidget):
@@ -30,11 +30,18 @@ class WalletMenu(QWidget):
             "testing": testing_btn,
             "goodbye": goodbye_btn,
         }
+        try:
+            for wallet in wallet_quick_login().print_wallets(False):
+                new_button = QPushButton(wallet)
+                self.wallets.update({wallet: new_button})
+            self.wallets_indexed = [*self.wallets.keys()]
+        except NameError:
+            chain_init(0)
+            for wallet in wallet_quick_login().print_wallets(False):
+                new_button = QPushButton(wallet)
+                self.wallets.update({wallet: new_button})
+            self.wallets_indexed = [*self.wallets.keys()]
 
-        for wallet in wallet_quick_login().print_wallets(False):
-            new_button = QPushButton(wallet)
-            self.wallets.update({wallet: new_button})
-        self.wallets_indexed = [*self.wallets.keys()]
         for key, item in self.wallets.items():
             self.wallet_layout.addWidget(item)
             item.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -74,8 +81,8 @@ class WalletMenu(QWidget):
                     pass
                     # self.buttons["testing"].clicked.connect(QApplication.quit)
 
-    def print_wallets(self):
-        i = 0
-        for wallet in wallet_quick_login().print_wallets(False):
-            print(f"{i}. {wallet}")
-            i += 1
+    # def print_wallets(self):
+    #     i = 0
+    #     for wallet in wallet_quick_login().print_wallets(False):
+    #         print(f"{i}. {wallet}")
+    #         i += 1

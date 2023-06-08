@@ -41,33 +41,6 @@ def update_master_chain(new_master: dict, print_it=False):
     pass
 
 
-def update_user(txn_splits: dict = None, inv_splits: dict = None):
-    wallet_keys = []
-    wallets_master = {}
-    try:
-        with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
-            wallets_ = dict(json.load(file))
-            keys = [*wallets_]
-            values = [*wallets_.values()]
-            wallet_keys.extend(keys)
-            wallets_master = wallets_
-    except FileNotFoundError:
-        pass
-
-    for key in wallet_keys:
-        if key in txn_splits.keys():
-            try:
-                with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
-                    wallet = dict(json.load(file))
-                    wallet[key]["$DIRT"] = txn_splits[key]
-                    wallet[key]["inv_data"] = inv_splits[key]
-                    wallets_master = wallet
-                with open(f"{os.getcwd()}/user_data/wallet.json", "w") as file:
-                    file.write(json.dumps(wallets_master, indent=2))
-            except FileNotFoundError:
-                pass
-
-
 class Blockchain_:
     chain_id: int
     chain: dict
@@ -445,6 +418,32 @@ class Blockchain_:
     def invs_split(self):
         pass
 
+    def update_user(self, txn_splits: dict = None, inv_splits: dict = None):
+        wallet_keys = []
+        wallets_master = {}
+        try:
+            with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
+                wallets_ = dict(json.load(file))
+                keys = [*wallets_]
+                values = [*wallets_.values()]
+                wallet_keys.extend(keys)
+                wallets_master = wallets_
+        except FileNotFoundError:
+            pass
+
+        for key in wallet_keys:
+            if key in txn_splits.keys():
+                try:
+                    with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
+                        wallet = dict(json.load(file))
+                        wallet[key]["$DIRT"] = txn_splits[key]
+                        wallet[key]["inv_data"] = inv_splits[key]
+                        wallets_master = wallet
+                    with open(f"{os.getcwd()}/user_data/wallet.json", "w") as file:
+                        file.write(json.dumps(wallets_master, indent=2))
+                except FileNotFoundError:
+                    pass
+
     def join_data(self, wallet_: dict = None):
         joined_chain_data = {}  # chain_data
         joined_txns_all = {}  # txns
@@ -453,15 +452,16 @@ class Blockchain_:
         for block in self.chain.items():
             """
             Get Chain data
+
+            block[0] is hash
+            block[1] is data
             """
             self.chain_data.update(
                 {block[0]: (block[1]["index"], block[1]["chain_data"])}
             )
             if block[1]["chain_data"]:
                 joined_chain_data.update(block[1]["chain_data"])
-        for block in self.chain.items():
-            # block[0] is hash
-            # block[1] is data
+
             if block[1]["transactions"] != {}:
                 joined_txns_all.update(block[1]["transactions"])
 
@@ -500,7 +500,9 @@ class Blockchain_:
 
             joined_invent_splits[txn_data["to"]].update(value["data"])
 
-        update_user(joined_txn_splits, joined_invent_splits)
+        self.update_user(
+            joined_txn_splits, joined_invent_splits
+        )  # #############################
         return (
             joined_chain_data,
             joined_txns_all,

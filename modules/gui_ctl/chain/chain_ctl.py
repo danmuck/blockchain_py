@@ -39,6 +39,41 @@ def get_wallet_string() -> str:
         return "No wallet initialized."
 
 
+def get_joined_data():
+    chain_datas, all_txns, txn_splits, invent_splits = CHAIN.join_data(
+        WALLET.gen_wallet()
+    )
+    CHAIN.user_journal_update()
+    output = f"""
+        ============================= =============================
+        
+        
+{json.dumps(all_txns, indent=2)}
+        ==================   All Transactions    ==================
+        
+        
+{json.dumps(chain_datas, indent=2)}
+        ==================    All Chain Data     ==================
+        
+        
+{json.dumps(invent_splits, indent=2)}
+        ================== Wallet Inventory List ==================
+        
+        
+{json.dumps(txn_splits, indent=2)}
+        ==================   Balances::Ledger    ==================
+
+        -- The file cabinet fell over... sections are labeled from the bottom...
+            I tried my best to put the most important stuff last... 
+            ... let's hope it stayed that way...
+    
+        ============================= =============================
+    """
+    chain_init(CHAIN_ID)
+
+    return output
+
+
 def wallet_quick_login(new_=False, w_index: int = 0) -> Wallet_:
     global WALLET
     try:
@@ -54,6 +89,7 @@ def wallet_quick_login(new_=False, w_index: int = 0) -> Wallet_:
                 wallet[w_keys[w_index]]["rec_hash"],
                 wallet[w_keys[w_index]]["sign_hash"],
                 wallet[w_keys[w_index]]["txn_hist"],
+                wallet[w_keys[w_index]]["chains"],
                 False,
             )
     except FileNotFoundError:

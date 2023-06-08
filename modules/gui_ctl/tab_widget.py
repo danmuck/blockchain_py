@@ -9,7 +9,11 @@ from PySide6.QtWidgets import (
     QTextEdit,
 )
 
-from modules.gui_ctl.chain.chain_ctl import get_chain_string, get_wallet_string
+from modules.gui_ctl.chain.chain_ctl import (
+    get_chain_string,
+    get_wallet_string,
+    get_joined_data,
+)
 
 
 class TextEdit(QWidget):
@@ -108,7 +112,7 @@ class TabWidget(QWidget):
         self.setLayout(layout)
 
         self.chain_tab.main_button.clicked.connect(lambda: self.print_chain())
-        self.wallet_tab.main_button.clicked.connect(lambda: self.print_wallet())
+        self.wallet_tab.main_button.clicked.connect(lambda: self.print_joined())
 
     # Slots
     def print_chain(self):
@@ -118,3 +122,7 @@ class TabWidget(QWidget):
     def print_wallet(self):
         wallet_str = get_wallet_string()
         self.wallet_tab.set_plain_text(wallet_str)
+
+    def print_joined(self):
+        joined_data = get_joined_data()
+        self.wallet_tab.set_plain_text(joined_data)
