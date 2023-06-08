@@ -164,9 +164,9 @@ class Wallet_:
             self.address_ = self.init_wallet()
         self.txn_hist.append(init_txn)
 
-        self.wallet_ = dict
+        self.wallet_: dict = {}
 
-    def init_wallet(self):
+    def init_wallet(self) -> str:
         hash_r, list_ = self.gen_recovery()
         hash_p, pass_ = self.set_signer()
 
@@ -194,7 +194,7 @@ class Wallet_:
 
         return hash_
 
-    def gen_wallet(self):
+    def gen_wallet(self) -> dict:
         wallet_ = {
             self.address_: {
                 "sign_hash": self.signer_hash,
@@ -236,7 +236,7 @@ class Wallet_:
         # print(password, hash_)
         return hash_, password
 
-    def print_wallets(self, print_=True) -> list:
+    def print_wallets(self, print_=True) -> list[str]:
         with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
             wallet = dict(json.load(file))
             w_keys = [*wallet]
@@ -312,7 +312,7 @@ class Wallet_:
         self.signer_hash = hash_p
         wallet_ = self.gen_wallet()
         self.store_wallet()
-        return (wallet_, hash_r, hash_p, w_addr_)
+        return wallet_, hash_r, hash_p, w_addr_
 
     def store_wallet(self):
         all_wall = {}

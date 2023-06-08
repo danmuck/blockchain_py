@@ -347,20 +347,31 @@ class Blockchain_:
                     else:
                         update_master_chain(new_master)
                 else:
-                    # if print_it is True:
-                    print("!!Hey [not on master]  !!")
-                    if self.sync_mc is True:
-                        u_input = input("Sync chain to master? (Y/n) \n: ").casefold()
-                        if u_input in ["y", "yes", ""]:
-                            self.sync_to_master()
-                        else:
+                    """
+
+                    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    !!! MAY WANT TO REMOVE THIS PRINT_IT LOGIC !!!
+                    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                    """
+                    if print_it is True:
+                        print("!!Hey [not on master]  !!")
+                        if self.sync_mc is True:
                             u_input = input(
-                                "Are you sure you would like to skip master_sync? (Y/n) \n: "
+                                "Sync chain to master? (Y/n) \n: "
                             ).casefold()
                             if u_input in ["y", "yes", ""]:
-                                self.sync_mc = False
-                            else:
                                 self.sync_to_master()
+                            else:
+                                u_input = input(
+                                    "Are you sure you would like to skip master_sync? (Y/n) \n: "
+                                ).casefold()
+                                if u_input in ["y", "yes", ""]:
+                                    self.sync_mc = False
+                                else:
+                                    self.sync_to_master()
+                    else:
+                        self.sync_mc = False
             except AttributeError:
                 self.validate_chain()
         else:

@@ -9,3 +9,6 @@ sandbox_/
 Master_chain.json
 *.vscode
 /venv_chain/
+/venv_qt/
+/fonts/
+/.idea/*
