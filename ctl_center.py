@@ -262,7 +262,7 @@ def auto_miner_init():
 
 
 def chain_init(chain_id: int):
-    global CHAIN, CHAIN_ID
+    global CHAIN, CHAIN_ID, WALLET
     CHAIN_ID = chain_id 
     CHAIN = Blockchain_(CHAIN_ID)
     wallet_login()
@@ -325,6 +325,7 @@ def chain_init(chain_id: int):
 
 
 def dirt_ranch_welcome():
+    global WALLET
     print("\n")
     print('''
     -- Welcome to dirt_Ranch^_ ..! Which wagon you ridin' today?
