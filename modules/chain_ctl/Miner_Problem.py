@@ -89,7 +89,7 @@ def arb_tasks(switch: int):
 
 
 def arb_tasks_testing(switch: int):
-    task = str
+    task: str
     if switch == 0:
         task = str(
             (time.time_ns() ** 3) // (randint(69, time.time_ns() + randint(13, 333)))

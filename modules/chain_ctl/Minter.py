@@ -1,19 +1,23 @@
 # todo:
 #   fix logs so they do not compound results of multiple runs
 
-from .Proof_of_Work import Proof_of_Work, Blockchain_
-from .Wallet import Wallet_
-from .Shifter import shifter_
-
 # from .No_funs import No_fun
-import math, datetime, os, json, hashlib
+import datetime
+import hashlib
+import json
+import math
+import os
+import time
 from operator import itemgetter
 from random import randint
-import time
+from typing import Any
+
+from .Proof_of_Work import Proof_of_Work, Blockchain_
+from .Shifter import shifter_
 
 try:
-    with open(f"{os.getcwd()}/minter_data/Minter_lists.json", "r") as file:
-        jsonify = dict(json.load(file))
+    with open(f"{os.getcwd()}/minter_data/Minter_lists.json", "r") as minter_lists_file:
+        jsonify = dict(json.load(minter_lists_file))
         OTHERS_LIST = jsonify["OTHERS_LIST"]
         UDBBLS_LIST = jsonify["UDBBLS_LIST"]
         UTRIPS_LIST = jsonify["UTRIPS_LIST"]
@@ -24,8 +28,8 @@ except FileNotFoundError:
     except FileExistsError:
         pass
     finally:
-        with open(f"{os.getcwd()}/minter_data/Minter_lists.json", "x") as file:
-            file.write(
+        with open(f"{os.getcwd()}/minter_data/Minter_lists.json", "x") as minter_lists_file:
+            minter_lists_file.write(
                 json.dumps(
                     {
                         "OTHERS_LIST": [
@@ -83,8 +87,8 @@ except FileNotFoundError:
                     indent=2,
                 )
             )
-        with open(f"{os.getcwd()}/minter_data/Minter_lists.json", "r") as file:
-            jsonify = dict(json.load(file))
+        with open(f"{os.getcwd()}/minter_data/Minter_lists.json", "r") as minter_lists_file:
+            jsonify = dict(json.load(minter_lists_file))
             OTHERS_LIST = jsonify["OTHERS_LIST"]
             UDBBLS_LIST = jsonify["UDBBLS_LIST"]
             UTRIPS_LIST = jsonify["UTRIPS_LIST"]
@@ -126,16 +130,17 @@ class ez_random:
     def __init__(self) -> None:
         self.return_ = self.get_()
 
-    def get_(self) -> float:
+    def get_(self) -> int:
         small_chk = randint(1, 4096) + randint(0, 1)
         nanos_chk = (time.time_ns() + small_chk) * math.pi
         ez_nums = round(
-            (((nanos_chk * small_chk) * (small_chk)))
+            (nanos_chk * small_chk * small_chk)
             % 1023
             * (0.000007 + randint(0, 1)),
             5,
         )
         ez_rand = ez_nums + randint(0, 9999)
+
         return round(ez_rand)
 
 
@@ -271,7 +276,7 @@ class No_fun:
         elif ez_num_ in UTRIPS_LIST:
             ez_num_ = str(ez_num_)
             trait_ = ".:Trippps:."
-        elif ez_num_ > 999 and ez_num_ <= 1234:
+        elif 999 < ez_num_ <= 1234:
             ez_num_ = str(ez_num_)
             trait_ = ".unCommon."
         elif ez_num_ > 1234:
@@ -316,7 +321,7 @@ class No_fun:
             float_ = "." + f"{float_}".zfill(8)
             return float_
 
-    def get_colors(self) -> str:
+    def get_colors(self) -> tuple[str | Any, str | Any, str]:
         bg_ = [
             "Black",
             "White",
@@ -448,14 +453,14 @@ class Minter_:
         self.name_ = name_
         self.zero_counter = 0
         self.landed = 1
-        self.start_time = float
+        self.start_time = time.time()
         if quick is True:
             self.iters_ = 1
             self.sleep_time = 0
         else:
             self.iters_ = iters_
             self.sleep_time = sleep_time
-            self.init_new_Minter(name_)
+            self.init_new_minter(name_)
 
     # def ez_rand(self) -> float:
     #         small_chk = (randint(1, 4096) + randint(0, 1))
@@ -470,6 +475,7 @@ class Minter_:
         self.unique_ = []
         i, j = 1, self.iters_  # i is always magical
         bins_, eq_count = 0, self.landed  # currently necessary
+        rando_0, rando_1, rando_2, rando_3 = 0, 0, 0, 0
         ez_rand = ez_random()
         while i <= j:
             i += 1
@@ -502,7 +508,7 @@ class Minter_:
                 proof.mine_block(txns={}, txn_data=block_chain_data)
 
                 # logs stuff
-                self.print_minter_Heys(ez_rand.return_)
+                self.print_minter_heys(ez_rand.return_)
                 print(f"iter_count: {i}")
             else:
                 pass
@@ -519,7 +525,7 @@ class Minter_:
                 print("!!== ZOMG LANDED A SOLO BOII ==!!")
         return ez_rand.return_
 
-    def print_minter_Heys(self, ez_rand: int):
+    def print_minter_heys(self, ez_rand: int):
         bins_ = 0
         if ez_rand in UBINRS_LIST:
             bins_ += 1
@@ -543,7 +549,7 @@ class Minter_:
         elif ez_rand in OTHERS_LIST:
             print(f"!!Hey Rare::{ez_rand}  !!\n")
             self.others_.append(ez_rand)
-        elif ez_rand > 999 and ez_rand <= 1234:
+        elif 999 < ez_rand <= 1234:
             print(f"!!Hey Upper::{ez_rand}  !!\n")
             self.uppers_.append(ez_rand)
         elif ez_rand <= 1234:
@@ -581,11 +587,8 @@ class Minter_:
         percents_.extend(main_list_)
         return percents_
 
-    def unique_check_(self, int_: int, bool):
-        # needs to be fixed so that it does not error in
-        # summary_log_txt if missed by the bool catch
-        # once fixed it will not append if not True
-        if bool is True:
+    def unique_check_(self, int_: int, check: bool):
+        if check is True:
             if int_ not in self.unique_ and int_ <= 1234:
                 self.unique_.append(int_)
                 print(f"  -- unique: {int_} --")
@@ -616,7 +619,7 @@ class Minter_:
                 pass
         for i, j in some_dict.items():
             print(f"{i}:\t{j}")
-        print(len(some_dict), "/1235 total uniques (exluding commons)")
+        print(len(some_dict), "/1235 total uniques (excluding commons)")
 
     def run_timer(self):
         self.start_time = time.time()
@@ -661,7 +664,6 @@ class Minter_:
 
     # FILES ---
     def history_counts(self):
-        j = 0
         hist_dict = []
         if self.name_ != "Q_MINT":
             for i in range(0, 1235):
@@ -703,7 +705,7 @@ class Minter_:
             """
                     )
 
-    def init_new_Minter(self, name_: str):
+    def init_new_minter(self, name_: str):
         if self.name_ != "Q_MINT":
             try:
                 with open(f"{os.getcwd()}/minter_data/{name_}_log.txt", "x") as file:
@@ -737,14 +739,14 @@ class Minter_:
             with open(
                 f"{os.getcwd()}/minter_data/{self.name_}_history.json", "r"
             ) as file:
-                MINTER_DATA = dict(json.load(file))
-                self.history["UNR_16"].extend(list(MINTER_DATA["UNR_16"]))
-                self.history["UBINRS"].extend(list(MINTER_DATA["UBINRS"]))
-                self.history["UDBBLS"].extend(list(MINTER_DATA["UDBBLS"]))
-                self.history["UTRIPS"].extend(list(MINTER_DATA["UTRIPS"]))
-                self.history["OTHERS"].extend(list(MINTER_DATA["OTHERS"]))
-                self.history["UPPERS"].extend(list(MINTER_DATA["UPPERS"]))
-                self.history["COMMON"].extend(list(MINTER_DATA["COMMON"]))
+                minter_data = dict(json.load(file))
+                self.history["UNR_16"].extend(list(minter_data["UNR_16"]))
+                self.history["UBINRS"].extend(list(minter_data["UBINRS"]))
+                self.history["UDBBLS"].extend(list(minter_data["UDBBLS"]))
+                self.history["UTRIPS"].extend(list(minter_data["UTRIPS"]))
+                self.history["OTHERS"].extend(list(minter_data["OTHERS"]))
+                self.history["UPPERS"].extend(list(minter_data["UPPERS"]))
+                self.history["COMMON"].extend(list(minter_data["COMMON"]))
             self.write_json_data()
             return self.history
 

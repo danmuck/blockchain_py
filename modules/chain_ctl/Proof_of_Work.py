@@ -1,9 +1,11 @@
-import hashlib, time, os, json, datetime
+import hashlib
+import os
+import time
 from random import randint
+
 from .Blockchain import Blockchain_, Block_
 from .Miner_Problem import miner_problem_
 from .Transactions import Txn_
-from .Wallet import Wallet_
 
 """
     Timer for testing
@@ -12,7 +14,7 @@ from .Wallet import Wallet_
 
 class Timer:
     def __init__(self) -> None:
-        self.start_time = float
+        self.start_time = time.time()
 
     def start_timer(self):
         self.start_time = time.time()
@@ -34,6 +36,7 @@ class Proof_of_Work:
         # txns=[],
         # chain_data={}
     ) -> None:
+        self.difficulty = None
         self.chain_ = chain_
         self.chain_id = self.chain_.chain_id
         self.b_reward: float = 0
@@ -183,7 +186,7 @@ class Proof_of_Work:
         Define the block reward and apply any pay code modifiers
     """
 
-    def b_reward_txn(self, miner_w: str, txn_data: dict = {}):
+    def b_reward_txn(self, miner_w: str, txn_data: dict = None):
         if self.pay_c == "0001":
             self.b_reward = self.b_reward * 1.18  # miner
         elif self.pay_c == "0010":
@@ -202,8 +205,8 @@ class Proof_of_Work:
     """
 
     def mine_block(
-        self, txns: dict = {}, txn_data: dict = {}, chain_data: dict = {}
-    ) -> dict:
+        self, txns: dict = None, txn_data: dict = None, chain_data: dict = None
+    ) -> Block_:
         wallet_address = self.miner_w
 
         previous_block = self.chain_.get_tallest_block()[0]
@@ -214,7 +217,7 @@ class Proof_of_Work:
             nonce=previous_nonce * 3,
             signature=f"MOCK_BLOCK_{randint(0, 69420)}",
             txns={},
-            chain_data=[],
+            chain_data={},
         )
         previous_hash = mock.hash_block_(previous_block)
         index = len(self.chain_.chain)
@@ -241,4 +244,5 @@ class Proof_of_Work:
         )
 
         self.chain_.append_block_(block)
+        
         return block

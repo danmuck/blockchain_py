@@ -21,7 +21,7 @@ class Auto_Miner_:
         self.chain = chain
         self.wallet_ = wallet
         self.name_ = name_
-        self.start_time = float
+        self.start_time = time.time()
         if quick is True:
             self.iters_ = 1
         else:
