@@ -50,7 +50,7 @@ class Blockchain_:
     sync_mc = bool
     txns_: dict
 
-    def __init__(self, chain_id: int, print_it: bool = True) -> None:
+    def __init__(self, chain_id: int) -> None:
         self.chain_id: int = chain_id
         self.chain: dict = {}
         self.chain_data: dict = {}
@@ -63,14 +63,13 @@ class Blockchain_:
             signature="im the genesis block... new chain incoming!! :)",
             txns={},
             chain_data={},
-            print_it=False,
         )
         global MASTER_CHAIN
         MASTER_CHAIN = self.load_master_chain()
 
         self.chain.update(self.genesis_block.block_data)
 
-        self.validate_chain(print_it)
+        self.validate_chain()
         self.genesis_b = str(list(self.chain.keys())[0])
         if DEBUG:
             print(
@@ -132,7 +131,7 @@ class Blockchain_:
         except FileNotFoundError:
             self.load_chain_json()
 
-    def validate_chain(self, print_it=False) -> bool:
+    def validate_chain(self) -> bool:
         """
         Validate the current chain against its canonical master;
             currently validating against chain_data/Chain_state.json
@@ -171,7 +170,7 @@ class Blockchain_:
         except AttributeError:
             self.validate_chain()
 
-        self.validate_master_chain(chain_, print_it)
+        self.validate_master_chain(chain_)
 
         self.update_chain_data_()
         if DEBUG:
@@ -305,7 +304,7 @@ class Blockchain_:
         except FileNotFoundError:
             self.load_master_chain()
 
-    def validate_master_chain(self, new_master: dict = None, print_it=False):
+    def validate_master_chain(self, new_master: dict = None):
         """
         Validate the canonical Master chain;
         """
@@ -324,10 +323,7 @@ class Blockchain_:
                     new_master.items() == chain_.items()
                     or len(new_master) == len(chain_) + 1
                 ):
-                    if print_it is True:
-                        update_master_chain(new_master)
-                    else:
-                        update_master_chain(new_master)
+                    update_master_chain(new_master)
                 else:
                     """
 

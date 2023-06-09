@@ -3,7 +3,6 @@ from PySide6.QtWidgets import (
     QStackedWidget,
     QVBoxLayout,
     QApplication,
-    QTabWidget,
 )
 
 from modules.gui_ctl.menus.main_menu_stack import MainMenuStack

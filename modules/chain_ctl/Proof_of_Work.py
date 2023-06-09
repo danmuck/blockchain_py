@@ -243,7 +243,6 @@ class Proof_of_Work:
             signature=miner_sig,
             txns=txns,
             chain_data=chain_data,
-            print_it=True,
         )
 
         self.chain_.append_block_(block)

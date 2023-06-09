@@ -42,7 +42,6 @@ class Minter_:
         iters_: int = 256000,
         sleep_time: float = 0,
         quick: bool = False,
-        print_it: bool = True,
     ) -> None:
         self.chain = chain
         self.wallet_ = wallet
@@ -61,7 +60,6 @@ class Minter_:
         self.zero_counter = 0
         self.landed = 1
         self.start_time = time.time()
-        self.print_it = print_it
         if quick is True:
             self.iters_ = 1
             self.sleep_time = 0
@@ -210,6 +208,13 @@ class Minter_:
         return percents_
 
     def unique_check_(self, int_: int, check: bool):
+        """
+
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        !!! REDUNDANT BOOLEAN CHECK                !!!
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        """
         if check is True:
             if int_ not in self.unique_ and int_ <= 1234:
                 self.unique_.append(int_)

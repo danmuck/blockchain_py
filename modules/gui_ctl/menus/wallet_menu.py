@@ -14,12 +14,12 @@ from modules.gui_ctl.chain.chain_ctl import wallet_quick_login, chain_init
 def get_wallets():
     wallets = {}
     try:
-        for wallet in wallet_quick_login().print_wallets(False):
+        for wallet in wallet_quick_login().print_wallets():
             new_button = QPushButton(wallet)
             wallets.update({wallet: new_button})
     except NameError:
         chain_init(0)
-        for wallet in wallet_quick_login().print_wallets(False):
+        for wallet in wallet_quick_login().print_wallets():
             new_button = QPushButton(wallet)
             wallets.update({wallet: new_button})
 

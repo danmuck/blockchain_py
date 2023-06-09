@@ -16,7 +16,7 @@ from modules.gui_ctl.menus.main_menu.the_pit import PitMenu
 from modules.gui_ctl.menus.main_menu.throw_dirt import ThrowDirtMenu
 from modules.gui_ctl.menus.main_menu.trading_post import TradingPostMenu
 from modules.gui_ctl.menus.main_menu.workshop import WorkshopMenu
-from modules.gui_ctl.menus.wallet_menu import WalletInitMenu, WalletMenu
+from modules.gui_ctl.menus.wallet_menu import WalletMenu
 from modules.gui_ctl.tab_widget import TabWidget
 
 

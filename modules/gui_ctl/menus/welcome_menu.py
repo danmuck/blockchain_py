@@ -1,6 +1,5 @@
 from PySide6.QtWidgets import (
     QWidget,
-    QStackedWidget,
     QVBoxLayout,
     QPushButton,
     QLabel,
@@ -68,7 +67,7 @@ class WelcomeMenu(QWidget):
                         self, title, text, default_value, 0
                     )
                     if ok_pressed:
-                        if not chain_init(chain_id, False).sync_mc:
+                        if not chain_init(chain_id).sync_mc:
                             print("OFF MASTER -- NEEDS MENU")
                         QMessageBox.information(
                             self, "Result", f"On Chain: Chain_{chain_id}"

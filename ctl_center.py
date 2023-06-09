@@ -130,7 +130,7 @@ def wallet_quick_login(new_=False, w_index: int = 0):
         print("New Wallet")
         new_wallet()
         WALLET.store_wallet()
-        wallet_quick_login(w_index=len(WALLET.print_wallets(False))-1)
+        wallet_quick_login(w_index=len(WALLET.print_wallets())-1)
 
     return WALLET
 
@@ -140,7 +140,7 @@ def wallet_login():
     wallet_quick_login()
     print('Which wallet would you like to use?')
     i = 0
-    for wallet in WALLET.print_wallets(False):
+    for wallet in WALLET.print_wallets():
         print(f'{i}. {wallet}')
         i += 1
     u_input = input(': ')
@@ -155,7 +155,7 @@ def wallet_recover():
     global WALLET
     WALLET = Wallet_(CHAIN.genesis_b)
     WALLET.recover_wallet(CHAIN.genesis_b)
-    wallet_quick_login(w_index=len(WALLET.print_wallets(False))-1)
+    wallet_quick_login(w_index=len(WALLET.print_wallets())-1)
 
 
 def chain_info():

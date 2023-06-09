@@ -107,7 +107,7 @@ class Wallet_:
         # print(password, hash_)
         return hash_, password
 
-    def print_wallets(self, print_=True) -> list[str]:
+    def print_wallets(self) -> list[str]:
         with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
             wallet = dict(json.load(file))
             w_keys = [*wallet]

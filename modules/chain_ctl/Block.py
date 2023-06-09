@@ -18,7 +18,6 @@ class Block_:
         txns: dict,
         signature: str,
         chain_data: dict,
-        print_it=False,
     ) -> None:
         self.block = {
             "index": index,

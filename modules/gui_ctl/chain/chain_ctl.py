@@ -1,7 +1,7 @@
 import json
 import os
 
-from ctl_center import new_wallet
+# from ctl_center import new_wallet
 from modules.chain_ctl import Proof_of_Work
 from modules.chain_ctl.Blockchain import Blockchain_
 from modules.chain_ctl.miner.Miner import Auto_Miner_
@@ -16,11 +16,58 @@ MINER: Auto_Miner_
 MINTER: Minter_
 WALLET: Wallet_
 
+"""
 
-def chain_init(chain_id: int, print_it: bool = False):
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!            TEMPORARY                   !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+"""
+
+
+def new_wallet():
+    global WALLET
+    WALLET = Wallet_(CHAIN.genesis_b)
+    password = input("Enter a sign_pass: ")
+    hash_, password_, pass_phrase_ = WALLET.init_wallet(password)
+
+    print(
+        f"""
+       [ Ready to show password and passphrase for new wallet address:  ]
+
+    !!   {hash_}
+
+       [ This is the last time that you will see these so write them    ] 
+       [     down in an appropriate place for safe keeping!!            ]
+
+    """
+    )
+    u_input = input("Ready? (Y/n) \n: ").casefold()
+    if u_input in ["y", "yes", ""]:
+        print("Signer Password:", password_)
+        i = 1
+        for word in pass_phrase_:
+            print("  ", i, word)
+            i += 1
+
+    input("\nPress Enter to continue\n: ")
+
+    return password
+
+
+"""
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!            TEMPORARY                   !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+"""
+
+
+def chain_init(chain_id: int):
     global CHAIN, CHAIN_ID
     CHAIN_ID = chain_id
-    CHAIN = Blockchain_(CHAIN_ID, print_it)
+    CHAIN = Blockchain_(CHAIN_ID)
 
     return CHAIN
 
@@ -101,7 +148,7 @@ def wallet_quick_login(new_=False, w_index: int = 0) -> Wallet_:
         print("New Wallet")
         new_wallet()
         WALLET.store_wallet()
-        wallet_quick_login(w_index=len(WALLET.print_wallets(False)) - 1)
+        wallet_quick_login(w_index=len(WALLET.print_wallets()) - 1)
 
     return WALLET
 
@@ -111,7 +158,7 @@ def wallet_login():
     wallet_quick_login()
     print("Which wallet would you like to use?")
     i = 0
-    for wallet in WALLET.print_wallets(False):
+    for wallet in WALLET.print_wallets():
         print(f"{i}. {wallet}")
         i += 1
     u_input = input(": ")
@@ -130,7 +177,7 @@ def auto_miner(miner_name: str = "Miner", iters: int = 16):
 
 def auto_minter(minter_name: str = "Minter", iters: int = 16000):
     global CHAIN, CHAIN_ID, MINTER, WALLET
-    MINTER = Minter_(CHAIN, WALLET.address_, minter_name, iters, print_it=False)
+    MINTER = Minter_(CHAIN, WALLET.address_, minter_name, iters)
     MINTER.generator()
     MINTER.update_history_json()
     MINTER.history_counts()
