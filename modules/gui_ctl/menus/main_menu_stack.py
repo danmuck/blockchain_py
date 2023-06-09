@@ -15,6 +15,7 @@ from modules.gui_ctl.menus.main_menu.the_pit import PitMenu
 from modules.gui_ctl.menus.main_menu.throw_dirt import ThrowDirtMenu
 from modules.gui_ctl.menus.main_menu.trading_post import TradingPostMenu
 from modules.gui_ctl.menus.main_menu.workshop import WorkshopMenu
+from modules.gui_ctl.menus.wallet_menu import WalletInitMenu, WalletMenu
 from modules.gui_ctl.tab_widget import TabWidget
 
 
@@ -37,6 +38,7 @@ class MainMenuStack(QWidget):
             "message": MessageBoardMenu(),
             "mound": MoundMenu(),
             "pit": PitMenu(),
+            "wallet": WalletMenu(),
         }
 
         # Add Menus and set initial
@@ -56,39 +58,49 @@ class MainMenuStack(QWidget):
             print(key)
             match key:
                 case "office":
-                    button.clicked.connect(
-                        partial(self.stacked_widget.setCurrentWidget, self.menus[key])
-                    )
+                    self.open_menu(button, self.menus[key])
                     self.handle_office_menu()
 
                 case "workshop":
-                    pass
+                    self.open_menu(button, self.menus[key])
+                    self.handle_workshop_menu()
 
                 case "craft":
-                    pass
+                    self.open_menu(button, self.menus[key])
+                    self.handle_crafting_menu()
 
                 case "throw":
-                    pass
+                    self.open_menu(button, self.menus[key])
+                    self.handle_throw_dirt_menu()
 
                 case "trade":
-                    pass
+                    self.open_menu(button, self.menus[key])
+                    self.handle_trading_post_menu()
 
                 case "message":
-                    pass
+                    self.open_menu(button, self.menus[key])
+                    self.handle_message_board_menu()
 
                 case "mound":
-                    pass
+                    self.open_menu(button, self.menus[key])
+                    self.handle_mound_menu()
 
                 case "pit":
-                    pass
+                    self.open_menu(button, self.menus[key])
+                    self.handle_pit_menu()
 
                 case "wallet":
-                    button.clicked.connect(
-                        lambda: self.parent.setCurrentWidget(self.parent.widget(2))
-                    )
+                    self.open_menu(button, self.menus[key])
+                    self.handle_wallet_menu()
+
+                    # button.clicked.connect(
+                    #     lambda: self.parent.setCurrentWidget(self.parent.widget(2))
+                    # )
 
                 case "goodbye":
                     button.clicked.connect(lambda: print())
+                    # self.open_menu(button, self.menus["wallet"])
+
                     button.clicked.connect(
                         lambda: self.parent.setCurrentWidget(self.parent.widget(2))
                     )
@@ -96,8 +108,75 @@ class MainMenuStack(QWidget):
                 case _:
                     pass
 
+    def open_menu(self, button, menu):
+        button.clicked.connect(partial(self.stacked_widget.setCurrentWidget, menu))
+
     def handle_office_menu(self):
         for key, button in self.menus["office"].buttons.items():
+            match key:
+                case "goodbye":
+                    button.clicked.connect(
+                        lambda: self.stacked_widget.setCurrentWidget(self.menus["main"])
+                    )
+
+    def handle_workshop_menu(self):
+        for key, button in self.menus["workshop"].buttons.items():
+            match key:
+                case "goodbye":
+                    button.clicked.connect(
+                        lambda: self.stacked_widget.setCurrentWidget(self.menus["main"])
+                    )
+
+    def handle_crafting_menu(self):
+        for key, button in self.menus["craft"].buttons.items():
+            match key:
+                case "goodbye":
+                    button.clicked.connect(
+                        lambda: self.stacked_widget.setCurrentWidget(self.menus["main"])
+                    )
+
+    def handle_throw_dirt_menu(self):
+        for key, button in self.menus["throw"].buttons.items():
+            match key:
+                case "goodbye":
+                    button.clicked.connect(
+                        lambda: self.stacked_widget.setCurrentWidget(self.menus["main"])
+                    )
+
+    def handle_trading_post_menu(self):
+        for key, button in self.menus["trade"].buttons.items():
+            match key:
+                case "goodbye":
+                    button.clicked.connect(
+                        lambda: self.stacked_widget.setCurrentWidget(self.menus["main"])
+                    )
+
+    def handle_message_board_menu(self):
+        for key, button in self.menus["message"].buttons.items():
+            match key:
+                case "goodbye":
+                    button.clicked.connect(
+                        lambda: self.stacked_widget.setCurrentWidget(self.menus["main"])
+                    )
+
+    def handle_mound_menu(self):
+        for key, button in self.menus["mound"].buttons.items():
+            match key:
+                case "goodbye":
+                    button.clicked.connect(
+                        lambda: self.stacked_widget.setCurrentWidget(self.menus["main"])
+                    )
+
+    def handle_pit_menu(self):
+        for key, button in self.menus["pit"].buttons.items():
+            match key:
+                case "goodbye":
+                    button.clicked.connect(
+                        lambda: self.stacked_widget.setCurrentWidget(self.menus["main"])
+                    )
+
+    def handle_wallet_menu(self):
+        for key, button in self.menus["wallet"].buttons.items():
             match key:
                 case "goodbye":
                     button.clicked.connect(

@@ -1,4 +1,13 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QSizePolicy, QGridLayout
+from functools import partial
+
+from PySide6.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QLabel,
+    QPushButton,
+    QSizePolicy,
+    QGridLayout,
+)
 
 
 class MainMenu(QWidget):

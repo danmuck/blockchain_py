@@ -2,11 +2,12 @@ from PySide6.QtWidgets import (
     QWidget,
     QStackedWidget,
     QVBoxLayout,
-    QApplication, QTabWidget,
+    QApplication,
+    QTabWidget,
 )
 
 from modules.gui_ctl.menus.main_menu_stack import MainMenuStack
-from modules.gui_ctl.menus.wallet_menu import WalletMenu
+from modules.gui_ctl.menus.wallet_menu import WalletInitMenu
 from modules.gui_ctl.menus.welcome_menu import WelcomeMenu
 from modules.gui_ctl.tab_widget import TabWidget
 
@@ -21,7 +22,7 @@ class MenuStack(QWidget):
         # Menus and Parent TabWidget
         self.welcome_menu = WelcomeMenu()
         self.main_menu = MainMenuStack(self.stacked_widget, tabs)
-        self.wallet_menu = WalletMenu()
+        self.wallet_menu = WalletInitMenu()
 
         # Add Menus and set initial
         self.stacked_widget.addWidget(self.welcome_menu)

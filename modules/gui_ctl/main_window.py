@@ -8,7 +8,8 @@ from PySide6.QtWidgets import (
     QToolBar,
     QGridLayout,
     QVBoxLayout,
-    QWidget, QApplication,
+    QWidget,
+    QApplication,
 )
 
 from modules.chain_ctl import Proof_of_Work
