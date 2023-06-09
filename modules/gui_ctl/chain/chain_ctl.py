@@ -1,7 +1,7 @@
 import json
 import os
 
-from ctl_center import new_wallet
+from ctl_center import new_wallet, replace_shorthands
 from modules.chain_ctl import Proof_of_Work
 from modules.chain_ctl.Blockchain import Blockchain_
 from modules.chain_ctl.Miner import Auto_Miner_
@@ -122,5 +122,7 @@ def wallet_login():
         wallet_quick_login()
 
 
-def auto_miner():
+def auto_miner(minter_name: str = "Minter", iters: int = 16, quick=False):
     global CHAIN, CHAIN_ID, MINER, WALLET
+    MINER = Auto_Miner_(CHAIN, WALLET.address_, minter_name, iters)
+    MINER.generator()

@@ -58,7 +58,7 @@ class Proof_of_Work:
         index: int,
         data: str,
     ) -> int:
-        new_nonce = 1
+        new_nonce = randint(1, previous_nonce + 500)
         check_nonce = False
         TIMER.start_timer()
         print(
@@ -244,5 +244,5 @@ class Proof_of_Work:
         )
 
         self.chain_.append_block_(block)
-        
+
         return block

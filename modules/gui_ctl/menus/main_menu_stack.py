@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
+from modules.gui_ctl.chain.chain_ctl import auto_miner
 from modules.gui_ctl.menus.main_menu.crafting_bench import CraftingBenchMenu
 from modules.gui_ctl.menus.main_menu.main_menu import MainMenu
 from modules.gui_ctl.menus.main_menu.message_board import MessageBoardMenu
@@ -55,7 +56,7 @@ class MainMenuStack(QWidget):
 
     def handle_main_menu(self):
         for key, button in self.menus["main"].buttons.items():
-            print(key)
+            # print(key)
             match key:
                 case "office":
                     self.open_menu(button, self.menus[key])
@@ -122,6 +123,18 @@ class MainMenuStack(QWidget):
     def handle_workshop_menu(self):
         for key, button in self.menus["workshop"].buttons.items():
             match key:
+                case "start":
+
+                    def run_auto_miner():
+                        name = self.menus["workshop"].user_input["minter_name"].text()
+                        iters = self.menus["workshop"].user_input["iters_entry"].value()
+                        auto_miner(name, iters)
+
+                    button.clicked.connect(lambda: run_auto_miner())
+
+                    pass
+                case "quick":
+                    button.clicked.connect(partial(auto_miner, quick=True))
                 case "goodbye":
                     button.clicked.connect(
                         lambda: self.stacked_widget.setCurrentWidget(self.menus["main"])

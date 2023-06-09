@@ -28,7 +28,9 @@ except FileNotFoundError:
     except FileExistsError:
         pass
     finally:
-        with open(f"{os.getcwd()}/minter_data/Minter_lists.json", "x") as minter_lists_file:
+        with open(
+            f"{os.getcwd()}/minter_data/Minter_lists.json", "x"
+        ) as minter_lists_file:
             minter_lists_file.write(
                 json.dumps(
                     {
@@ -87,7 +89,9 @@ except FileNotFoundError:
                     indent=2,
                 )
             )
-        with open(f"{os.getcwd()}/minter_data/Minter_lists.json", "r") as minter_lists_file:
+        with open(
+            f"{os.getcwd()}/minter_data/Minter_lists.json", "r"
+        ) as minter_lists_file:
             jsonify = dict(json.load(minter_lists_file))
             OTHERS_LIST = jsonify["OTHERS_LIST"]
             UDBBLS_LIST = jsonify["UDBBLS_LIST"]
@@ -134,9 +138,7 @@ class ez_random:
         small_chk = randint(1, 4096) + randint(0, 1)
         nanos_chk = (time.time_ns() + small_chk) * math.pi
         ez_nums = round(
-            (nanos_chk * small_chk * small_chk)
-            % 1023
-            * (0.000007 + randint(0, 1)),
+            (nanos_chk * small_chk * small_chk) % 1023 * (0.000007 + randint(0, 1)),
             5,
         )
         ez_rand = ez_nums + randint(0, 9999)
