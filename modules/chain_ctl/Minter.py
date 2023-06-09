@@ -438,6 +438,7 @@ class Minter_:
         iters_: int = 256000,
         sleep_time: float = 0,
         quick: bool = False,
+        print_it: bool = True,
     ) -> None:
         self.chain = chain
         self.wallet_ = wallet
@@ -456,6 +457,7 @@ class Minter_:
         self.zero_counter = 0
         self.landed = 1
         self.start_time = time.time()
+        self.print_it = print_it
         if quick is True:
             self.iters_ = 1
             self.sleep_time = 0
@@ -500,7 +502,8 @@ class Minter_:
                     block_chain_data = No_fun(ez_rand).get_attrs()
                     eq_count += 1
                     if ez_rand.return_ > 1234:
-                        print("\t\t  !!Wowzers::")
+                        if self.print_it:
+                            print("\t\t  !!Wowzers::")
                         self.others_.append("VOID")
                 else:
                     block_chain_data = {}
@@ -511,7 +514,8 @@ class Minter_:
 
                 # logs stuff
                 self.print_minter_heys(ez_rand.return_)
-                print(f"iter_count: {i}")
+                if self.print_it:
+                    print(f"iter_count: {i}")
             else:
                 pass
             self.unique_check_(ez_rand.return_, unique_bool)
@@ -519,12 +523,15 @@ class Minter_:
 
         self.end_timer()
         if self.iters_ != 1:
-            self.summary_to_console()
+            if self.print_it:
+                self.summary_to_console()
             self.print_log_txt()
-            print("  \nzero counter: ", self.zero_counter, "\n\n")
+            if self.print_it:
+                print("  \nzero counter: ", self.zero_counter, "\n\n")
         elif self.iters_ == 1:
             if rando_0 == rando_1 and rando_2 <= rando_3:
-                print("!!== ZOMG LANDED A SOLO BOII ==!!")
+                if self.print_it:
+                    print("!!== ZOMG LANDED A SOLO BOII ==!!")
         return ez_rand.return_
 
     def print_minter_heys(self, ez_rand: int):
@@ -533,33 +540,42 @@ class Minter_:
             bins_ += 1
             self.real_binaries_landed_ = bins_
             if ez_rand <= 15 and ez_rand != 0:
-                print(f"\n!!Hey Unr_16::{UNR_16_MAP[ez_rand]}  !!\n")
+                if self.print_it:
+                    print(f"\n!!Hey Unr_16::{UNR_16_MAP[ez_rand]}  !!\n")
                 self.unr_16_.append(ez_rand)
             elif ez_rand != 0:
-                print(f"\n!!Hey Bnr_16::{str(ez_rand).zfill(4)}  !!\n")
+                if self.print_it:
+                    print(f"\n!!Hey Bnr_16::{str(ez_rand).zfill(4)}  !!\n")
                 self.ubinrs_.append(ez_rand)
             else:
                 self.zero_counter += 1
-                print(f"!!Hey Zero::{UNR_16_MAP[ez_rand]}  !!\n")
+                if self.print_it:
+                    print(f"!!Hey Zero::{UNR_16_MAP[ez_rand]}  !!\n")
                 self.unr_16_.append(ez_rand)
         elif ez_rand in UDBBLS_LIST:
-            print(f"!!Hey Doubles::{ez_rand}  !!\n")
+            if self.print_it:
+                print(f"!!Hey Doubles::{ez_rand}  !!\n")
             self.udbbls_.append(ez_rand)
         elif ez_rand in UTRIPS_LIST:
-            print(f"!!Hey Triples::{ez_rand}  !!\n")
+            if self.print_it:
+                print(f"!!Hey Triples::{ez_rand}  !!\n")
             self.utrips_.append(ez_rand)
         elif ez_rand in OTHERS_LIST:
-            print(f"!!Hey Rare::{ez_rand}  !!\n")
+            if self.print_it:
+                print(f"!!Hey Rare::{ez_rand}  !!\n")
             self.others_.append(ez_rand)
         elif 999 < ez_rand <= 1234:
-            print(f"!!Hey Upper::{ez_rand}  !!\n")
+            if self.print_it:
+                print(f"!!Hey Upper::{ez_rand}  !!\n")
             self.uppers_.append(ez_rand)
         elif ez_rand <= 1234:
-            print(f"!!Hey Common::{ez_rand}  !!\n")
+            if self.print_it:
+                print(f"!!Hey Common::{ez_rand}  !!\n")
             self.common_.append(ez_rand)
         else:
-            print("  .::[rip]::.")
-            print("  u no winner ")
+            if self.print_it:
+                print("  .::[rip]::.")
+                print("  u no winner ")
 
     def get_percents_(self) -> list:
         unr_16_p = (len(self.unr_16_) / self.iters_) * 100
@@ -593,7 +609,8 @@ class Minter_:
         if check is True:
             if int_ not in self.unique_ and int_ <= 1234:
                 self.unique_.append(int_)
-                print(f"  -- unique: {int_} --")
+                if self.print_it:
+                    print(f"  -- unique: {int_} --")
             else:
                 pass
         else:
@@ -607,9 +624,10 @@ class Minter_:
         for i in sorted(self.unique_):
             j = self.master_.count(i)
             some_dict.update({i: j})
-        for i, j in some_dict.items():
-            print(f"{i}:\tx{j}")
-        print(len(some_dict), "/1235 total uniques")
+        if self.print_it:
+            for i, j in some_dict.items():
+                print(f"{i}:\tx{j}")
+            print(len(some_dict), "/1235 total uniques")
 
     def check_for_uniques(self):
         some_dict = {}
@@ -619,9 +637,10 @@ class Minter_:
                 some_dict.update({i: j})
             else:
                 pass
-        for i, j in some_dict.items():
-            print(f"{i}:\t{j}")
-        print(len(some_dict), "/1235 total uniques (excluding commons)")
+        if self.print_it:
+            for i, j in some_dict.items():
+                print(f"{i}:\t{j}")
+            print(len(some_dict), "/1235 total uniques (excluding commons)")
 
     def run_timer(self):
         self.start_time = time.time()

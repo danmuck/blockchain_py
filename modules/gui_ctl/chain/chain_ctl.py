@@ -122,7 +122,15 @@ def wallet_login():
         wallet_quick_login()
 
 
-def auto_miner(minter_name: str = "Minter", iters: int = 16, quick=False):
+def auto_miner(miner_name: str = "Miner", iters: int = 16):
     global CHAIN, CHAIN_ID, MINER, WALLET
-    MINER = Auto_Miner_(CHAIN, WALLET.address_, minter_name, iters)
+    MINER = Auto_Miner_(CHAIN, WALLET.address_, miner_name, iters)
     MINER.generator()
+
+
+def auto_minter(minter_name: str = "Minter", iters: int = 16000):
+    global CHAIN, CHAIN_ID, MINTER, WALLET
+    MINTER = Minter_(CHAIN, WALLET.address_, minter_name, iters, print_it=False)
+    MINTER.generator()
+    MINTER.update_history_json()
+    MINTER.history_counts()

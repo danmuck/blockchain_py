@@ -38,24 +38,25 @@ class WorkshopMenu(QWidget):
         )
         # User Input
         self.user_input = {
-            "minter_label": QLabel("Enter an Auto_Miner_name: "),
-            "minter_name": QLineEdit(),
+            "miner_label": QLabel("Enter an Auto_Miner_name: "),
+            "miner_name": QLineEdit(),
             "iters_label": QLabel("Enter desired iterations.. "),
             "iters_entry": QSpinBox(),
         }
 
-        self.user_input["minter_name"].setText("Miner")
-        self.user_input["minter_name"].setMaximumWidth(120)
+        self.user_input["miner_name"].setText("Miner")
+        self.user_input["miner_name"].setMaximumWidth(120)
 
         self.user_input["iters_entry"].setValue(16)
+        self.user_input["iters_entry"].setMaximum(999999)
         self.user_input["iters_entry"].setMaximumWidth(120)
 
         self.suffixes = {
-            "none": QRadioButton("None"),
-            "k": QRadioButton("Thousand"),
-            "m": QRadioButton("Million"),
+            "1": QRadioButton("None"),
+            "1_000": QRadioButton("Thousand"),
+            "1_000_000": QRadioButton("Million"),
         }
-        self.suffixes["none"].setChecked(True)
+        self.suffixes["1"].setChecked(True)
 
         opts = QHBoxLayout()
         opts.setAlignment(Qt.AlignCenter)

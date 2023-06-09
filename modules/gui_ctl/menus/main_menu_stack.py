@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
-from modules.gui_ctl.chain.chain_ctl import auto_miner
+from modules.gui_ctl.chain.chain_ctl import auto_miner, auto_minter
 from modules.gui_ctl.menus.main_menu.crafting_bench import CraftingBenchMenu
 from modules.gui_ctl.menus.main_menu.main_menu import MainMenu
 from modules.gui_ctl.menus.main_menu.message_board import MessageBoardMenu
@@ -124,17 +124,19 @@ class MainMenuStack(QWidget):
         for key, button in self.menus["workshop"].buttons.items():
             match key:
                 case "start":
-
-                    def run_auto_miner():
-                        name = self.menus["workshop"].user_input["minter_name"].text()
-                        iters = self.menus["workshop"].user_input["iters_entry"].value()
-                        auto_miner(name, iters)
-
                     button.clicked.connect(lambda: run_auto_miner())
 
-                    pass
+                    def run_auto_miner():
+                        name = self.menus["workshop"].user_input["miner_name"].text()
+                        iters = self.menus["workshop"].user_input["iters_entry"].value()
+                        for k, v in self.menus["workshop"].suffixes.items():
+                            if v.isChecked():
+                                iters = iters * int(k)
+                        auto_miner(name, iters)
+
                 case "quick":
-                    button.clicked.connect(partial(auto_miner, quick=True))
+                    button.clicked.connect(auto_miner)
+
                 case "goodbye":
                     button.clicked.connect(
                         lambda: self.stacked_widget.setCurrentWidget(self.menus["main"])
@@ -143,6 +145,20 @@ class MainMenuStack(QWidget):
     def handle_crafting_menu(self):
         for key, button in self.menus["craft"].buttons.items():
             match key:
+                case "start":
+                    button.clicked.connect(lambda: run_auto_minter())
+
+                    def run_auto_minter():
+                        name = self.menus["craft"].user_input["minter_name"].text()
+                        iters = self.menus["craft"].user_input["iters_entry"].value()
+                        for k, v in self.menus["craft"].suffixes.items():
+                            if v.isChecked():
+                                iters = iters * int(k)
+                        auto_minter(name, iters)
+
+                case "quick":
+                    button.clicked.connect(auto_minter)
+
                 case "goodbye":
                     button.clicked.connect(
                         lambda: self.stacked_widget.setCurrentWidget(self.menus["main"])
