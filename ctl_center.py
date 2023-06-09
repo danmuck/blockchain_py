@@ -57,6 +57,54 @@ MINTER: Minter_
 WALLET: Wallet_
 
 
+def wallet_opts():
+    print('''
+        1. Load current wallet.json
+        2. New wallet
+
+        0. Recover wallet on current chain.
+    ''')
+    u_input = input(": ")
+    try:
+        u_input = int(u_input)
+    except ValueError:
+        pass
+    if u_input == 1 or u_input == '':
+        wallet_login()
+    if u_input == 2:
+        wallet_quick_login(True)
+    elif u_input == 0:
+        wallet_recover()
+
+
+def new_wallet():
+    global WALLET
+    WALLET = Wallet_(CHAIN.genesis_b)
+    password = input("Enter a sign_pass: ")
+    hash_, password_, pass_phrase_ = WALLET.init_wallet(password)
+
+    print(
+        f"""
+       [ Ready to show password and passphrase for new wallet address:  ]
+
+    !!   {hash_}
+
+       [ This is the last time that you will see these so write them    ] 
+       [     down in an appropriate place for safe keeping!!            ]
+
+    """
+    )
+    u_input = input("Ready? (Y/n) \n: ").casefold()
+    if u_input in ["y", "yes", ""]:
+        print("Signer Password:", password_)
+        i = 1
+        for word in pass_phrase_:
+            print("  ", i, word)
+            i += 1
+
+    return password
+
+
 def wallet_quick_login(new_=False, w_index: int = 0):
     global WALLET
     try:
@@ -66,23 +114,22 @@ def wallet_quick_login(new_=False, w_index: int = 0):
             WALLET = Wallet_(
                 wallet[w_keys[w_index]]['root_b'], 
                 wallet[w_keys[w_index]]['$DIRT'], 
-                {},
                 wallet[w_keys[w_index]]['inv_data'],
                 w_keys[w_index],
                 wallet[w_keys[w_index]]['rec_hash'],
                 wallet[w_keys[w_index]]['sign_hash'],
                 wallet[w_keys[w_index]]['txn_hist'],
                 wallet[w_keys[w_index]]["chains"],
-                False
+                {},
                 )
     except FileNotFoundError:
         print("New Wallet")
-        WALLET = Wallet_(CHAIN.genesis_b)
+        new_wallet()
         WALLET.store_wallet()
 
     if new_ is True:
         print("New Wallet")
-        WALLET = Wallet_(CHAIN.genesis_b)
+        new_wallet()
         WALLET.store_wallet()
         wallet_quick_login(w_index=len(WALLET.print_wallets(False))-1)
 
@@ -212,26 +259,6 @@ def auto_miner_init():
         print("HEIGHT: ", len(CHAIN.chain))
 
 
-def wallet_opts():
-    print('''
-        1. Load current wallet.json
-        2. New wallet
-
-        0. Recover wallet on current chain.
-    ''')
-    u_input = input(": ")
-    try:
-        u_input = int(u_input)
-    except ValueError:
-        pass
-    if u_input == 1 or u_input == '':
-        wallet_login()
-    if u_input == 2:
-        wallet_quick_login(True)        
-    elif u_input == 0:
-        wallet_recover()
-
-
 def chain_init(chain_id: int):
     global CHAIN, CHAIN_ID
     CHAIN_ID = chain_id 
@@ -315,7 +342,7 @@ def dirt_ranch_welcome():
         pass
     if u_input == 1:
         u_input = input("chain_id: #")
-        chain_init(u_input)
+        chain_init(int(u_input))
     elif u_input == 2 or u_input == '':
         chain_init(0)
 

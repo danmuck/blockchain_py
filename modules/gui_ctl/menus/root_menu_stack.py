@@ -53,9 +53,6 @@ class MenuStack(QWidget):
             v.clicked.connect(
                 lambda: self.stacked_widget.setCurrentWidget(self.main_menu)
             )
-        self.wallet_menu.buttons["testing"].clicked.connect(
-            lambda: self.stacked_widget.setCurrentWidget(self.main_menu)
-        )
         self.wallet_menu.buttons["goodbye"].clicked.connect(
             lambda: self.stacked_widget.setCurrentWidget(self.welcome_menu)
         )

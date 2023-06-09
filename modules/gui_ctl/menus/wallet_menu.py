@@ -97,7 +97,6 @@ class WalletInitMenu(QWidget):
         text_label = QLabel("    -- Which wallet would you like to use?")
 
         self.buttons = {
-            "testing": QPushButton("TESTING"),
             "goodbye": QPushButton("Goodbye"),
         }
 
@@ -111,7 +110,6 @@ class WalletInitMenu(QWidget):
         for key, item in self.buttons.items():
             self.button_layout.addWidget(item)
             item.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-            self.handle_button_clicks(key)
             item.setMinimumSize(52, 40)
             item.setMaximumSize(240, 40)
 
@@ -122,7 +120,6 @@ class WalletInitMenu(QWidget):
         self.setLayout(layout)
 
     def handle_button_clicks(self, key):
-        if len(key) == 66:
-            self.wallets[key].clicked.connect(
-                lambda: wallet_quick_login(False, self.wallets_indexed.index(key))
-            )
+        self.wallets[key].clicked.connect(
+            lambda: wallet_quick_login(False, self.wallets_indexed.index(key))
+        )

@@ -1,5 +1,7 @@
 import json, hashlib, datetime, os
 from random import randint
+from typing import Tuple, Callable, Any
+
 from .Shifter import shifter_
 
 REC_OPTS = [
@@ -138,64 +140,25 @@ class Wallet_:
         self,
         root_b: str,
         balance: float = 0,
-        init_txn: dict = {},
-        inv_data={},
-        address=None,
-        rec_hash=None,
-        sign_hash=None,
-        txn_hist=[],
-        chains=[],
-        new_=True,
+        inv_data: dict = None,
+        address: str = None,
+        rec_hash: str = None,
+        sign_hash: str = None,
+        txn_hist: list = None,
+        chains: list = None,
+        init_txn: dict = None,
     ) -> None:
-        if new_ is not True:
-            self.address_ = address
-            self.recover_hash = rec_hash
-            self.signer_hash = sign_hash
-            self.txn_hist = txn_hist
-            self.root_b = root_b
-            self.balance = balance
-            self.inv_data = inv_data
-            self.chains = chains
-        else:
-            self.recover_hash = None
-            self.signer_hash = None
-            self.txn_hist = []
-            self.root_b = root_b
-            self.balance = balance
-            self.inv_data = inv_data
-            self.chains = chains
-            self.address_ = self.init_wallet()
-        self.txn_hist.append(init_txn)
+        self.root_b = root_b
+        self.balance = balance
+        self.address_ = address
+        self.recover_hash = rec_hash
+        self.signer_hash = sign_hash
+        self.txn_hist = txn_hist
+        self.inv_data = inv_data
+        self.chains = chains
+        # self.txn_hist.append(init_txn)
 
         self.wallet_: dict = {}
-
-    def init_wallet(self) -> str:
-        hash_r, list_ = self.gen_recovery()
-        hash_p, pass_ = self.set_signer()
-
-        encoded_addr = json.dumps("_".join([hash_r, hash_p, self.root_b])).encode()
-        hash_ = shifter_("".join(("0x", hashlib.sha256(encoded_addr).hexdigest())))
-        self.address_ = hash_
-        print(
-            f"""
-           [ Ready to show password and passphrase for new wallet address:  ]
-
-        !!   {hash_}
-
-           [ This is the last time that you will see these so write them    ] 
-           [     down in an appropriate place for safe keeping!!            ]
-            
-        """
-        )
-        u_input = input("Ready? (Y/n) \n: ").casefold()
-        if u_input in ["y", "yes", ""]:
-            print("Signer Password:", pass_)
-            i = 1
-            for word in list_:
-                print("  ", i, word)
-                i += 1
-
-        return hash_
 
     def gen_wallet(self) -> dict:
         wallet_ = {
@@ -212,8 +175,26 @@ class Wallet_:
         self.wallet_ = wallet_
         return wallet_
 
-    def new_txn(self):
-        pass
+    def init_wallet(
+        self, password: str = None
+    ) -> tuple[str, str, tuple[str | Any, ...]]:
+        hash_r, pass_phrase_ = self.gen_recovery()
+
+        if password is None:
+            hash_p, password_ = self.set_signer()
+        else:
+            hash_p, password_ = self.set_signer(password)
+
+        encoded_addr = json.dumps("_".join([hash_r, hash_p, self.root_b])).encode()
+        hash_ = shifter_("".join(("0x", hashlib.sha256(encoded_addr).hexdigest())))
+
+        self.address_ = hash_
+        self.txn_hist = []
+        self.inv_data = {}
+        self.chains = []
+        self.gen_wallet()
+
+        return hash_, password_, pass_phrase_
 
     def gen_recovery(self):
         your_opts = []
@@ -231,8 +212,8 @@ class Wallet_:
         # print(self.recover_hash, your_opts)
         return hash_, tuple(your_opts)
 
-    def set_signer(self):
-        password = input("Enter a sign_pass: ")
+    def set_signer(self, sign_pass: str = "password"):
+        password = sign_pass
         encoded_pass = json.dumps(password).encode()
         hash_ = shifter_("".join(("0x", hashlib.sha256(encoded_pass).hexdigest())))
         if self.signer_hash is None:
@@ -343,6 +324,9 @@ class Wallet_:
                     file.write(wallet_data)
             except FileNotFoundError:
                 pass
+
+    def new_txn(self):
+        pass
 
 
 class Txn_:

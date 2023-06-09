@@ -7,7 +7,7 @@ from modules.gui_ctl.main_window import MainWindow
 app = QApplication(sys.argv)
 
 font = app.font()
-font.setFamily("monospace")
+font.setFamily("Monospace")
 font.setStyleHint(QFont.Monospace)
 font.setPointSize(12)
 app.setFont(font)
