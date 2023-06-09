@@ -6,7 +6,7 @@ from random import randint
 from .Blockchain import Blockchain_, Block_
 from modules.chain_ctl.utilities.Miner_Problem import miner_problem_
 from .Transactions import Txn_
-from .utilities.Debug import DEBUG
+from .utilities.Debug import DEBUG_MODE
 
 """
     Timer for testing
@@ -62,7 +62,7 @@ class Proof_of_Work:
         new_nonce = randint(1, previous_nonce + 500)
         check_nonce = False
         TIMER.start_timer()
-        if DEBUG:
+        if DEBUG_MODE > 2:
             print(
                 f"Timer started::fishing block: {len(self.chain_.chain) - 1} -> chain_height: {len(self.chain_.chain)}"
             )
@@ -144,7 +144,7 @@ class Proof_of_Work:
                     check_nonce = True
                 else:
                     new_nonce += 1
-        if DEBUG:
+        if DEBUG_MODE > 2:
             print("MINE_TIME:", round(TIMER.end_timer(), 8), "sec")
             print("MINE_TIME:", f"{round(TIMER.end_timer() // 60, 8)}ish min")
             print("MINE_DIFF: lvl", self.difficulty)

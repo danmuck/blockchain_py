@@ -4,7 +4,7 @@ import os
 from random import randint
 from typing import Any
 
-from modules.chain_ctl.utilities.Debug import DEBUG
+from modules.chain_ctl.utilities.Debug import DEBUG_MODE
 from modules.chain_ctl.wallet.Recovery_Options import REC_OPTS
 from modules.chain_ctl.utilities.Shifter import shifter_
 
@@ -111,12 +111,12 @@ class Wallet_:
         with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
             wallet = dict(json.load(file))
             w_keys = [*wallet]
-        if DEBUG:
+        if DEBUG_MODE > 2:
             print(w_keys)
         return w_keys
 
     def recover_wallet(self, o_chain_g: str):
-        if DEBUG:
+        if DEBUG_MODE > 2:
             pass  # ################################################################
         print(
             """"

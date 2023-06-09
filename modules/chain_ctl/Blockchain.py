@@ -6,7 +6,7 @@ from random import randint
 
 from .Block import Block_
 from modules.chain_ctl.utilities.Shifter import shifter_
-from .utilities.Debug import DEBUG
+from .utilities.Debug import DEBUG_MODE
 
 MASTER_CHAIN = {}
 
@@ -25,7 +25,7 @@ def validate_keys(chain: dict):
         elif i == list(chain)[0]:
             pass
         else:
-            if DEBUG:
+            if DEBUG_MODE > 1:
                 print(f"\n!!Err Bad block. [{i}] !! \n")
             raise Exception
 
@@ -38,7 +38,7 @@ def update_master_chain(new_master: dict):
     MASTER_CHAIN = new_master
     with open(f"{os.getcwd()}/Master_chain.json", "w") as file:
         file.write(json.dumps(new_master, indent=2))
-        if DEBUG:
+        if DEBUG_MODE > 1:
             print("!!Hey [on master]  !!")
 
 
@@ -71,7 +71,7 @@ class Blockchain_:
 
         self.validate_chain()
         self.genesis_b = str(list(self.chain.keys())[0])
-        if DEBUG:
+        if DEBUG_MODE > 0:
             print(
                 "\n\nBlockchain_ initialized...\n  TAIL: ",
                 json.dumps(list(self.chain.values())[-4:], indent=2),
@@ -90,7 +90,7 @@ class Blockchain_:
                 chain_ = dict(json.load(file))
                 return chain_
         except json.JSONDecodeError:
-            if DEBUG:
+            if DEBUG_MODE > 1:
                 print("\n\n\n\n\n\nSCREAM::chain")
             time.sleep(0.1513 * randint(8, 16))
             self.load_chain_backup()
@@ -124,7 +124,7 @@ class Blockchain_:
                 chain_ = dict(json.load(file))
                 return chain_
         except json.JSONDecodeError:
-            if DEBUG:
+            if DEBUG_MODE > 1:
                 print("\n\n\n\n\n\nSCREAM::chain backup")
             time.sleep(0.1513 * randint(8, 16))
             self.load_chain_json()
@@ -160,9 +160,9 @@ class Blockchain_:
             ):
                 # prepare to diverge
                 self.chain_id += 1
-                if DEBUG:
+                if DEBUG_MODE > 0:
                     print(
-                        f"!Err Chain height surpassed master::Diverging to chain_id: {self.chain_id}...  !!"
+                        f"!!Hey [Chain height surpassed master::Diverging to chain_id: {self.chain_id}...]  !!"
                     )
                 self.validate_chain()
             else:
@@ -173,7 +173,7 @@ class Blockchain_:
         self.validate_master_chain(chain_)
 
         self.update_chain_data_()
-        if DEBUG:
+        if DEBUG_MODE > 0:
             print("!!Hey [chain valid]  !!")
             if len(self.chain.keys()) % 100 == 0:
                 print(self.hash_chain_())
@@ -237,14 +237,14 @@ class Blockchain_:
             1
         ] and appendage.get("index") == len(self.chain):
             self.chain.update(block.block_data)
-            if DEBUG:
+            if DEBUG_MODE > 0:
                 print("!!Hey [new block success]  !!")
             self.write_chain_json()
             self.validate_chain()
         else:
-            if DEBUG:
+            if DEBUG_MODE > 0:
                 print(
-                    f"\n\nErr!! Bad Block on block sig: [{appendage.get('signature')}] !!"
+                    f"\n\n!!Hey [Bad Block on block sig: [{appendage.get('signature')}]] !!"
                 )
 
     def update_chain_data_(self):
@@ -268,7 +268,7 @@ class Blockchain_:
                 MASTER_CHAIN = dict(json.load(file))
                 return MASTER_CHAIN
         except json.JSONDecodeError:
-            if DEBUG:
+            if DEBUG_MODE > 1:
                 print("\n\n\n\n\n\nSCREAM::master")
             time.sleep(0.1513 * randint(8, 16))
             self.load_master_backup()
@@ -284,7 +284,7 @@ class Blockchain_:
                         file.write(chain_)
                         return MASTER_CHAIN
                 else:
-                    if DEBUG:
+                    if DEBUG_MODE > 1:
                         print("!!Err No chain given to load_master_chain()  !!")
                     return {}
 
@@ -297,7 +297,7 @@ class Blockchain_:
                 MASTER_CHAIN = dict(json.load(file))
                 return MASTER_CHAIN
         except json.JSONDecodeError:
-            if DEBUG:
+            if DEBUG_MODE > 1:
                 print("\n\n\n\n\n\nSCREAM::master backup")
             time.sleep(0.1513 * randint(8, 16))
             self.load_master_chain()
@@ -332,7 +332,7 @@ class Blockchain_:
                     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                     """
-                    if DEBUG:
+                    if DEBUG_MODE > 0:
                         print("!!Hey [not on master]  !!")
                         if self.sync_mc is True:
                             u_input = input(
@@ -354,7 +354,7 @@ class Blockchain_:
                 self.validate_chain()
         else:
             self.validate_chain()
-        if DEBUG:
+        if DEBUG_MODE > 0:
             print("!!Hey [master valid]  !!")
         # MASTER_CHAIN
 
@@ -404,7 +404,7 @@ class Blockchain_:
                 except FileNotFoundError:
                     pass
         except json.JSONDecodeError:
-            if DEBUG:
+            if DEBUG_MODE > 1:
                 print("\n\n\n\n\n\nSCREAM::journal")
             time.sleep(0.1513 * randint(24, 64))
             self.user_journal_update()
