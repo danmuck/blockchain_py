@@ -9,14 +9,13 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QVBoxLayout,
     QWidget,
-    QApplication,
 )
 
 from modules.chain_ctl import Proof_of_Work
 from modules.chain_ctl.Blockchain import Blockchain_
-from modules.chain_ctl.Miner import Auto_Miner_
-from modules.chain_ctl.Minter import Minter_
-from modules.chain_ctl.Wallet import Wallet_
+from modules.chain_ctl.miner.Miner import Auto_Miner_
+from modules.chain_ctl.minter.Minter import Minter_
+from modules.chain_ctl.wallet.Wallet import Wallet_
 
 from modules.gui_ctl.menus.root_menu_stack import MenuStack
 from modules.gui_ctl.tab_widget import TabWidget

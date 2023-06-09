@@ -1,13 +1,11 @@
 from PySide6 import QtCore
 from PySide6.QtWidgets import (
     QWidget,
-    QStackedWidget,
     QVBoxLayout,
     QPushButton,
     QLabel,
     QSizePolicy,
     QGridLayout,
-    QApplication,
 )
 
 from modules.gui_ctl.chain.chain_ctl import wallet_quick_login, chain_init

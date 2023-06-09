@@ -32,9 +32,9 @@ class WelcomeMenu(QWidget):
         self.buttons = {
             "custom_chain": custom_chain_btn,
             "default_chain": default_chain_btn,
-            "autorun": autorun_btn,
-            "goodbye": goodbye_btn,
+            # "autorun": autorun_btn,
             "testing": testing_btn,
+            "goodbye": goodbye_btn,
         }
         for key, item in self.buttons.items():
             self.button_layout.addWidget(item)

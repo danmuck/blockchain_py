@@ -1,12 +1,12 @@
 import json
 import os
 
-from ctl_center import new_wallet, replace_shorthands
+from ctl_center import new_wallet
 from modules.chain_ctl import Proof_of_Work
 from modules.chain_ctl.Blockchain import Blockchain_
-from modules.chain_ctl.Miner import Auto_Miner_
-from modules.chain_ctl.Minter import Minter_
-from modules.chain_ctl.Wallet import Wallet_
+from modules.chain_ctl.miner.Miner import Auto_Miner_
+from modules.chain_ctl.minter.Minter import Minter_
+from modules.chain_ctl.wallet.Wallet import Wallet_
 
 global CHAIN, CHAIN_ID, PROOF_OF_WORK, MINER, MINTER, WALLET
 CHAIN: Blockchain_

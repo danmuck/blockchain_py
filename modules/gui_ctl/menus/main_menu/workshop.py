@@ -1,4 +1,5 @@
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
@@ -20,6 +21,8 @@ class WorkshopMenu(QWidget):
         self.button_layout = QVBoxLayout()
         self.buttons = {}
 
+        label_font = QFont("Courier New")
+
         # Items
         text_label = QLabel(
             """
@@ -36,6 +39,7 @@ class WorkshopMenu(QWidget):
     
     """
         )
+        text_label.setFont(label_font)
         # User Input
         self.user_input = {
             "miner_label": QLabel("Enter an Auto_Miner_name: "),

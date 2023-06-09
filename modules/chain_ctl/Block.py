@@ -2,7 +2,7 @@ import datetime
 import hashlib
 import json
 
-from .Shifter import shifter_
+from modules.chain_ctl.utilities.Shifter import shifter_
 
 
 class Block_:

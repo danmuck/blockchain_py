@@ -1,7 +1,7 @@
 # todo:
 #   fix logs so they do not compound results of multiple runs
 
-from .Proof_of_Work import Proof_of_Work, Blockchain_
+from modules.chain_ctl.Proof_of_Work import Proof_of_Work, Blockchain_
 import time
 
 

@@ -4,7 +4,7 @@ import time
 from random import randint
 
 from .Blockchain import Blockchain_, Block_
-from .Miner_Problem import miner_problem_
+from modules.chain_ctl.utilities.Miner_Problem import miner_problem_
 from .Transactions import Txn_
 
 """

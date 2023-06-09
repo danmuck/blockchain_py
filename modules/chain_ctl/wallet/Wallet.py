@@ -4,8 +4,8 @@ import os
 from random import randint
 from typing import Any
 
-from modules.chain_ctl.Assets import REC_OPTS
-from modules.chain_ctl.Shifter import shifter_
+from modules.chain_ctl.wallet.Recovery_Options import REC_OPTS
+from modules.chain_ctl.utilities.Shifter import shifter_
 
 
 class Wallet_:

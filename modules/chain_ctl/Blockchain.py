@@ -5,7 +5,7 @@ import time
 from random import randint
 
 from .Block import Block_
-from .Shifter import shifter_
+from modules.chain_ctl.utilities.Shifter import shifter_
 
 MASTER_CHAIN = {}
 
@@ -38,7 +38,6 @@ def update_master_chain(new_master: dict, print_it=False):
         file.write(json.dumps(new_master, indent=2))
         if print_it is True:
             print("!!Hey [on master]  !!")
-    pass
 
 
 class Blockchain_:
