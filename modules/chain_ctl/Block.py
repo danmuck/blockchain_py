@@ -2,6 +2,7 @@ import datetime
 import hashlib
 import json
 
+from modules.chain_ctl.utilities.Debug import DEBUG
 from modules.chain_ctl.utilities.Shifter import shifter_
 
 
@@ -30,7 +31,7 @@ class Block_:
         }
         self.block_hash = self.hash_block_(self.block)
         self.block_data = {self.block_hash: self.block}
-        if print_it is True:
+        if DEBUG:
             print(
                 "\n\nNew Block_ initialized... \nBLOCK: ",
                 json.dumps(self.block, indent=2),

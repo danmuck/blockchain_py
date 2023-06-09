@@ -4,6 +4,8 @@
 from modules.chain_ctl.Proof_of_Work import Proof_of_Work, Blockchain_
 import time
 
+from modules.chain_ctl.utilities.Debug import DEBUG
+
 
 class Auto_Miner_:
     chain: Blockchain_
@@ -35,7 +37,8 @@ class Auto_Miner_:
             i += 1
             proof = Proof_of_Work(self.chain, self.wallet_, "0001")
             proof.mine_block(txns={}, txn_data={})
-            print(f"iter_count: {i - 1}")
+            if DEBUG:
+                print(f"iter_count: {i - 1}")
 
         self.end_timer()
 

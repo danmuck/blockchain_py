@@ -6,6 +6,7 @@ from random import randint
 from .Blockchain import Blockchain_, Block_
 from modules.chain_ctl.utilities.Miner_Problem import miner_problem_
 from .Transactions import Txn_
+from .utilities.Debug import DEBUG
 
 """
     Timer for testing
@@ -31,8 +32,8 @@ class Proof_of_Work:
     def __init__(
         self,
         chain_: Blockchain_,
-        miner_w: str = None,
-        pay_c: str = ""
+        miner_wallet: str = None,
+        pay_code: str = ""
         # txns=[],
         # chain_data={}
     ) -> None:
@@ -40,10 +41,10 @@ class Proof_of_Work:
         self.chain_ = chain_
         self.chain_id = self.chain_.chain_id
         self.b_reward: float = 0
-        self.pay_c = pay_c
-        self.miner_w = miner_w
-        if miner_w == "_" or len(miner_w) != 66 or miner_w is None:
-            self.miner_w = self.chain_.genesis_b
+        self.pay_code = pay_code
+        self.miner_wallet = miner_wallet
+        if miner_wallet == "_" or len(miner_wallet) != 66 or miner_wallet is None:
+            self.miner_wallet = self.chain_.genesis_b
         # self.txns = txns
         # self.chain_data = chain_data
         # self.difficulty = 0
@@ -61,9 +62,10 @@ class Proof_of_Work:
         new_nonce = randint(1, previous_nonce + 500)
         check_nonce = False
         TIMER.start_timer()
-        print(
-            f"Timer started::fishing block: {len(self.chain_.chain) - 1} -> chain_height: {len(self.chain_.chain)}"
-        )
+        if DEBUG:
+            print(
+                f"Timer started::fishing block: {len(self.chain_.chain) - 1} -> chain_height: {len(self.chain_.chain)}"
+            )
 
         while not check_nonce:
             # print(new_nonce)
@@ -142,9 +144,10 @@ class Proof_of_Work:
                     check_nonce = True
                 else:
                     new_nonce += 1
-        print("MINE_TIME:", round(TIMER.end_timer(), 8), "sec")
-        print("MINE_TIME:", f"{round(TIMER.end_timer() // 60, 8)}ish min")
-        print("MINE_DIFF: lvl", self.difficulty)
+        if DEBUG:
+            print("MINE_TIME:", round(TIMER.end_timer(), 8), "sec")
+            print("MINE_TIME:", f"{round(TIMER.end_timer() // 60, 8)}ish min")
+            print("MINE_DIFF: lvl", self.difficulty)
         try:
             with open(
                 f"{os.getcwd()}/chain_data/Block_times_{self.chain_id}.txt", "x"
@@ -187,9 +190,9 @@ class Proof_of_Work:
     """
 
     def b_reward_txn(self, miner_w: str, txn_data: dict = None):
-        if self.pay_c == "0001":
+        if self.pay_code == "0001":
             self.b_reward = self.b_reward * 1.18  # miner
-        elif self.pay_c == "0010":
+        elif self.pay_code == "0010":
             self.b_reward = self.b_reward * 0.75  # minter
         else:
             self.b_reward = self.float_to_str(self.b_reward)
@@ -207,7 +210,7 @@ class Proof_of_Work:
     def mine_block(
         self, txns: dict = None, txn_data: dict = None, chain_data: dict = None
     ) -> Block_:
-        wallet_address = self.miner_w
+        wallet_address = self.miner_wallet
 
         previous_block = self.chain_.get_tallest_block()[0]
         previous_nonce = previous_block["nonce"]

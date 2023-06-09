@@ -9,9 +9,6 @@ from modules.chain_ctl.minter.Minter import Minter_
 from modules.chain_ctl.Proof_of_Work import Proof_of_Work
 from modules.chain_ctl.wallet.Wallet import Wallet_
 
-# from modules.chain_ctl.No_funs import No_fun
-
-
 chain_menu = (
     "[Mine a Block]",
     "[Print Chain]",
@@ -156,7 +153,7 @@ def wallet_login():
 
 def wallet_recover():
     global WALLET
-    WALLET = Wallet_(CHAIN.genesis_b, new_=False)
+    WALLET = Wallet_(CHAIN.genesis_b)
     WALLET.recover_wallet(CHAIN.genesis_b)
     wallet_quick_login(w_index=len(WALLET.print_wallets(False))-1)
 

@@ -18,6 +18,7 @@ from modules.chain_ctl.minter.no_funs.No_Fun import (
 )
 from modules.chain_ctl.minter.no_funs.No_Fun_Utils import UNR_16_MAP
 from modules.chain_ctl.Proof_of_Work import Proof_of_Work, Blockchain_
+from modules.chain_ctl.utilities.Debug import DEBUG
 
 
 class Minter_:
@@ -105,7 +106,7 @@ class Minter_:
                     block_chain_data = No_fun(ez_rand).get_attrs()
                     eq_count += 1
                     if ez_rand.return_ > 1234:
-                        if self.print_it:
+                        if DEBUG:
                             print("\t\t  !!Wowzers::")
                         self.others_.append("VOID")
                 else:
@@ -117,7 +118,7 @@ class Minter_:
 
                 # logs stuff
                 self.print_minter_heys(ez_rand.return_)
-                if self.print_it:
+                if DEBUG:
                     print(f"iter_count: {i}")
             else:
                 pass
@@ -126,14 +127,14 @@ class Minter_:
 
         self.end_timer()
         if self.iters_ != 1:
-            if self.print_it:
+            if DEBUG:
                 self.summary_to_console()
-            self.print_log_txt()
-            if self.print_it:
+            self.print_log_file()
+            if DEBUG:
                 print("  \nzero counter: ", self.zero_counter, "\n\n")
         elif self.iters_ == 1:
             if rando_0 == rando_1 and rando_2 <= rando_3:
-                if self.print_it:
+                if DEBUG:
                     print("!!== ZOMG LANDED A SOLO BOII ==!!")
         return ez_rand.return_
 
@@ -143,40 +144,40 @@ class Minter_:
             bins_ += 1
             self.real_binaries_landed_ = bins_
             if ez_rand <= 15 and ez_rand != 0:
-                if self.print_it:
+                if DEBUG:
                     print(f"\n!!Hey Unr_16::{UNR_16_MAP[ez_rand]}  !!\n")
                 self.unr_16_.append(ez_rand)
             elif ez_rand != 0:
-                if self.print_it:
+                if DEBUG:
                     print(f"\n!!Hey Bnr_16::{str(ez_rand).zfill(4)}  !!\n")
                 self.ubinrs_.append(ez_rand)
             else:
                 self.zero_counter += 1
-                if self.print_it:
+                if DEBUG:
                     print(f"!!Hey Zero::{UNR_16_MAP[ez_rand]}  !!\n")
                 self.unr_16_.append(ez_rand)
         elif ez_rand in UDBBLS_LIST:
-            if self.print_it:
+            if DEBUG:
                 print(f"!!Hey Doubles::{ez_rand}  !!\n")
             self.udbbls_.append(ez_rand)
         elif ez_rand in UTRIPS_LIST:
-            if self.print_it:
+            if DEBUG:
                 print(f"!!Hey Triples::{ez_rand}  !!\n")
             self.utrips_.append(ez_rand)
         elif ez_rand in OTHERS_LIST:
-            if self.print_it:
+            if DEBUG:
                 print(f"!!Hey Rare::{ez_rand}  !!\n")
             self.others_.append(ez_rand)
         elif 999 < ez_rand <= 1234:
-            if self.print_it:
+            if DEBUG:
                 print(f"!!Hey Upper::{ez_rand}  !!\n")
             self.uppers_.append(ez_rand)
         elif ez_rand <= 1234:
-            if self.print_it:
+            if DEBUG:
                 print(f"!!Hey Common::{ez_rand}  !!\n")
             self.common_.append(ez_rand)
         else:
-            if self.print_it:
+            if DEBUG:
                 print("  .::[rip]::.")
                 print("  u no winner ")
 
@@ -212,7 +213,7 @@ class Minter_:
         if check is True:
             if int_ not in self.unique_ and int_ <= 1234:
                 self.unique_.append(int_)
-                if self.print_it:
+                if DEBUG:
                     print(f"  -- unique: {int_} --")
             else:
                 pass
@@ -227,7 +228,7 @@ class Minter_:
         for i in sorted(self.unique_):
             j = self.master_.count(i)
             some_dict.update({i: j})
-        if self.print_it:
+        if DEBUG:
             for i, j in some_dict.items():
                 print(f"{i}:\tx{j}")
             print(len(some_dict), "/1235 total uniques")
@@ -240,7 +241,7 @@ class Minter_:
                 some_dict.update({i: j})
             else:
                 pass
-        if self.print_it:
+        if DEBUG:
             for i, j in some_dict.items():
                 print(f"{i}:\t{j}")
             print(len(some_dict), "/1235 total uniques (excluding commons)")
@@ -303,7 +304,7 @@ class Minter_:
             ) as file:
                 file.write(json.dumps(sorted_list, indent=2))
 
-    def print_log_txt(self):
+    def print_log_file(self):
         if self.name_ != "Q_MINT":
             with open(f"{os.getcwd()}/minter_data/{self.name_}_log.txt", "a") as file:
                 if self.iters_ > 750:

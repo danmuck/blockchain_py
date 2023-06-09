@@ -6,6 +6,7 @@ from random import randint
 
 from .Block import Block_
 from modules.chain_ctl.utilities.Shifter import shifter_
+from .utilities.Debug import DEBUG
 
 MASTER_CHAIN = {}
 
@@ -24,11 +25,12 @@ def validate_keys(chain: dict):
         elif i == list(chain)[0]:
             pass
         else:
-            print(f"\n!!Err Bad block. [{i}] !! \n")
+            if DEBUG:
+                print(f"\n!!Err Bad block. [{i}] !! \n")
             raise Exception
 
 
-def update_master_chain(new_master: dict, print_it=False):
+def update_master_chain(new_master: dict):
     """
     Update Master Blockchain_ state along with its chain_data to JSON files
     """
@@ -36,7 +38,7 @@ def update_master_chain(new_master: dict, print_it=False):
     MASTER_CHAIN = new_master
     with open(f"{os.getcwd()}/Master_chain.json", "w") as file:
         file.write(json.dumps(new_master, indent=2))
-        if print_it is True:
+        if DEBUG:
             print("!!Hey [on master]  !!")
 
 
@@ -70,7 +72,7 @@ class Blockchain_:
 
         self.validate_chain(print_it)
         self.genesis_b = str(list(self.chain.keys())[0])
-        if print_it:
+        if DEBUG:
             print(
                 "\n\nBlockchain_ initialized...\n  TAIL: ",
                 json.dumps(list(self.chain.values())[-4:], indent=2),
@@ -89,7 +91,8 @@ class Blockchain_:
                 chain_ = dict(json.load(file))
                 return chain_
         except json.JSONDecodeError:
-            print("\n\n\n\n\n\nSCREAM::chain")
+            if DEBUG:
+                print("\n\n\n\n\n\nSCREAM::chain")
             time.sleep(0.1513 * randint(8, 16))
             self.load_chain_backup()
         except FileNotFoundError:
@@ -122,7 +125,8 @@ class Blockchain_:
                 chain_ = dict(json.load(file))
                 return chain_
         except json.JSONDecodeError:
-            print("\n\n\n\n\n\nSCREAM::chain backup")
+            if DEBUG:
+                print("\n\n\n\n\n\nSCREAM::chain backup")
             time.sleep(0.1513 * randint(8, 16))
             self.load_chain_json()
         except FileNotFoundError:
@@ -157,9 +161,10 @@ class Blockchain_:
             ):
                 # prepare to diverge
                 self.chain_id += 1
-                print(
-                    f"!Err Chain height surpassed master::Diverging to chain_id: {self.chain_id}...  !!"
-                )
+                if DEBUG:
+                    print(
+                        f"!Err Chain height surpassed master::Diverging to chain_id: {self.chain_id}...  !!"
+                    )
                 self.validate_chain()
             else:
                 self.chain = self.load_chain_json()
@@ -169,10 +174,10 @@ class Blockchain_:
         self.validate_master_chain(chain_, print_it)
 
         self.update_chain_data_()
-        if print_it is True:
+        if DEBUG:
             print("!!Hey [chain valid]  !!")
-        if len(self.chain.keys()) % 100 == 0:
-            print(self.hash_chain_())
+            if len(self.chain.keys()) % 100 == 0:
+                print(self.hash_chain_())
 
         return True
 
@@ -233,13 +238,15 @@ class Blockchain_:
             1
         ] and appendage.get("index") == len(self.chain):
             self.chain.update(block.block_data)
-            print("!!Hey [new block success]  !!")
+            if DEBUG:
+                print("!!Hey [new block success]  !!")
             self.write_chain_json()
             self.validate_chain()
         else:
-            print(
-                f"\n\nErr!! Bad Block on block sig: [{appendage.get('signature')}] !!"
-            )
+            if DEBUG:
+                print(
+                    f"\n\nErr!! Bad Block on block sig: [{appendage.get('signature')}] !!"
+                )
 
     def update_chain_data_(self):
         """
@@ -262,7 +269,8 @@ class Blockchain_:
                 MASTER_CHAIN = dict(json.load(file))
                 return MASTER_CHAIN
         except json.JSONDecodeError:
-            print("\n\n\n\n\n\nSCREAM::master")
+            if DEBUG:
+                print("\n\n\n\n\n\nSCREAM::master")
             time.sleep(0.1513 * randint(8, 16))
             self.load_master_backup()
         except FileNotFoundError:
@@ -277,7 +285,8 @@ class Blockchain_:
                         file.write(chain_)
                         return MASTER_CHAIN
                 else:
-                    print("!!Err No chain given to load_master_chain()  !!")
+                    if DEBUG:
+                        print("!!Err No chain given to load_master_chain()  !!")
                     return {}
 
     def load_master_backup(self) -> dict:
@@ -289,7 +298,8 @@ class Blockchain_:
                 MASTER_CHAIN = dict(json.load(file))
                 return MASTER_CHAIN
         except json.JSONDecodeError:
-            print("\n\n\n\n\n\nSCREAM::master backup")
+            if DEBUG:
+                print("\n\n\n\n\n\nSCREAM::master backup")
             time.sleep(0.1513 * randint(8, 16))
             self.load_master_chain()
         except FileNotFoundError:
@@ -315,7 +325,7 @@ class Blockchain_:
                     or len(new_master) == len(chain_) + 1
                 ):
                     if print_it is True:
-                        update_master_chain(new_master, print_it=True)
+                        update_master_chain(new_master)
                     else:
                         update_master_chain(new_master)
                 else:
@@ -326,7 +336,7 @@ class Blockchain_:
                     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                     """
-                    if print_it is True:
+                    if DEBUG:
                         print("!!Hey [not on master]  !!")
                         if self.sync_mc is True:
                             u_input = input(
@@ -348,7 +358,7 @@ class Blockchain_:
                 self.validate_chain()
         else:
             self.validate_chain()
-        if print_it is True:
+        if DEBUG:
             print("!!Hey [master valid]  !!")
         # MASTER_CHAIN
 
@@ -398,7 +408,8 @@ class Blockchain_:
                 except FileNotFoundError:
                     pass
         except json.JSONDecodeError:
-            print("\n\n\n\n\n\nSCREAM::journal")
+            if DEBUG:
+                print("\n\n\n\n\n\nSCREAM::journal")
             time.sleep(0.1513 * randint(24, 64))
             self.user_journal_update()
 
