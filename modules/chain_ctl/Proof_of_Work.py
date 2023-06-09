@@ -2,8 +2,8 @@ import hashlib, time, os, json, datetime
 from random import randint
 from .Blockchain import Blockchain_, Block_
 from .Miner_Problem import miner_problem_
-from .Transactions import Txn_, Wallet_
-
+from .Transactions import Txn_
+from .Wallet import Wallet_
 
 """
     Timer for testing

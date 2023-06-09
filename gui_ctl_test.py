@@ -11,7 +11,7 @@ from modules.chain_ctl.Blockchain import Blockchain_
 from modules.chain_ctl.Miner import Auto_Miner_
 from modules.chain_ctl.Minter import Minter_
 from modules.chain_ctl.Proof_of_Work import Proof_of_Work
-from modules.chain_ctl.Transactions import Wallet_
+from modules.chain_ctl.Wallet import Wallet_
 
 global CHAIN, CHAIN_ID, PROOF_OF_WORK, MINER, MINTER, WALLET
 CHAIN: Blockchain_

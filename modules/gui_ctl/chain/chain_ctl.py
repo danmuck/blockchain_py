@@ -6,7 +6,7 @@ from modules.chain_ctl import Proof_of_Work
 from modules.chain_ctl.Blockchain import Blockchain_
 from modules.chain_ctl.Miner import Auto_Miner_
 from modules.chain_ctl.Minter import Minter_
-from modules.chain_ctl.Transactions import Wallet_
+from modules.chain_ctl.Wallet import Wallet_
 
 global CHAIN, CHAIN_ID, PROOF_OF_WORK, MINER, MINTER, WALLET
 CHAIN: Blockchain_
@@ -82,16 +82,16 @@ def wallet_quick_login(new_=False, w_index: int = 0) -> Wallet_:
             wallet = dict(json.load(file))
             w_keys = [*wallet]
             WALLET = Wallet_(
-                wallet[w_keys[w_index]]['root_b'],
-                wallet[w_keys[w_index]]['$DIRT'],
-                wallet[w_keys[w_index]]['inv_data'],
+                wallet[w_keys[w_index]]["root_b"],
+                wallet[w_keys[w_index]]["$DIRT"],
+                wallet[w_keys[w_index]]["inv_data"],
                 w_keys[w_index],
-                wallet[w_keys[w_index]]['rec_hash'],
-                wallet[w_keys[w_index]]['sign_hash'],
-                wallet[w_keys[w_index]]['txn_hist'],
+                wallet[w_keys[w_index]]["rec_hash"],
+                wallet[w_keys[w_index]]["sign_hash"],
+                wallet[w_keys[w_index]]["txn_hist"],
                 wallet[w_keys[w_index]]["chains"],
                 {},
-                )
+            )
     except FileNotFoundError:
         print("New Wallet")
         new_wallet()

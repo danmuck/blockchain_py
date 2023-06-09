@@ -7,7 +7,7 @@ from modules.chain_ctl.Blockchain import Blockchain_
 from modules.chain_ctl.Miner import Auto_Miner_
 from modules.chain_ctl.Minter import Minter_
 from modules.chain_ctl.Proof_of_Work import Proof_of_Work
-from modules.chain_ctl.Transactions import Wallet_
+from modules.chain_ctl.Wallet import Wallet_
 
 # from modules.chain_ctl.No_funs import No_fun
 
@@ -101,6 +101,8 @@ def new_wallet():
         for word in pass_phrase_:
             print("  ", i, word)
             i += 1
+
+    input("\nPress Enter to continue\n: ")
 
     return password
 

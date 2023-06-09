@@ -2,7 +2,7 @@
 #   fix logs so they do not compound results of multiple runs
 
 from .Proof_of_Work import Proof_of_Work, Blockchain_
-from .Transactions import Wallet_
+from .Wallet import Wallet_
 from .Shifter import shifter_
 
 # from .No_funs import No_fun
