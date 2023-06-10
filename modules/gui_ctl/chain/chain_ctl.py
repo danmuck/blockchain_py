@@ -25,7 +25,7 @@ WALLET: Wallet_
 """
 
 
-def new_wallet():
+def new_wallet() -> (str, str):
     global WALLET
     WALLET = Wallet_(CHAIN.genesis_b)
     password = input("Enter a sign_pass: ")
@@ -52,7 +52,7 @@ def new_wallet():
 
     input("\nPress Enter to continue\n: ")
 
-    return password
+    return hash_, password
 
 
 """
@@ -85,6 +85,15 @@ def get_wallet_string() -> str:
         return json.dumps(WALLET.wallet_, indent=2)
     except NameError:
         return "No wallet initialized."
+
+
+def update_wallet_info():
+    chain_datas, all_txns, txn_splits, invent_splits = CHAIN.join_data(
+        WALLET.gen_wallet()
+    )
+    # CHAIN.update_user(txn_splits, invent_splits)
+    CHAIN.user_journal_update()
+    wallet_quick_login(address=WALLET.address_)
 
 
 def get_joined_data():
@@ -122,48 +131,56 @@ def get_joined_data():
     return output
 
 
-def wallet_quick_login(new_=False, w_index: int = 0) -> Wallet_:
+def wallet_quick_login(new_=False, address: str = "") -> Wallet_:
     global WALLET
+    key_holder: list[str] = []
     try:
         with open(f"{os.getcwd()}/user_data/wallet.json", "r") as file:
             wallet = dict(json.load(file))
-            w_keys = [*wallet]
+            key_holder = [*wallet]
             WALLET = Wallet_(
-                wallet[w_keys[w_index]]["root_b"],
-                wallet[w_keys[w_index]]["$DIRT"],
-                wallet[w_keys[w_index]]["inv_data"],
-                w_keys[w_index],
-                wallet[w_keys[w_index]]["rec_hash"],
-                wallet[w_keys[w_index]]["sign_hash"],
-                wallet[w_keys[w_index]]["txn_hist"],
-                wallet[w_keys[w_index]]["chains"],
+                wallet[address]["root_b"],
+                wallet[address]["$DIRT"],
+                wallet[address]["inv_data"],
+                address,
+                wallet[address]["rec_hash"],
+                wallet[address]["sign_hash"],
+                wallet[address]["txn_hist"],
+                wallet[address]["chains"],
                 {},
             )
     except FileNotFoundError:
         print("New Wallet")
-        new_wallet()
+        address, *_ = new_wallet()
         WALLET.store_wallet()
+    except KeyError:
+        wallet_quick_login(address=key_holder[0])
 
     if new_ is True:
         print("New Wallet")
-        new_wallet()
+        address, *_ = new_wallet()
         WALLET.store_wallet()
-        wallet_quick_login(w_index=len(WALLET.print_wallets()) - 1)
+        wallet_quick_login(address=address)
 
     return WALLET
 
 
 def wallet_login():
+    """
+        Update [WALLET.print_wallets] to return dict instead of list
+    """
     global WALLET
     wallet_quick_login()
     print("Which wallet would you like to use?")
     i = 0
+    login_dict = {}
     for wallet in WALLET.print_wallets():
+        login_dict.update({f"{i}": wallet})
         print(f"{i}. {wallet}")
         i += 1
     u_input = input(": ")
     try:
-        wallet_quick_login(False, int(u_input))
+        wallet_quick_login(False, login_dict.get(u_input))
     except ValueError:
         print("Integer value required, using default. (0)")
         wallet_quick_login()

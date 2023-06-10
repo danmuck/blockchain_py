@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
-from modules.gui_ctl.chain.chain_ctl import auto_miner, auto_minter
+from modules.gui_ctl.chain.chain_ctl import auto_miner, auto_minter, update_wallet_info
 from modules.gui_ctl.menus.main_menu.crafting_bench import CraftingBenchMenu
 from modules.gui_ctl.menus.main_menu.main_menu import MainMenu
 from modules.gui_ctl.menus.main_menu.message_board import MessageBoardMenu
@@ -115,6 +115,10 @@ class MainMenuStack(QWidget):
     def handle_office_menu(self):
         for key, button in self.menus["office"].buttons.items():
             match key:
+                case "update":
+                    button.clicked.connect(
+                        update_wallet_info
+                    )
                 case "goodbye":
                     button.clicked.connect(
                         lambda: self.stacked_widget.setCurrentWidget(self.menus["main"])

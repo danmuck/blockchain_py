@@ -15,9 +15,10 @@ class OfficeMenu(QWidget):
         self.buttons = {}
 
         # Items
-        text_label = QLabel("HEADER FILLER")
+        text_label = QLabel("The Office")
 
         self.buttons = {
+            "update": QPushButton("Update"),
             "goodbye": QPushButton("Back"),
         }
 

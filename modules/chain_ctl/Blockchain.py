@@ -424,7 +424,8 @@ class Blockchain_:
     def invs_split(self):
         pass
 
-    def update_user(self, txn_splits: dict = None, inv_splits: dict = None):
+    def update_user(self, txn_splits: dict = None, inv_splits: dict = None) -> dict:
+        print("HELLO")
         wallet_keys = []
         wallets_master = {}
         try:
@@ -449,6 +450,7 @@ class Blockchain_:
                         file.write(json.dumps(wallets_master, indent=2))
                 except FileNotFoundError:
                     pass
+        return wallets_master
 
     def join_data(self, wallet_: dict = None):
         joined_chain_data = {}  # chain_data
@@ -508,7 +510,7 @@ class Blockchain_:
 
         self.update_user(
             joined_txn_splits, joined_invent_splits
-        )  # #############################
+        )  # ###########################################################
         return (
             joined_chain_data,
             joined_txns_all,

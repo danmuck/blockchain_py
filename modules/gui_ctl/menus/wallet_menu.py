@@ -79,7 +79,7 @@ class WalletMenu(QWidget):
     def handle_button_clicks(self, key):
         if len(key) == 66:
             self.wallets[key].clicked.connect(
-                lambda: wallet_quick_login(False, self.wallets_indexed.index(key))
+                lambda: wallet_quick_login(False, address=key)
             )
 
 
@@ -119,5 +119,5 @@ class WalletInitMenu(QWidget):
 
     def handle_button_clicks(self, key):
         self.wallets[key].clicked.connect(
-            lambda: wallet_quick_login(False, self.wallets_indexed.index(key))
+            lambda: wallet_quick_login(False, address=key)
         )
