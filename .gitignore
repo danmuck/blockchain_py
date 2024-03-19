@@ -8,6 +8,7 @@ sandbox_/
 *user_data/
 Master_chain.json
 *.vscode
+*.DS_Store
 /venv_chain/
 /venv_qt/
 /fonts/
