@@ -63,7 +63,7 @@ class Wallet_:
 
     def init_wallet(
         self, password: str = None
-    ) -> tuple[str, str, tuple[str | Any, ...]]:
+    ) -> tuple[str, str, tuple[str, ...]]:
         hash_r, pass_phrase_ = self.gen_recovery()
 
         if password is None:
@@ -192,8 +192,10 @@ class Wallet_:
         all_wall = {}
         try:
             os.mkdir(f"{os.getcwd()}/user_data/")
+        # [bug]: this is almost certainly resulting in incorrect behaviour
+        #       if a file called user_data exists, the directory is not created
         except FileExistsError:
-            pass
+            pass 
         try:
             with open(f"{os.getcwd()}/user_data/wallet.json", "x") as file:
                 wallet_data = json.dumps(self.gen_wallet(), indent=2)

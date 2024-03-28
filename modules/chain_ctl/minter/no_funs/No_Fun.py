@@ -235,7 +235,7 @@ class No_fun:
             float_ = "." + f"{float_}".zfill(8)
             return float_
 
-    def get_colors(self) -> tuple[str | Any, str | Any, str]:
+    def get_colors(self) -> tuple[str, str, str]:
         bg_ = [
             "Black",
             "White",
